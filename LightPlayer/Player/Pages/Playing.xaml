@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Player.Controls"
+             xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
+             x:Class="Player.Pages.Playing" Icon="button_play_small.png">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Primary" Priority="1" Name="Now Playing"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <controls:PaddedScrollView Orientation="Vertical">
+            <Grid>
+                <AbsoluteLayout>
+                    <controls:BlurredImage AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" InputTransparent="false" 
+                                                HorizontalOptions="FillAndExpand" Aspect="Fill" VerticalOptions="FillAndExpand" Source="background.png" />
+                </AbsoluteLayout>
+                <StackLayout HorizontalOptions="FillAndExpand">
+                    <StackLayout.Padding>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="Android" Value="30,10,30,0"/>
+                        </OnPlatform>
+                    </StackLayout.Padding>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" HeightRequest="60">
+                        <StackLayout.IsVisible>
+                            <OnPlatform x:TypeArguments="x:Boolean">
+                                <On Platform="Android" Value="true" />
+                            </OnPlatform>
+                        </StackLayout.IsVisible>
+                        <!--<Image Source="pixel_full_screen" VerticalOptions="Center" HorizontalOptions="Start" WidthRequest="20" Opacity="0.5">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding FullScreenCommand}"/>
+                            </Image.GestureRecognizers>
+                        </Image>-->
+                        <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+                            <Label Text="NOW PLAYING FROM PLAYLIST" TextColor="#FFF" FontSize="12" HorizontalTextAlignment="Center" HorizontalOptions="Fill" />
+                            <Label Text="{Binding Label}" Margin="0,-5,0,0" TextColor="#FFF" FontSize="12" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" />
+                        </StackLayout>                       
+                        <!--<Image BindingContext="{Binding AppViewModel}" Source="icon_playlist" VerticalOptions="Center" HorizontalOptions="End">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectedTabCommand}"/>
+                            </Image.GestureRecognizers>
+                        </Image>-->
+                    </StackLayout>
+                    <Image Source="{Binding AlbumArt}" VerticalOptions="Center">
+                        <Image.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="Android" Value="210" />
+                            </OnPlatform>
+                        </Image.HeightRequest>
+                    </Image>
+                    <Grid Margin="0,20,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />                           
+                        </Grid.ColumnDefinitions>
+                        <Image Source="icon_plus" Grid.Column="0" HorizontalOptions="Center" />
+                        <StackLayout Grid.Column="1" HorizontalOptions="Center">
+                            <Label Text="{Binding Name}" HorizontalOptions="Fill" HorizontalTextAlignment="Center" FontSize="16" TextColor="White" />                            
+                        </StackLayout>                        
+                    </Grid>
+                    <StackLayout Margin="0,0,0,0" Orientation="Horizontal">
+                        <Label Text="{Binding SongTime}" TextColor="#adaeb2" FontSize="10" HorizontalOptions="StartAndExpand" />
+                        <Label Text="{Binding TotalTime}" TextColor="#adaeb2" FontSize="10" HorizontalOptions="End" />
+                    </StackLayout>
+                    <controls:AudioSlider Minimum="0" Maximum="{Binding SliderMax, Mode=TwoWay}" Value="{Binding SliderValue, Mode=TwoWay}" ThumbColor="#adaeb2">
+                        <controls:AudioSlider.Margin>
+                            <OnPlatform x:TypeArguments="Thickness">
+                                <On Platform="Android" Value="-5,0,-5,0" />
+                            </OnPlatform>
+                        </controls:AudioSlider.Margin>
+                        <controls:AudioSlider.Behaviors>
+                            <behaviorsPack:EventToCommandBehavior EventName="ValueChanged" Command="{Binding ValueChangedCommand}"/>
+                        </controls:AudioSlider.Behaviors>
+                    </controls:AudioSlider>
+                    <StackLayout Margin="0,0,0,0" Orientation="Horizontal">
+                        <StackLayout.IsVisible>
+                            <OnPlatform x:TypeArguments="x:Boolean">
+                                <On Platform="Android" Value="true"/>
+                            </OnPlatform>
+                        </StackLayout.IsVisible>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <Image VerticalOptions="Center" Margin="0,0,30,0" Source="button_shuffle" WidthRequest="20" />
+                        <Image VerticalOptions="Center" Source="button_back" WidthRequest="40">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer  Command="{Binding ChangeCommand}" CommandParameter="-1"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image VerticalOptions="Center" Source="button_play" WidthRequest="80">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer  Command="{Binding PlayCommand}"/>
+                            </Image.GestureRecognizers>
+                            <Image.Triggers>
+                                <DataTrigger TargetType="Image" Binding="{Binding IsPlaying}" Value="false">
+                                    <Setter Property="Source" Value="button_pause" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Image" Binding="{Binding IsPlaying}" Value="true">
+                                    <Setter Property="Source" Value="button_play" />
+                                </DataTrigger>
+                            </Image.Triggers>
+                        </Image>
+                        <Image VerticalOptions="Center" Source="button_forward" WidthRequest="40">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer  Command="{Binding ChangeCommand}" CommandParameter="1"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image VerticalOptions="Center" Margin="30,0,0,0" Source="button_repeat" WidthRequest="20">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer  Command="{Binding ChangeCommand}" CommandParameter="0"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <StackLayout.Margin>
+                            <OnPlatform x:TypeArguments="Thickness">
+                                <On Platform="Android" Value="0,0,0,0"/>
+                            </OnPlatform>
+                        </StackLayout.Margin>
+                        <Image Source="icon_devices" WidthRequest="20" />
+                    </StackLayout>
+                </StackLayout>
+            </Grid>
+        </controls:PaddedScrollView>
+    </ContentPage.Content>
+</ContentPage>

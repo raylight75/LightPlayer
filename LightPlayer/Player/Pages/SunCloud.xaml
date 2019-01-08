@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
+             xmlns:controls1="clr-namespace:Player.Controls"
+             x:Class="Player.Pages.SunCloud" Icon="sc_small.png">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Primary" Priority="1" Name="Stream"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid>
+            <AbsoluteLayout>
+                <controls1:BlurredImage AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" InputTransparent="false" 
+                                                HorizontalOptions="FillAndExpand" Aspect="Fill" VerticalOptions="FillAndExpand" Source="background1.png" />
+            </AbsoluteLayout>
+            <StackLayout>
+                <StackLayout>
+                    <SearchBar SearchCommand="{Binding SoundcloudToPlaylistCommand}" Text="{Binding Query, Mode=TwoWay}" 
+                               Placeholder="Search in Soundcloud" TextColor="White" HeightRequest="45" Opacity="0.7"/>
+                    <!--<ActivityIndicator IsRunning="{Binding IsRunning}" IsVisible="{Binding IsRunning}"></ActivityIndicator>-->
+                </StackLayout>
+                <ListView CachingStrategy="RecycleElement" ItemsSource="{Binding Soundcloudlist}" SelectedItem="{Binding SelectedStream, Mode=TwoWay}">
+                    <ListView.Behaviors>
+                        <behaviorsPack:EventToCommandBehavior
+                               EventName="ItemSelected"
+                               Command="{Binding StreamSelectedCommand}"/>
+                    </ListView.Behaviors>
+                    <ListView.RowHeight>
+                        <OnPlatform x:TypeArguments="x:Int32">
+                            <On Platform="Android" Value="70" />
+                        </OnPlatform>
+                    </ListView.RowHeight>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal">
+                                    <ContentView Padding="10" VerticalOptions="Center" WidthRequest="20">
+                                        <Label Text="{Binding Index}" FontSize="12" TextColor="White"/>
+                                    </ContentView>
+                                    <Image VerticalOptions="Center" Source="button_play" WidthRequest="50"/>
+                                    <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" WidthRequest="250">
+                                        <Label Text="{Binding Title}" FontSize="12" TextColor="White"/>
+                                        <Label Text="Text for mp3 music files,text for mp3 music files" FontSize="10" TextColor="White" Opacity="0.5"/>
+                                    </StackLayout>
+                                    <ContentView  VerticalOptions="Center" WidthRequest="50">
+                                        <Label Text="{Binding Duration}" FontSize="10" TextColor="White"/>
+                                    </ContentView>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>                
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

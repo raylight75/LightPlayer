@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Player.Controls"            
+             x:Class="Player.Pages.StartPage" Icon="icon_browse.png">
+    <ContentPage.Content>
+        <controls:PaddedScrollView Orientation="Vertical">
+            <Grid>
+                <AbsoluteLayout>
+                    <controls:BlurredImage AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" InputTransparent="false" 
+                                                HorizontalOptions="FillAndExpand" Aspect="Fill" VerticalOptions="FillAndExpand" Source="background.png" />
+                </AbsoluteLayout>
+                <StackLayout>
+                    <Grid HeightRequest="120"></Grid>
+                    <Image Source="logo.png" VerticalOptions="Center" Opacity="0.3">
+                        <Image.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="Android" Value="180" />
+                            </OnPlatform>
+                        </Image.HeightRequest>
+                    </Image>
+                    <StackLayout Orientation="Vertical" Padding="10" BackgroundColor="Transparent" HorizontalOptions="Center">
+                        <Button Command="{Binding OpenFolderCommand}" Text="Load Music" TextColor="White" 
+                            Image="icon_browse.png" HeightRequest="40" WidthRequest="180" BorderRadius="20" BackgroundColor="#89515c" HorizontalOptions="Center"/>
+                        <Button BindingContext="{Binding AppViewModel}" Command="{Binding ExitAppCommand}"  Text="Exit" TextColor="White" HeightRequest="40" WidthRequest="180" Image="exit_app.png" 
+                            BorderRadius="20" BackgroundColor="#89515c" HorizontalOptions="Center"/>
+                    </StackLayout>
+                </StackLayout>
+            </Grid>
+        </controls:PaddedScrollView>
+    </ContentPage.Content>
+</ContentPage>

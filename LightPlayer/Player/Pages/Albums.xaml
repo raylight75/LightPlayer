@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+             xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
+             xmlns:controls="clr-namespace:Player.Controls"
+             x:Class="Player.Pages.Albums" Icon="Album.png">   
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Primary" Priority="1" Name="Album Arts"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <!--<controls:HorizontalScrollView HeightRequest="200" SelectedCommand="{Binding ScrollTapedCommand}" Orientation="Horizontal"  
+                                       ItemsSource="{Binding Search}">
+            <controls:HorizontalScrollView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Margin="10,0,5,0" WidthRequest="150" HeightRequest="150">
+                            <Image HorizontalOptions="Start" Source="{Binding Image}" WidthRequest="150" HeightRequest="150" />
+                            <Label HorizontalTextAlignment="Center" FontSize="13" LineBreakMode="TailTruncation" Text="{Binding Genre}" TextColor="#adaeb2"/>
+                            <Label HorizontalTextAlignment="Center" Margin="0,-5,0,0" LineBreakMode="TailTruncation" FontSize="12" Text="{Binding FriendlyName}" TextColor="#adaeb2"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </controls:HorizontalScrollView.ItemTemplate>
+        </controls:HorizontalScrollView>-->
+        <flv:FlowListView SeparatorVisibility="None" HasUnevenRows="true" FlowColumnMinWidth="180" FlowItemsSource="{Binding Albums}"  
+                          FlowItemTappedCommand="{Binding AlbumSelectedCommand}" FlowLastTappedItem="{Binding SelectedAlbum, Mode=TwoWay}" SelectedItem="{Binding SelectedAlbum, Mode=TwoWay}">
+            <flv:FlowListView.FlowColumnTemplate>
+                <DataTemplate>
+                    <Grid Padding="2" BackgroundColor="Black">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="20" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Frame HasShadow="False" CornerRadius="10" Margin="0" Padding="0" IsClippedToBounds="True" Grid.Row="0" Grid.Column="0" >
+                            <Image Source="{Binding Image}" VerticalOptions="Center" Aspect="AspectFill">
+                                <Image.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="Android" Value="180" />
+                                    </OnPlatform>
+                                </Image.HeightRequest>
+                            </Image>
+                        </Frame>
+                        <Frame Grid.Row="1" Grid.Column="0" HeightRequest="30" WidthRequest="170" CornerRadius="10" 
+                               HorizontalOptions="Center" VerticalOptions="Center" Margin="0" Padding="0" BackgroundColor="#89515c">
+                            <Label HorizontalOptions="Center" Text="{Binding Title}" TextColor="White"  
+                                   BackgroundColor="Transparent" 
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </flv:FlowListView.FlowColumnTemplate>
+        </flv:FlowListView>
+        <!--<StackLayout>            
+            --><!--<cards:CarouselView ItemsSource="{Binding Song}" SelectedItem="{Binding SelectedTrack, Mode=TwoWay}" 
+                            ItemAppearingCommand ="{Binding ItemSelectedCommand}">
+                --><!--<cards:CarouselView.Behaviors>
+                <behaviorsPack:EventToCommandBehavior
+                               EventName="ItemAppearing"
+                               Command="{Binding ItemSelectedCommand}"/>
+            </cards:CarouselView.Behaviors>--><!--
+                <cards:CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <ContentView>
+                            <Frame VerticalOptions="Start" HorizontalOptions="Center" HeightRequest="200"
+                               WidthRequest="300" Padding="20" CornerRadius="10" BackgroundColor="Blue">
+                                <Label Text="{Binding FriendlyName}" FontSize="12" VerticalOptions="StartAndExpand"/>
+                            </Frame>
+                        </ContentView>
+                    </DataTemplate>
+                </cards:CarouselView.ItemTemplate>
+            </cards:CarouselView>-->
+            <!--<Frame OutlineColor="Gray" Padding="10">
+                <Image Source="{Binding AlbumArt}" HeightRequest="200" WidthRequest="200"/>
+            </Frame>
+            <StackLayout Orientation="Vertical">
+                <Label Text="{Binding Label}" FontSize="18" VerticalOptions="CenterAndExpand" />
+            </StackLayout>--><!--
+        </StackLayout>-->
+    </ContentPage.Content>
+</ContentPage>
