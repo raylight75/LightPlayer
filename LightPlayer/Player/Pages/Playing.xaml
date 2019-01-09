@@ -12,7 +12,7 @@
             <Grid>
                 <AbsoluteLayout>
                     <Image AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" InputTransparent="false" 
-                       HorizontalOptions="Fill" Aspect="AspectFit" VerticalOptions="Fill" Source="background2.png">
+                       HorizontalOptions="Fill" Aspect="AspectFill" VerticalOptions="Fill" Source="background2.png">
                     </Image>
                 </AbsoluteLayout>
                 <StackLayout HorizontalOptions="FillAndExpand">
