@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
-             xmlns:controls1="clr-namespace:Player.Controls"
              x:Class="Player.Pages.SunCloud" Icon="sc_small.png">
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Primary" Priority="1" Name="Stream"/>
@@ -10,8 +9,9 @@
     <ContentPage.Content>
         <Grid>
             <AbsoluteLayout>
-                <controls1:BlurredImage AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" InputTransparent="false" 
-                                                HorizontalOptions="FillAndExpand" Aspect="Fill" VerticalOptions="FillAndExpand" Source="background1.png" />
+                <Image AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" InputTransparent="false" 
+                       HorizontalOptions="Fill" Aspect="AspectFit" VerticalOptions="Fill" Source="background1.png">
+                </Image>
             </AbsoluteLayout>
             <StackLayout>
                 <StackLayout>

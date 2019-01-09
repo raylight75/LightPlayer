@@ -8,11 +8,12 @@
         <ToolbarItem Order="Primary" Priority="1" Name="Now Playing"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <controls:PaddedScrollView Orientation="Vertical">
+        <ScrollView Orientation="Vertical">
             <Grid>
                 <AbsoluteLayout>
-                    <controls:BlurredImage AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" InputTransparent="false" 
-                                                HorizontalOptions="FillAndExpand" Aspect="Fill" VerticalOptions="FillAndExpand" Source="background.png" />
+                    <Image AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" InputTransparent="false" 
+                       HorizontalOptions="Fill" Aspect="AspectFit" VerticalOptions="Fill" Source="background2.png">
+                    </Image>
                 </AbsoluteLayout>
                 <StackLayout HorizontalOptions="FillAndExpand">
                     <StackLayout.Padding>
@@ -120,6 +121,6 @@
                     </StackLayout>
                 </StackLayout>
             </Grid>
-        </controls:PaddedScrollView>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

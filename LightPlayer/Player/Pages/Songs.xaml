@@ -14,8 +14,9 @@
     <ContentPage.Content>
         <Grid>
             <AbsoluteLayout>
-                <controls:BlurredImage AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" InputTransparent="false" 
-                                       HorizontalOptions="FillAndExpand" Aspect="Fill" VerticalOptions="FillAndExpand" Source="background.png" />
+                <Image AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" InputTransparent="false" 
+                       HorizontalOptions="Fill" Aspect="AspectFit" VerticalOptions="Fill" Source="background1.png">
+                </Image>
             </AbsoluteLayout>
             <StackLayout>                              
                 <ListView x:Name="listView" CachingStrategy="RecycleElement" 
