@@ -105,7 +105,6 @@
     <Compile Include="Renderers\CustomPickerRenderer.cs" />
     <Compile Include="Renderers\HorizontalScrollViewRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
-    <Compile Include="Services\ActivityResultEventArgs.cs" />
     <Compile Include="Services\AudioPlayerService.cs" />
     <Compile Include="Services\CloseAppService.cs" />
     <Compile Include="MainActivity.cs" />

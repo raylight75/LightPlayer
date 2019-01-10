@@ -4,6 +4,7 @@ using Android.Content.PM;
 using Android.OS;
 using Player.Droid.Services;
 using System;
+using Xamarin.Forms;
 
 namespace Player.Droid
 {
@@ -11,8 +12,8 @@ namespace Player.Droid
     [Activity(Label = "LightPlayer", Icon = "@drawable/app", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        internal static MainActivity Instance { get; private set; }       
-        public event EventHandler<ActivityResultEventArgs> ActivityResult = delegate { };
+        private Action<int, Result, Intent> _resultCallback;
+        internal static MainActivity Instance { get; private set; }      
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -22,17 +23,23 @@ namespace Player.Droid
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Instance = this;            
-            LoadApplication(new App());
+            LoadApplication(new App());            
+        }
+
+        public void StartActivity(Intent intent, Action<int, Result, Intent> resultCallback)
+        {
+            _resultCallback = resultCallback;
+            StartActivityForResult(intent, 0);
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
-            ActivityResult(this, new ActivityResultEventArgs
+            base.OnActivityResult(requestCode, resultCode, data);
+            if (_resultCallback != null)
             {
-                RequestCode = requestCode,
-                ResultCode = resultCode,
-                IntentData = data
-            });
+                _resultCallback(requestCode, resultCode, data);
+                _resultCallback = null;
+            }
         }
     }
 }

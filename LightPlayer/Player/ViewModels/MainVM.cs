@@ -161,10 +161,11 @@ namespace Player.ViewModels
         }
 
         private async Task OpenFolder()
-        {           
+        {
+            string path = await _path.OpenFolder();
             if (Search == null)
             {
-                Song = TrackService.GetSongs(_audioPlayer);
+                Song = TrackService.GetSongs(_audioPlayer,path);
                 Search = Song;
                 Albums = TrackService.Albums;
                 Genre = TrackService.Genres;

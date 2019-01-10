@@ -1,8 +1,10 @@
-﻿namespace Player.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace Player.Interfaces
 {
     public interface IPathService
     {
         string InternalFolder { get; }
-        void OpenFolder();
+        Task<string> OpenFolder();
     }
 }

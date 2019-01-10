@@ -28,9 +28,9 @@ namespace Player.Service
             Genres = new List<string>();
         }
 
-        public static ObservableCollection<Track> GetSongs(IAudioPlayerService _audioPlayer)
+        public static ObservableCollection<Track> GetSongs(IAudioPlayerService _audioPlayer, string path)
         {                        
-            DirectoryInfo folder = new DirectoryInfo(DependencyService.Get<IPathService>().InternalFolder);           
+            DirectoryInfo folder = new DirectoryInfo(path);           
             int i = 1;
             foreach (var di in folder.EnumerateFiles("*.mp3*", SearchOption.AllDirectories))
             {
