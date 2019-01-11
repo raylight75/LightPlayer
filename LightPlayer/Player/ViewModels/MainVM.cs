@@ -17,8 +17,7 @@ namespace Player.ViewModels
     class MainVM : BaseViewModel
     {
         private INavigationService _navigationService;
-        private IAudioPlayerService _audioPlayer;
-        private IPathService _path;
+        private IAudioPlayerService _audioPlayer;       
         public string _name;
         private ImageSource _songImage;
         private string _label;
@@ -126,7 +125,7 @@ namespace Player.ViewModels
 
         public MainVM()
         {
-            InitApp(DependencyService.Get<IAudioPlayerService>(), DependencyService.Get<INavigationService>(), DependencyService.Get<IPathService>());            
+            InitApp(DependencyService.Get<IAudioPlayerService>(), DependencyService.Get<INavigationService>());            
             AppViewModel = new AppViewModel();
             _seekerUpdatesPlayer = true;
             AlbumArt = ImageSource.FromFile(FileImages.NoAlbum);
@@ -153,19 +152,23 @@ namespace Player.ViewModels
             ValueChangedCommand = new RelayCommand(ValueChanged, Permision.CanExecute);
         }
 
-        private void InitApp(IAudioPlayerService audioPlayer, INavigationService navigationService, IPathService path)
+        private void InitApp(IAudioPlayerService audioPlayer, INavigationService navigationService)
         {
             _navigationService = navigationService;
-            _audioPlayer = audioPlayer;
-            _path = path;
+            _audioPlayer = audioPlayer;           
         }
 
         private async Task OpenFolder()
         {
-            string path = await _path.OpenFolder();
+            string path = await TrackService.GetPath();
+            if (path == "CANCELED")
+            {
+                await Application.Current.MainPage.DisplayAlert("Caution", "Select folder with music files", "ok");
+                return;
+            }
             if (Search == null)
             {
-                Song = TrackService.GetSongs(_audioPlayer,path);
+                Song = TrackService.GetSongs(_audioPlayer, path);
                 Search = Song;
                 Albums = TrackService.Albums;
                 Genre = TrackService.Genres;

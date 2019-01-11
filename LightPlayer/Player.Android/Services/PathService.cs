@@ -2,15 +2,15 @@
 using Player.Interfaces;
 using Player.Droid.Services;
 using Android.Content;
-using Android.Support.V7.App;
-using System;
 using System.Threading.Tasks;
 using Android.App;
+using Xamarin.Forms.Platform.Android;
+using System;
 
 [assembly: Dependency(typeof(PathService))]
 namespace Player.Droid.Services
 {
-    class PathService : AppCompatActivity, IPathService
+    class PathService : IPathService
     {
         private TaskCompletionSource<string> taskCompletionSource;
 
@@ -34,25 +34,26 @@ namespace Player.Droid.Services
             return await taskCompletionSource.Task;
         }
 
-        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        private void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
+            string folderPath = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
             string path = null;
             switch (resultCode)
             {
                 case Result.Canceled:
-                    path = "CANCELED BY USER";
+                    path = "CANCELED";
                     break;
                 case Result.FirstUser:
                     break;
                 case Result.Ok:
                     string systemPath = data.Data.Path;
                     string finalPath = systemPath.Split(':')[1];
-                    path = "/storage/emulated/0/" + finalPath;
+                    path = folderPath + "/" + finalPath;
                     break;
                 default:
                     break;
             }
             taskCompletionSource.SetResult(path);
-        }
+        }        
     }
 }

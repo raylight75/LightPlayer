@@ -28,6 +28,12 @@ namespace Player.Service
             Genres = new List<string>();
         }
 
+        public async static Task<string> GetPath()
+        {
+            string path = await DependencyService.Get<IPathService>().OpenFolder();
+            return path;
+        }
+
         public static ObservableCollection<Track> GetSongs(IAudioPlayerService _audioPlayer, string path)
         {                        
             DirectoryInfo folder = new DirectoryInfo(path);           
