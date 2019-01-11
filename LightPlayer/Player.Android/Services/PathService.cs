@@ -4,8 +4,6 @@ using Player.Droid.Services;
 using Android.Content;
 using System.Threading.Tasks;
 using Android.App;
-using Xamarin.Forms.Platform.Android;
-using System;
 
 [assembly: Dependency(typeof(PathService))]
 namespace Player.Droid.Services

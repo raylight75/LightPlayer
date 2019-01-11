@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using Player.Helpers;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Player.Pages
@@ -10,5 +11,11 @@ namespace Player.Pages
 		{
 			InitializeComponent ();
 		}
-	}
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await Permision.CheckPermission();
+        }
+    }
 }

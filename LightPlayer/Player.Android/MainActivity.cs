@@ -2,9 +2,9 @@
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using Player.Droid.Services;
+using Plugin.CurrentActivity;
+using Plugin.Permissions;
 using System;
-using Xamarin.Forms;
 
 namespace Player.Droid
 {
@@ -22,7 +22,8 @@ namespace Player.Droid
 
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            Instance = this;            
+            Instance = this;
+            CrossCurrentActivity.Current.Activity = this;
             LoadApplication(new App());            
         }
 
@@ -40,6 +41,12 @@ namespace Player.Droid
                 _resultCallback(requestCode, resultCode, data);
                 _resultCallback = null;
             }
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }
