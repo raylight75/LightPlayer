@@ -159,31 +159,49 @@ namespace Player.ViewModels
         }
 
         private async Task OpenFolder()
-        {
-            string path = await TrackService.GetPath();
-            if (path == "CANCELED")
-            {
-                await Application.Current.MainPage.DisplayAlert("Caution", "Select folder with music files", "ok");
-                return;
-            }
+        {           
             if (Search == null)
             {
+                string path = TrackService.OpenPath();
                 Song = TrackService.GetSongs(_audioPlayer, path);
-                Search = Song;
-                Albums = TrackService.Albums;
-                Genre = TrackService.Genres;
-                if (await Application.Current.MainPage.DisplayAlert("Songs Loaded", "Would you like to open playlist", "Yes", "No"))
+                if (Song.Count == 0)
                 {
-                    _navigationService.NavigateToTabb(1);
-                    var currentPage = _navigationService.GetCurrentPage();
-                    currentPage.isLoaded = true;
+                    if (await Application.Current.MainPage.DisplayAlert("No files in music folder", "Open another folder", "Yes", "No"))
+                    {
+                        path = await TrackService.GetPath();
+                        if (path == "CANCELED")
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Caution", "Select folder with music files", "ok");
+                            return;
+                        }                        
+                        Song = TrackService.GetSongs(_audioPlayer, path);
+                        if (Song.Count == 0){ return; }
+                        await SetContent();
+                        return;
+                    }
+                    return;
                 }
+                await SetContent();
             }
             else if (Search != null)
             {
                 await Application.Current.MainPage.DisplayAlert("Alert", "Songs allready loaded", "ok");
             }
         }
+
+        private async Task SetContent()
+        {
+            Search = Song;
+            Albums = TrackService.Albums;
+            Genre = TrackService.Genres;
+            if (await Application.Current.MainPage.DisplayAlert("Songs Loaded", "Would you like to open playlist", "Yes", "No"))
+            {
+                _navigationService.NavigateToTabb(1);
+                var currentPage = _navigationService.GetCurrentPage();
+                currentPage.isLoaded = true;
+            }
+        }
+
 
         private async Task SoundcloudToPlaylist()
         {
@@ -228,9 +246,9 @@ namespace Player.ViewModels
         {            
             _audioPlayer.Play(path);
             if (playbackSource == PlaybackSource.Path)
-            {                
-                _audioPlayer.GetMetadata(path);
-                Label = Regex.Replace(_audioPlayer.Artist, "(?<=^.{30}).*", "...");
+            {
+                string artist = _audioPlayer.Artist;
+                Label = (string.IsNullOrEmpty(artist)) ? "<Unknow Artist>" : Regex.Replace(artist, "(?<=^.{30}).*", "...");                
                 Name = Regex.Replace(name, "(?<=^.{30}).*", "...");
                 TotalTime = SelectedTrack.Duration;
                 Album = _audioPlayer.Album;
@@ -338,7 +356,7 @@ namespace Player.ViewModels
         {
             var action = await Application.Current.MainPage.DisplayActionSheet("Filter Genres", "Cancel", "Clear Filter", Genre.ToArray());
             var filter = Song.Where(x => x.Genre.ToLower().Contains(action.ToLower())).ToList();
-            Search = (action == "Clear Filter") ? Song : new ObservableCollection<Track>(filter);            
+            Search = (action == "Clear Filter" || action == "Cancel") ? Song : new ObservableCollection<Track>(filter);            
         }
 
         private void SortTrack(object p)

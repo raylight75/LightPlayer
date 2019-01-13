@@ -37,7 +37,8 @@ namespace Player.Droid.Services
             {
                 mediaPlayer.Reset();
                 mediaPlayer.SetDataSource(aux);
-                mediaPlayer.Prepare();               
+                mediaPlayer.Prepare();
+                GetMetadata(aux);
                 mediaPlayer.Start();
                 mediaPlayer.Completion += MediaPlayer_Completion;
             }

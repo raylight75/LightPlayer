@@ -28,6 +28,12 @@ namespace Player.Service
             Genres = new List<string>();
         }
 
+        public static string OpenPath()
+        {
+            string path = DependencyService.Get<IPathService>().InternalFolder;
+            return path;
+        }
+
         public async static Task<string> GetPath()
         {
             string path = await DependencyService.Get<IPathService>().OpenFolder();
