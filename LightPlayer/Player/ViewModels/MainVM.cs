@@ -16,6 +16,7 @@ namespace Player.ViewModels
 {
     class MainVM : BaseViewModel
     {
+        public INavigation Navigation { get; set; }
         private INavigationService _navigationService;
         private IAudioPlayerService _audioPlayer;       
         public string _name;
@@ -125,15 +126,21 @@ namespace Player.ViewModels
 
         public MainVM()
         {
-            InitApp(DependencyService.Get<IAudioPlayerService>(), DependencyService.Get<INavigationService>());            
-            AppViewModel = new AppViewModel();
+            InitApp();           
+        }
+
+        private void InitApp()
+        {
+            _audioPlayer = DependencyService.Get<IAudioPlayerService>();
+            _navigationService = DependencyService.Get<INavigationService>();
+            Navigation = _navigationService.Navigation;           
+            infoPage = new TrackInfo();
+            songsPage = new AlbumList();
             _seekerUpdatesPlayer = true;
             AlbumArt = ImageSource.FromFile(FileImages.NoAlbum);
             SliderMax = 100;
-            _audioPlayer.OnFinishedPlaying = () => {int i = 1; NextSong(i);};
-            infoPage = new TrackInfo();
-            songsPage = new AlbumList();
-            LoadCommands();           
+            _audioPlayer.OnFinishedPlaying = () => { int i = 1; NextSong(i); };            
+            LoadCommands();
         }
 
         private void LoadCommands()
@@ -150,13 +157,8 @@ namespace Player.ViewModels
             PlayCommand = new RelayCommand(Play, Permision.CanExecute);           
             ChangeCommand = new RelayCommand(NextSong, Permision.CanExecute);
             ValueChangedCommand = new RelayCommand(ValueChanged, Permision.CanExecute);
-        }
-
-        private void InitApp(IAudioPlayerService audioPlayer, INavigationService navigationService)
-        {
-            _navigationService = navigationService;
-            _audioPlayer = audioPlayer;           
-        }
+            ExitAppCommand = new RelayCommand(async parameter => { await ExitApp(); }, Permision.CanExecute);
+        }       
 
         private async Task OpenFolder()
         {           
@@ -196,8 +198,8 @@ namespace Player.ViewModels
             Genre = TrackService.Genres;
             if (await Application.Current.MainPage.DisplayAlert("Songs Loaded", "Would you like to open playlist", "Yes", "No"))
             {
-                _navigationService.NavigateToTabb(1);
-                var currentPage = _navigationService.GetCurrentPage();
+                var currentPage = Navigation.NavigationStack.LastOrDefault() as MainPage;
+                currentPage.CurrentPage = currentPage.Children[1];
                 currentPage.isLoaded = true;
             }
         }
@@ -219,7 +221,7 @@ namespace Player.ViewModels
             var filter = Song.Where(x => x.Album.ToLower().Contains(SelectedAlbum.Title.ToLower())).ToList();
             Search = new ObservableCollection<Track>(filter);
             songsPage.BindingContext = this;
-            await Application.Current.MainPage.Navigation.PushAsync(songsPage);                                 
+            await Navigation.PushAsync(songsPage);                                 
         }
 
         private void ItemSelected(object p)
@@ -232,7 +234,7 @@ namespace Player.ViewModels
         private async Task FullScreen()
         {
             infoPage.BindingContext = this;
-            await Application.Current.MainPage.Navigation.PushModalAsync(infoPage);           
+            await Navigation.PushModalAsync(infoPage);           
         }
 
         private void StreamSelected(object p)
@@ -367,6 +369,15 @@ namespace Player.ViewModels
             }
             var result = TrackService.OrderByName(Song, p.ToString());
             Search = new ObservableCollection<Track>(result);
-        }               
+        }
+
+        private async Task ExitApp()
+        {
+            if (await Application.Current.MainPage.DisplayAlert("Would you like to close player", "You will need to load playlist again", "Yes", "No"))
+            {
+                var closer = DependencyService.Get<ICloseApplication>();
+                closer?.CloseApp();
+            }
+        }
     }
 }

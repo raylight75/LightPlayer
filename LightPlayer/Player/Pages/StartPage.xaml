@@ -17,7 +17,7 @@
                     <StackLayout Orientation="Vertical" Padding="10" BackgroundColor="Transparent" HorizontalOptions="Center">
                         <Button Command="{Binding OpenFolderCommand}" Text="Load Music" TextColor="White" 
                             Image="icon_browse.png" HeightRequest="40" WidthRequest="180" BorderRadius="20" BackgroundColor="#89515c" HorizontalOptions="Center"/>
-                        <Button BindingContext="{Binding AppViewModel}" Command="{Binding ExitAppCommand}"  Text="Exit" TextColor="White" HeightRequest="40" WidthRequest="180" Image="exit_app.png" 
+                        <Button Command="{Binding ExitAppCommand}"  Text="Exit" TextColor="White" HeightRequest="40" WidthRequest="180" Image="exit_app.png" 
                             BorderRadius="20" BackgroundColor="#89515c" HorizontalOptions="Center"/>
                     </StackLayout>
                 </StackLayout>

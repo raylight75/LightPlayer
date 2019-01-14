@@ -5,7 +5,7 @@ namespace Player.Interfaces
 {
     public interface INavigationService
     {
-        void NavigateToTabb(int tabb);
-        MainPage GetCurrentPage();
+        INavigation Navigation { get; set; }
+        void SetNav(INavigation _nav);                
     }
 }

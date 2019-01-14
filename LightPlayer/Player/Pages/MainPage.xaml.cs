@@ -5,12 +5,13 @@ using Player.Interfaces;
 namespace Player.Pages
 {
     public partial class MainPage : TabbedPage
-    {
+    {        
         public bool isLoaded { get; set; }
 
         public MainPage()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            DependencyService.Get<INavigationService>().SetNav(Navigation);
             BindingContext = new MainVM();
         }      
 

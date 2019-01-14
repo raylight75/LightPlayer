@@ -24,9 +24,9 @@ namespace Player.ViewModels
         public ICommand FullScreenCommand { get; set; }
         public ICommand StreamSelectedCommand { get; set; }
         public ICommand SoundcloudToPlaylistCommand { get; set; }
+        public ICommand ExitAppCommand { get; set; }
 
-        public List<string> Genre { get; set; }
-        private object _appViewModel;
+        public List<string> Genre { get; set; }        
         private Album _selectedAlbum;
         private Track _currentlySelectedTrack;
         private SoundCloudTrack _currentlySelectedStream;
@@ -80,18 +80,7 @@ namespace Player.ViewModels
                 _currentlySelectedTrack = value;
                 OnPropertyChanged(nameof(SelectedTrack));
             }
-        }
-
-        public object AppViewModel
-        {
-            get { return _appViewModel; }
-            set
-            {
-                if (Equals(value, _appViewModel)) return;
-                _appViewModel = value;
-                OnPropertyChanged(nameof(AppViewModel));
-            }
-        }
+        }        
 
         public SoundCloudTrack SelectedStream
         {
