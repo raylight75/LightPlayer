@@ -249,6 +249,7 @@ namespace Player.ViewModels
             _audioPlayer.Play(path);
             if (playbackSource == PlaybackSource.Path)
             {
+                _audioPlayer.GetMetadata(path);
                 string artist = _audioPlayer.Artist;
                 Label = (string.IsNullOrEmpty(artist)) ? "<Unknow Artist>" : Regex.Replace(artist, "(?<=^.{30}).*", "...");                
                 Name = Regex.Replace(name, "(?<=^.{30}).*", "...");

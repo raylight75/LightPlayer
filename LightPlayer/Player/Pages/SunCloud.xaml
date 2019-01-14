@@ -37,7 +37,7 @@
                                     <ContentView Padding="10" VerticalOptions="Center" WidthRequest="20">
                                         <Label Text="{Binding Index}" FontSize="12" TextColor="White"/>
                                     </ContentView>
-                                    <Image VerticalOptions="Center" Source="button_play" WidthRequest="50"/>
+                                    <Image VerticalOptions="Center" Source="bars" WidthRequest="50" Opacity="0.3"></Image>
                                     <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" WidthRequest="250">
                                         <Label Text="{Binding Title}" FontSize="12" TextColor="White"/>
                                         <Label Text="Text for mp3 music files,text for mp3 music files" FontSize="10" TextColor="White" Opacity="0.5"/>
