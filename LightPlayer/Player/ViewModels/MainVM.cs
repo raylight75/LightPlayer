@@ -29,7 +29,7 @@ namespace Player.ViewModels
         private bool _seekerUpdatesPlayer = false;
         private bool _isPlaying;        
         public TrackInfo infoPage { get; set; }
-        public AlbumList songsPage { get; set; }
+        public Songs songsPage { get; set; }
 
         public int SliderMax
         {
@@ -135,7 +135,7 @@ namespace Player.ViewModels
             _navigationService = DependencyService.Get<INavigationService>();
             Navigation = _navigationService.Navigation;           
             infoPage = new TrackInfo();
-            songsPage = new AlbumList();
+            songsPage = new Songs();
             _seekerUpdatesPlayer = true;
             AlbumArt = ImageSource.FromFile(FileImages.NoAlbum);
             SliderMax = 100;
@@ -219,7 +219,7 @@ namespace Player.ViewModels
         private async Task AlbumSelected()
         {            
             var filter = Song.Where(x => x.Album.ToLower().Contains(SelectedAlbum.Title.ToLower())).ToList();
-            Search = new ObservableCollection<Track>(filter);
+            Search = new ObservableCollection<Track>(TrackService.ReOrder(filter));
             songsPage.BindingContext = this;
             await Navigation.PushAsync(songsPage);                                 
         }
@@ -297,7 +297,7 @@ namespace Player.ViewModels
             int i = Convert.ToInt32(p);                    
             if (playbackSource == PlaybackSource.Path)
             {
-                var song = TrackService.GetSongById(Song,SelectedTrack.Id,i);
+                var song = TrackService.GetSongById(Search,SelectedTrack.Id,i);
                 PlaySource(song.First().Filepath, song.First().FriendlyName, playbackSource);
                 SelectedTrack = song.First();
             }
@@ -359,7 +359,7 @@ namespace Player.ViewModels
         {
             var action = await Application.Current.MainPage.DisplayActionSheet("Filter Genres", "Cancel", "Clear Filter", Genre.ToArray());
             var filter = Song.Where(x => x.Genre.ToLower().Contains(action.ToLower())).ToList();
-            Search = (action == "Clear Filter" || action == "Cancel") ? Song : new ObservableCollection<Track>(filter);            
+            Search = (action == "Clear Filter" || action == "Cancel") ? Song : new ObservableCollection<Track>(TrackService.ReOrder(filter));            
         }
 
         private void SortTrack(object p)

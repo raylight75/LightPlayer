@@ -182,5 +182,17 @@ namespace Player.Service
 
             return ordered;
         }
+
+        public static List<T> ReOrder<T>(List<T> filtered) where T : BaseTrack
+        {
+            List<T> ordered = filtered;
+            int i = 1;
+            foreach (var item in ordered)
+            {
+                int id = i++;
+                item.Id = id;
+            }
+            return ordered;
+        }
     }
 }
