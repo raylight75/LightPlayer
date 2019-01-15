@@ -15,5 +15,11 @@ namespace Player.Pages
         {
             listView.ScrollTo(listView.SelectedItem, ScrollToPosition.Center, true);
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            listView.ScrollTo(listView.SelectedItem, ScrollToPosition.Center, true);
+        }
     }
 }

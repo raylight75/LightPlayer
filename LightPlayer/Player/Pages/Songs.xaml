@@ -57,10 +57,7 @@
                 <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#4E4558">
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center"  HeightRequest="50">
                         <Image Source="{Binding AlbumArt}" VerticalOptions="Center" HorizontalOptions="Start" 
-                               WidthRequest="40" HeightRequest="40" Margin="0,0,40,0">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer  Command="{Binding FullScreenCommand}"/>
-                            </Image.GestureRecognizers>
+                               WidthRequest="40" HeightRequest="40" Margin="0,0,40,0">                            
                         </Image>
                         <Image VerticalOptions="Center" Source="button_back" WidthRequest="25"  Margin="0,0,30,0">
                             <Image.GestureRecognizers>

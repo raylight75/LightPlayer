@@ -26,38 +26,31 @@
                             <OnPlatform x:TypeArguments="x:Boolean">
                                 <On Platform="Android" Value="true" />
                             </OnPlatform>
-                        </StackLayout.IsVisible>
-                        <!--<Image Source="pixel_full_screen" VerticalOptions="Center" HorizontalOptions="Start" WidthRequest="20" Opacity="0.5">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding FullScreenCommand}"/>
-                            </Image.GestureRecognizers>
-                        </Image>-->
+                        </StackLayout.IsVisible>                       
                         <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand">
                             <Label Text="NOW PLAYING FROM PLAYLIST" TextColor="#FFF" FontSize="12" HorizontalTextAlignment="Center" HorizontalOptions="Fill" />
                             <Label Text="{Binding Label}" Margin="0,-5,0,0" TextColor="#FFF" FontSize="12" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" />
-                        </StackLayout>                       
-                        <!--<Image BindingContext="{Binding AppViewModel}" Source="icon_playlist" VerticalOptions="Center" HorizontalOptions="End">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SelectedTabCommand}"/>
-                            </Image.GestureRecognizers>
-                        </Image>-->
+                        </StackLayout>                      
                     </StackLayout>
                     <Image Source="{Binding AlbumArt}" VerticalOptions="Center">
                         <Image.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="Android" Value="210" />
+                                <On Platform="Android" Value="200" />
                             </OnPlatform>
                         </Image.HeightRequest>
                     </Image>
-                    <Grid Margin="0,20,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />                           
-                        </Grid.ColumnDefinitions>
-                        <Image Source="icon_plus" Grid.Column="0" HorizontalOptions="Center" />
-                        <StackLayout Grid.Column="1" HorizontalOptions="Center">
-                            <Label Text="{Binding Name}" HorizontalOptions="Fill" HorizontalTextAlignment="Center" FontSize="16" TextColor="White" />                            
-                        </StackLayout>                        
+                    <Grid Margin="0,7,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <StackLayout Grid.Row="0" HorizontalOptions="Center">
+                            <Label Text="{Binding Name}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" FontSize="14" TextColor="White" />
+                        </StackLayout>
+                        <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center">
+                            <Label Text="ALBUM :" TextColor="#FFF" FontSize="12" HorizontalOptions="Start" />
+                            <Label Text="{Binding Album}" TextColor="#FFF" FontSize="12" HorizontalOptions="StartAndExpand"/>
+                        </StackLayout>
                     </Grid>
                     <StackLayout Margin="0,0,0,0" Orientation="Horizontal">
                         <Label Text="{Binding SongTime}" TextColor="#adaeb2" FontSize="10" HorizontalOptions="StartAndExpand" />

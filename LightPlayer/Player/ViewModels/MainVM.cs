@@ -27,8 +27,7 @@ namespace Player.ViewModels
         private int _sliderMax;
         private int _sliderValue;
         private bool _seekerUpdatesPlayer = false;
-        private bool _isPlaying;        
-        public TrackInfo infoPage { get; set; }
+        private bool _isPlaying;      
         public Songs songsPage { get; set; }
 
         public int SliderMax
@@ -133,8 +132,7 @@ namespace Player.ViewModels
         {
             _audioPlayer = DependencyService.Get<IAudioPlayerService>();
             _navigationService = DependencyService.Get<INavigationService>();
-            Navigation = _navigationService.Navigation;           
-            infoPage = new TrackInfo();
+            Navigation = _navigationService.Navigation;            
             songsPage = new Songs();
             _seekerUpdatesPlayer = true;
             AlbumArt = ImageSource.FromFile(FileImages.NoAlbum);
@@ -150,8 +148,7 @@ namespace Player.ViewModels
             SortByCommand = new RelayCommand(SortTrack, Permision.CanExecute);
             FilterGenreCommand = new RelayCommand(async parameter => { await FilterGenre(); }, Permision.CanExecute);
             AlbumSelectedCommand = new RelayCommand(async parameter => { await AlbumSelected(); }, Permision.CanExecute);
-            ItemSelectedCommand = new RelayCommand(ItemSelected, Permision.CanExecute);
-            FullScreenCommand = new RelayCommand(async parameter => { await FullScreen(); }, Permision.CanExecute);
+            ItemSelectedCommand = new RelayCommand(ItemSelected, Permision.CanExecute);            
             StreamSelectedCommand = new RelayCommand(StreamSelected, Permision.CanExecute);
             SoundcloudToPlaylistCommand = new RelayCommand(async parameter => { await SoundcloudToPlaylist(); }, Permision.CanExecute);                                   
             PlayCommand = new RelayCommand(Play, Permision.CanExecute);           
@@ -229,13 +226,7 @@ namespace Player.ViewModels
             playbackSource = PlaybackSource.Path;           
             PlaySource(SelectedTrack.Filepath, SelectedTrack.FriendlyName, playbackSource);
             //Application.Current.MainPage.DisplayAlert("Command", "You have been alerted", "OK");                       
-        }
-
-        private async Task FullScreen()
-        {
-            infoPage.BindingContext = this;
-            await Navigation.PushModalAsync(infoPage);           
-        }
+        }        
 
         private void StreamSelected(object p)
         {
