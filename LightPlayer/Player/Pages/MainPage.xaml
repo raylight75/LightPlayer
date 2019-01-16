@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"                        
              xmlns:pages ="clr-namespace:Player.Pages"
              xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
-             x:Class="Player.Pages.MainPage" NavigationPage.HasNavigationBar="True">
+             x:Class="Player.Pages.MainPage" NavigationPage.HasNavigationBar="True" BackgroundColor="#4e4558">
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
             <SearchBar Text="{Binding Filter}" Placeholder="Search" HorizontalOptions="Start" 
-                       WidthRequest="240" HeightRequest="40" TextColor="White" Opacity="0.5">
+                       WidthRequest="240" HeightRequest="40" TextColor="White" Opacity="0.5" PlaceholderColor="White">
                 <SearchBar.Behaviors>
                     <behaviorsPack:EventToCommandBehavior
                                EventName="TextChanged"

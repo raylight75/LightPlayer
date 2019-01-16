@@ -8,17 +8,12 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid>
-            <AbsoluteLayout>
-                <Image AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" InputTransparent="false" 
-                       HorizontalOptions="Fill" Aspect="AspectFill" VerticalOptions="Fill" Source="background1.png">
-                </Image>
-            </AbsoluteLayout>
-            <StackLayout>
-                <StackLayout>
-                    <SearchBar SearchCommand="{Binding SoundcloudToPlaylistCommand}" Text="{Binding Query, Mode=TwoWay}" 
-                               Placeholder="Search in Soundcloud" TextColor="White" HeightRequest="45" Opacity="0.7"/>
-                    <!--<ActivityIndicator IsRunning="{Binding IsRunning}" IsVisible="{Binding IsRunning}"></ActivityIndicator>-->
-                </StackLayout>
+            <Image Source="background1.png" Aspect="AspectFill"></Image>
+            <StackLayout x:Name="outerStack">
+                <SearchBar SearchCommand="{Binding SoundcloudToPlaylistCommand}" Text="{Binding Query, Mode=TwoWay}" 
+                               Placeholder="Search in Soundcloud" TextColor="White" 
+                               Opacity="0.4" PlaceholderColor="White"/>
+                <Grid HeightRequest="100"></Grid>
                 <ListView CachingStrategy="RecycleElement" ItemsSource="{Binding Soundcloudlist}" SelectedItem="{Binding SelectedStream, Mode=TwoWay}">
                     <ListView.Behaviors>
                         <behaviorsPack:EventToCommandBehavior
@@ -49,7 +44,7 @@
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                </ListView>                
+                </ListView>
             </StackLayout>
         </Grid>
     </ContentPage.Content>
