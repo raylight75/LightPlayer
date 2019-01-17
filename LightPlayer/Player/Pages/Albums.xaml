@@ -10,7 +10,8 @@
         <ToolbarItem Order="Primary" Priority="1" Name="Album Arts"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <!--<controls:HorizontalScrollView HeightRequest="200" SelectedCommand="{Binding ScrollTapedCommand}" Orientation="Horizontal"  
+        <Grid>
+            <!--<controls:HorizontalScrollView HeightRequest="200" SelectedCommand="{Binding ScrollTapedCommand}" Orientation="Horizontal"  
                                        ItemsSource="{Binding Search}">
             <controls:HorizontalScrollView.ItemTemplate>
                 <DataTemplate>
@@ -81,5 +82,13 @@
                 <Label Text="{Binding Label}" FontSize="18" VerticalOptions="CenterAndExpand" />
             </StackLayout>--><!--
         </StackLayout>-->
+            <StackLayout Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="Center" BackgroundColor="Transparent">
+                <Image Source="icon_chevron_down" Margin="0,-5,0,0" WidthRequest="40" >
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer  Command="{Binding PlayingSelectedCommand}"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
