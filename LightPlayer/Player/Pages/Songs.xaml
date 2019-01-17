@@ -16,7 +16,7 @@
         <Grid>
             <Image Source="background1.png" Aspect="AspectFill"></Image>
             <StackLayout x:Name="outerStack">
-                <Grid HeightRequest="150"></Grid>
+                <StackLayout HeightRequest="150"></StackLayout>
                 <ListView x:Name="listView" CachingStrategy="RecycleElement" 
                           ItemsSource="{Binding Search}" 
                           SelectedItem="{Binding SelectedTrack, Mode=TwoWay}" 
@@ -50,7 +50,14 @@
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                </ListView>                              
+                </ListView>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" BackgroundColor="Transparent">
+                    <Image Source="icon_chevron_down" Margin="0,-5,0,0" WidthRequest="40" Opacity="0.7">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer  Command="{Binding PlayingSelectedCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                </StackLayout>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

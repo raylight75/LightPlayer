@@ -10,9 +10,11 @@
         <Grid>
             <Image Source="background1.png" Aspect="AspectFill"></Image>
             <StackLayout x:Name="outerStack">
-                <SearchBar SearchCommand="{Binding SoundcloudToPlaylistCommand}" Text="{Binding Query, Mode=TwoWay}" 
+                <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand">
+                    <SearchBar SearchCommand="{Binding SoundcloudToPlaylistCommand}" Text="{Binding Query, Mode=TwoWay}" 
                                Placeholder="Search in Soundcloud" TextColor="White" 
                                Opacity="0.4" PlaceholderColor="White"/>
+                </StackLayout>
                 <Grid HeightRequest="100"></Grid>
                 <ListView CachingStrategy="RecycleElement" ItemsSource="{Binding Soundcloudlist}" SelectedItem="{Binding SelectedStream, Mode=TwoWay}">
                     <ListView.Behaviors>

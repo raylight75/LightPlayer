@@ -27,7 +27,8 @@ namespace Player.ViewModels
         private int _sliderMax;
         private int _sliderValue;
         private bool _seekerUpdatesPlayer = false;
-        private bool _isPlaying;      
+        private bool _isPlaying;
+        public Playing playingPage { get; set; }
         public Songs songsPage { get; set; }
 
         public int SliderMax
@@ -132,7 +133,8 @@ namespace Player.ViewModels
         {
             _audioPlayer = DependencyService.Get<IAudioPlayerService>();
             _navigationService = DependencyService.Get<INavigationService>();
-            Navigation = _navigationService.Navigation;            
+            Navigation = _navigationService.Navigation;
+            playingPage = new Playing();
             songsPage = new Songs();
             _seekerUpdatesPlayer = true;
             AlbumArt = ImageSource.FromFile(FileImages.NoAlbum);
@@ -147,6 +149,7 @@ namespace Player.ViewModels
             SearchCommand = new RelayCommand(FilterSongs, Permision.CanExecute);
             SortByCommand = new RelayCommand(SortTrack, Permision.CanExecute);
             FilterGenreCommand = new RelayCommand(async parameter => { await FilterGenre(); }, Permision.CanExecute);
+            PlayingSelectedCommand = new RelayCommand(async parameter => { await PlayingSelected(); }, Permision.CanExecute);
             AlbumSelectedCommand = new RelayCommand(async parameter => { await AlbumSelected(); }, Permision.CanExecute);
             ItemSelectedCommand = new RelayCommand(ItemSelected, Permision.CanExecute);            
             StreamSelectedCommand = new RelayCommand(StreamSelected, Permision.CanExecute);
@@ -213,6 +216,12 @@ namespace Player.ViewModels
             Soundcloudlist = await TrackService.GetSoundcloud(Query);           
         }
 
+        private async Task PlayingSelected()
+        {           
+            playingPage.BindingContext = this;
+            await Navigation.PushModalAsync(playingPage);
+        }
+
         private async Task AlbumSelected()
         {            
             var filter = Song.Where(x => x.Album.ToLower().Contains(SelectedAlbum.Title.ToLower())).ToList();
@@ -243,7 +252,7 @@ namespace Player.ViewModels
                 _audioPlayer.GetMetadata(path);
                 string artist = _audioPlayer.Artist;
                 Label = (string.IsNullOrEmpty(artist)) ? "<Unknow Artist>" : Regex.Replace(artist, "(?<=^.{30}).*", "...");                
-                Name = Regex.Replace(name, "(?<=^.{30}).*", "...");
+                Name = Regex.Replace(name, "(?<=^.{50}).*", "...");
                 TotalTime = SelectedTrack.Duration;
                 Album = _audioPlayer.Album;
                 AlbumArt = TrackService.SetImage(path, _audioPlayer);
@@ -336,7 +345,7 @@ namespace Player.ViewModels
                 else if (Filter != null)
                 {
                     var result = Song.Where(x => x.FriendlyName.ToLower().Contains(Filter.ToLower())).ToList();
-                    Search = new ObservableCollection<Track>(result);                    
+                    Search = new ObservableCollection<Track>(TrackService.ReOrder(result));                    
                 }
             }
             else

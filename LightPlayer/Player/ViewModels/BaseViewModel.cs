@@ -20,6 +20,7 @@ namespace Player.ViewModels
         public ICommand SortByCommand { get; set; }
         public ICommand FilterGenreCommand { get; set; }
         public ICommand AlbumSelectedCommand { get; set; }
+        public ICommand PlayingSelectedCommand { get; set; }
         public ICommand ItemSelectedCommand { get; set; }       
         public ICommand StreamSelectedCommand { get; set; }
         public ICommand SoundcloudToPlaylistCommand { get; set; }

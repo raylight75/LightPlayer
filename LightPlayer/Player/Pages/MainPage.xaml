@@ -19,7 +19,7 @@
     <!--Pages can be added as references or inline-->
     <pages:StartPage/>
     <pages:Songs/>
-    <pages:Playing/>
+    <!--<pages:Playing/>-->
     <pages:Albums/>
     <pages:SunCloud/>    
 </TabbedPage>
