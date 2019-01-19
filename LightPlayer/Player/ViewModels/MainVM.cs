@@ -18,7 +18,7 @@ namespace Player.ViewModels
     {
         public INavigation Navigation { get; set; }
         private INavigationService _navigationService;
-        private IAudioPlayerService _audioPlayer;       
+        private IAudioPlayerService _audioPlayer;
         public string _name;
         private ImageSource _songImage;
         private string _label;
@@ -51,7 +51,7 @@ namespace Player.ViewModels
                 _sliderValue = value;
                 OnPropertyChanged(nameof(SliderValue));
             }
-        }           
+        }
 
         public string Label
         {
@@ -111,7 +111,7 @@ namespace Player.ViewModels
                 _isPlaying = value;
                 OnPropertyChanged(nameof(IsPlaying));
             }
-        }        
+        }
 
         public ImageSource AlbumArt
         {
@@ -126,7 +126,7 @@ namespace Player.ViewModels
 
         public MainVM()
         {
-            InitApp();           
+            InitApp();
         }
 
         private void InitApp()
@@ -139,48 +139,37 @@ namespace Player.ViewModels
             _seekerUpdatesPlayer = true;
             AlbumArt = ImageSource.FromFile(FileImages.NoAlbum);
             SliderMax = 100;
-            _audioPlayer.OnFinishedPlaying = () => { int i = 1; NextSong(i); };            
+            _audioPlayer.OnFinishedPlaying = () => { int i = 1; NextSong(i); };
             LoadCommands();
         }
 
         private void LoadCommands()
         {
             OpenFolderCommand = new RelayCommand(async parameter => { await OpenFolder(); }, Permision.CanExecute);
+            OpenDirectoryCommand = new RelayCommand(async parameter => { await OpenDirectory(); }, Permision.CanExecute);
             SearchCommand = new RelayCommand(FilterSongs, Permision.CanExecute);
             SortByCommand = new RelayCommand(SortTrack, Permision.CanExecute);
             FilterGenreCommand = new RelayCommand(async parameter => { await FilterGenre(); }, Permision.CanExecute);
             PlayingSelectedCommand = new RelayCommand(async parameter => { await PlayingSelected(); }, Permision.CanExecute);
             AlbumSelectedCommand = new RelayCommand(async parameter => { await AlbumSelected(); }, Permision.CanExecute);
-            ItemSelectedCommand = new RelayCommand(ItemSelected, Permision.CanExecute);            
+            ItemSelectedCommand = new RelayCommand(ItemSelected, Permision.CanExecute);
             StreamSelectedCommand = new RelayCommand(StreamSelected, Permision.CanExecute);
-            SoundcloudToPlaylistCommand = new RelayCommand(async parameter => { await SoundcloudToPlaylist(); }, Permision.CanExecute);                                   
-            PlayCommand = new RelayCommand(Play, Permision.CanExecute);           
+            SoundcloudToPlaylistCommand = new RelayCommand(async parameter => { await SoundcloudToPlaylist(); }, Permision.CanExecute);
+            PlayCommand = new RelayCommand(Play, Permision.CanExecute);
             ChangeCommand = new RelayCommand(NextSong, Permision.CanExecute);
             ValueChangedCommand = new RelayCommand(ValueChanged, Permision.CanExecute);
             ExitAppCommand = new RelayCommand(async parameter => { await ExitApp(); }, Permision.CanExecute);
-        }       
+        }
 
         private async Task OpenFolder()
-        {           
+        {
             if (Search == null)
             {
                 string path = TrackService.OpenPath();
-                Song = TrackService.GetSongs(_audioPlayer, path);
+                Song = await TrackService.GetSongs(_audioPlayer, path);
                 if (Song.Count == 0)
                 {
-                    if (await Application.Current.MainPage.DisplayAlert("No files in music folder", "Open another folder", "Yes", "No"))
-                    {
-                        path = await TrackService.GetPath();
-                        if (path == "CANCELED")
-                        {
-                            await Application.Current.MainPage.DisplayAlert("Caution", "Select folder with music files", "ok");
-                            return;
-                        }                        
-                        Song = TrackService.GetSongs(_audioPlayer, path);
-                        if (Song.Count == 0){ return; }
-                        await SetContent();
-                        return;
-                    }
+                    await Application.Current.MainPage.DisplayAlert("No files in music folder", "Use browse folder button", "ok");
                     return;
                 }
                 await SetContent();
@@ -189,6 +178,28 @@ namespace Player.ViewModels
             {
                 await Application.Current.MainPage.DisplayAlert("Alert", "Songs allready loaded", "ok");
             }
+        }
+
+        private async Task OpenDirectory()
+        {
+            string path = await TrackService.GetPath();
+            if (path == "CANCELED")
+            {
+                await Application.Current.MainPage.DisplayAlert("Caution", "Select folder with music files", "ok");
+                return;
+            }
+            Song = await TrackService.GetSongs(_audioPlayer, path);
+            if (Song.Count == 0)
+            {
+                await Application.Current.MainPage.DisplayAlert("Alert", "No files in selected folder", "ok");
+                return;
+            }
+            else if (Search != null)
+            {
+                Song.Clear();
+                Song = await TrackService.GetSongs(_audioPlayer, path);
+            }
+            await SetContent();
         }
 
         private async Task SetContent()
@@ -212,52 +223,52 @@ namespace Player.ViewModels
             {
                 await Application.Current.MainPage.DisplayAlert("Caution", "No Internet connection", "ok");
                 return;
-            }            
-            Soundcloudlist = await TrackService.GetSoundcloud(Query);           
+            }
+            Soundcloudlist = await TrackService.GetSoundcloud(Query);
         }
 
         private async Task PlayingSelected()
-        {           
+        {
             playingPage.BindingContext = this;
             await Navigation.PushModalAsync(playingPage);
         }
 
         private async Task AlbumSelected()
-        {            
+        {
             var filter = Song.Where(x => x.Album.ToLower().Contains(SelectedAlbum.Title.ToLower())).ToList();
             Search = new ObservableCollection<Track>(TrackService.ReOrder(filter));
             songsPage.BindingContext = this;
-            await Navigation.PushAsync(songsPage);                                 
+            await Navigation.PushAsync(songsPage);
         }
 
         private void ItemSelected(object p)
-        {                       
-            playbackSource = PlaybackSource.Path;           
+        {
+            playbackSource = PlaybackSource.Path;
             PlaySource(SelectedTrack.Filepath, SelectedTrack.FriendlyName, playbackSource);
             //Application.Current.MainPage.DisplayAlert("Command", "You have been alerted", "OK");                       
-        }        
+        }
 
         private void StreamSelected(object p)
         {
             playbackSource = PlaybackSource.Stream;
             var uri = SetUri(SelectedStream.Id);
-            PlaySource(uri,SelectedStream.Title, playbackSource);
+            PlaySource(uri, SelectedStream.Title, playbackSource);
         }
 
         private void PlaySource(string path, string name, PlaybackSource playbackSource)
-        {            
+        {
             _audioPlayer.Play(path);
             if (playbackSource == PlaybackSource.Path)
             {
                 _audioPlayer.GetMetadata(path);
                 string artist = _audioPlayer.Artist;
-                Label = (string.IsNullOrEmpty(artist)) ? "<Unknow Artist>" : Regex.Replace(artist, "(?<=^.{30}).*", "...");                
+                Label = (string.IsNullOrEmpty(artist)) ? "<Unknow Artist>" : Regex.Replace(artist, "(?<=^.{30}).*", "...");
                 Name = Regex.Replace(name, "(?<=^.{50}).*", "...");
                 TotalTime = SelectedTrack.Duration;
                 Album = _audioPlayer.Album;
                 AlbumArt = TrackService.SetImage(path, _audioPlayer);
             }
-            else if(playbackSource == PlaybackSource.Stream)
+            else if (playbackSource == PlaybackSource.Stream)
             {
                 Label = Regex.Replace(SelectedStream.Tag_list, "(?<=^.{30}).*", "...");
                 Name = Regex.Replace(name, "(?<=^.{30}).*", "...");
@@ -269,12 +280,12 @@ namespace Player.ViewModels
                 else
                 {
                     AlbumArt = ImageSource.FromUri(new Uri(SelectedStream.Artwork_url));
-                }                              
+                }
             };
-            SliderMax = _audioPlayer.SliderMax();          
+            SliderMax = _audioPlayer.SliderMax();
             StartTimer();
             IsPlaying = true;
-            
+
         }
 
         private void StartTimer()
@@ -294,10 +305,10 @@ namespace Player.ViewModels
 
         private void NextSong(object p)
         {
-            int i = Convert.ToInt32(p);                    
+            int i = Convert.ToInt32(p);
             if (playbackSource == PlaybackSource.Path)
             {
-                var song = TrackService.GetSongById(Search,SelectedTrack.Id,i);
+                var song = TrackService.GetSongById(Search, SelectedTrack.Id, i);
                 PlaySource(song.First().Filepath, song.First().FriendlyName, playbackSource);
                 SelectedTrack = song.First();
             }
@@ -311,7 +322,7 @@ namespace Player.ViewModels
         }
 
         private void ValueChanged(object p)
-        {           
+        {
             if (_seekerUpdatesPlayer)
             {
                 _seekerUpdatesPlayer = false;
@@ -331,40 +342,40 @@ namespace Player.ViewModels
             {
                 _audioPlayer.Play();
                 IsPlaying = true;
-            }           
+            }
         }
 
         private void FilterSongs(object p)
-        {                                   
+        {
             if (Search != null)
-            {               
+            {
                 if (string.IsNullOrEmpty(Filter))
-                {                    
-                    Search = Song;                   
+                {
+                    Search = Song;
                 }
                 else if (Filter != null)
                 {
                     var result = Song.Where(x => x.FriendlyName.ToLower().Contains(Filter.ToLower())).ToList();
-                    Search = new ObservableCollection<Track>(TrackService.ReOrder(result));                    
+                    Search = new ObservableCollection<Track>(TrackService.ReOrder(result));
                 }
             }
             else
             {
                 Application.Current.MainPage.DisplayAlert("Caution", "Load track first to search", "OK");
                 return;
-            }            
+            }
         }
 
         private async Task FilterGenre()
         {
             var action = await Application.Current.MainPage.DisplayActionSheet("Filter Genres", "Cancel", "Clear Filter", Genre.ToArray());
             var filter = Song.Where(x => x.Genre.ToLower().Contains(action.ToLower())).ToList();
-            Search = (action == "Clear Filter" || action == "Cancel") ? Song : new ObservableCollection<Track>(TrackService.ReOrder(filter));            
+            Search = (action == "Clear Filter" || action == "Cancel") ? Song : new ObservableCollection<Track>(TrackService.ReOrder(filter));
         }
 
         private void SortTrack(object p)
         {
-            if(Search == null)
+            if (Search == null)
             {
                 return;
             }

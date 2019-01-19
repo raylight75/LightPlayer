@@ -13,12 +13,17 @@
                 </AbsoluteLayout>
                 <StackLayout>
                     <Grid HeightRequest="120"></Grid>
-                    <Grid HeightRequest="180"></Grid>
+                    <Grid HeightRequest="140"></Grid>
                     <StackLayout Orientation="Vertical" Padding="10" BackgroundColor="Transparent" HorizontalOptions="Center">
-                        <Button Command="{Binding OpenFolderCommand}" Text="Load Music" TextColor="White" 
-                            Image="icon_browse.png" HeightRequest="40" WidthRequest="180" BorderRadius="20" BackgroundColor="#89515c" HorizontalOptions="Center"/>
-                        <Button Command="{Binding ExitAppCommand}"  Text="Exit" TextColor="White" HeightRequest="40" WidthRequest="180" Image="exit_app.png" 
-                            BorderRadius="20" BackgroundColor="#89515c" HorizontalOptions="Center"/>
+                        <Button Command="{Binding OpenFolderCommand}" Text="Load Music Folder" TextColor="White" FontSize="12" 
+                                Image="icon_browse.png" HeightRequest="40" WidthRequest="180" BorderRadius="20" 
+                                BackgroundColor="#89515c" HorizontalOptions="Center"/>
+                        <Button Command="{Binding OpenDirectoryCommand}" Text="Browse Folder" TextColor="White" FontSize="12"
+                                Image="folder_music.png" HeightRequest="40" WidthRequest="180" BorderRadius="20" 
+                                BackgroundColor="#89515c" HorizontalOptions="Center"/>
+                        <Button Command="{Binding ExitAppCommand}" Text="Exit" TextColor="White" HeightRequest="40" FontSize="12" 
+                                WidthRequest="180" Image="exit_app.png" BorderRadius="20" BackgroundColor="#89515c" 
+                                HorizontalOptions="Center"/>
                     </StackLayout>
                 </StackLayout>
             </Grid>

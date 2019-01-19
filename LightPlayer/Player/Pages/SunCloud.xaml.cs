@@ -17,7 +17,8 @@ namespace Player.Pages
         public SunCloud ()
 		{
 			InitializeComponent ();
-		}
+            SizeChanged += OnSizeChanged;
+        }
 
         protected override void OnSizeAllocated(double width, double height)
         {
@@ -28,13 +29,20 @@ namespace Player.Pages
                 this.height = height;
                 if (width > height)
                 {
-                    outerStack.Orientation = StackOrientation.Horizontal;
+                    outerStack.Orientation = StackOrientation.Vertical;
+                    innerGrid.HeightRequest = 0;
+                    innerStack2.HorizontalOptions = LayoutOptions.Center;
                 }
                 else
                 {
-                    outerStack.Orientation = StackOrientation.Vertical;
+                    innerGrid.HeightRequest = 100;
                 }
             }
+        }
+
+        public void OnSizeChanged(object sender, EventArgs e)
+        {
+            background.Source = ImageSource.FromFile(Height > Width ? "background2.png" : "bg.png");
         }
     }
 }

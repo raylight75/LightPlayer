@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Player.Pages
@@ -12,6 +13,7 @@ namespace Player.Pages
         public Songs()
         {
             InitializeComponent();
+            SizeChanged += OnSizeChanged;
         }
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -34,13 +36,21 @@ namespace Player.Pages
                 this.height = height;
                 if (width > height)
                 {
-                    outerStack.Orientation = StackOrientation.Horizontal;
+                    outerStack.Orientation = StackOrientation.Vertical;
+                    innerStack1.HeightRequest = 0;
+                    innerStack2.HorizontalOptions = LayoutOptions.Center;                    
                 }
                 else
                 {
-                    outerStack.Orientation = StackOrientation.Vertical;
+                    innerStack1.HeightRequest = 160;
                 }
             }
         }
+
+        public void OnSizeChanged(object sender, EventArgs e)
+        {
+            background.Source = ImageSource.FromFile(Height > Width ? "background1.png" : "bg.png");
+        }
+
     }
 }

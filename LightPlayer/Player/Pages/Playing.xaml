@@ -9,7 +9,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid>
-            <Image Source="background3.png" Aspect="AspectFill"></Image>
+            <Image x:Name="background" Source="background3.png" Aspect="AspectFill"></Image>
             <StackLayout x:Name="outerStack" HorizontalOptions="FillAndExpand">
                 <StackLayout.Padding>
                     <OnPlatform x:TypeArguments="Thickness">

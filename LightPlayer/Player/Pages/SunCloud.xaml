@@ -8,14 +8,14 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid>
-            <Image Source="background2.png" Aspect="AspectFill"></Image>
+            <Image x:Name="background" Source="background2.png" Aspect="AspectFill"></Image>
             <StackLayout x:Name="outerStack">
                 <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand">
                     <SearchBar SearchCommand="{Binding SoundcloudToPlaylistCommand}" Text="{Binding Query, Mode=TwoWay}" 
                                Placeholder="Search in Soundcloud" TextColor="White" 
                                Opacity="0.4" PlaceholderColor="White"/>
                 </StackLayout>
-                <Grid HeightRequest="100"></Grid>
+                <Grid x:Name="innerGrid" HeightRequest="100"></Grid>
                 <ListView CachingStrategy="RecycleElement" ItemsSource="{Binding Soundcloudlist}" SelectedItem="{Binding SelectedStream, Mode=TwoWay}">
                     <ListView.Behaviors>
                         <behaviorsPack:EventToCommandBehavior
@@ -48,7 +48,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </StackLayout>
-            <StackLayout Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="Center" BackgroundColor="Transparent">
+            <StackLayout x:Name="innerStack2" Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="Center" BackgroundColor="Transparent">
                 <Image Source="icon_chevron_down" Margin="0,-5,0,0" WidthRequest="40" Opacity="0.7">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer  Command="{Binding PlayingSelectedCommand}"/>

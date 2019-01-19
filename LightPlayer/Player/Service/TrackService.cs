@@ -40,31 +40,47 @@ namespace Player.Service
             return path;
         }
 
-        public static ObservableCollection<Track> GetSongs(IAudioPlayerService _audioPlayer, string path)
-        {                        
-            DirectoryInfo folder = new DirectoryInfo(path);           
-            int i = 1;
-            foreach (var di in folder.EnumerateFiles("*.mp3*", SearchOption.AllDirectories))
+        public async static Task<ObservableCollection<Track>> GetSongs(IAudioPlayerService _audioPlayer, string path)
+        {
+            return await Task.Run(() =>
             {
-                int id = i++;
-                _audioPlayer.GetMetadata(di.FullName);                
-                DateTime creation = File.GetCreationTime(di.FullName);
-                TimeSpan ts = TimeSpan.FromMilliseconds(Convert.ToInt32(_audioPlayer.Duration));
-                ImageSource image = Image(_audioPlayer.GetImage(di.FullName));
-                string albums = _audioPlayer.Album;
-                string genres = _audioPlayer.Genre;
-                albums = (string.IsNullOrEmpty(albums)) ? "<Unknow Album>" : albums;
-                genres = (string.IsNullOrEmpty(genres)) ? "<Unknow Genre>" : genres;                
-                Track track = new Track(id, di.Name, di.FullName, ts.ToString(@"mm\:ss"), creation, genres, albums, image);
-                SetAlbum(albums, image);
-                Songs.Add(track);
-                SetGenre(genres);
-            }           
-            return Songs;
+                DirectoryInfo folder = new DirectoryInfo(path);
+                int i = 1;
+                string[] extensions = { ".mp3", ".flac", ".wav", ".m4a", ".ogg" };
+                foreach (var di in folder.EnumerateFiles("*.*", SearchOption.AllDirectories)
+                .Where(s => extensions.Contains(System.IO.Path.GetExtension(s.ToString()))))
+                {
+                    try
+                    {
+                        int id = i++;
+                        _audioPlayer.GetMetadata(di.FullName);
+                        DateTime creation = File.GetCreationTime(di.FullName);
+                        TimeSpan ts = TimeSpan.FromMilliseconds(Convert.ToInt32(_audioPlayer.Duration));
+                        ImageSource image = Image(_audioPlayer.GetImage(di.FullName));
+                        string albums = _audioPlayer.Album;
+                        string genres = _audioPlayer.Genre;
+                        albums = (string.IsNullOrEmpty(albums)) ? "<Unknow Album>" : albums;
+                        genres = (string.IsNullOrEmpty(genres)) ? "<Unknow Genre>" : genres;
+                        Track track = new Track(id, di.Name, di.FullName, ts.ToString(@"mm\:ss"), creation, genres, albums, image);
+                        SetAlbum(albums, image);
+                        Songs.Add(track);
+                        SetGenre(genres);
+                    }                   
+                    catch (UnauthorizedAccessException)
+                    {
+                        Application.Current.MainPage.DisplayAlert("Error", "A file in the directory could not be accessed in {0}", folder.Name, "ok");
+                    }
+                    catch (IOException)
+                    {
+                        Application.Current.MainPage.DisplayAlert("Error", "IO Error occured", "ok");
+                    }
+                }
+                return Songs;
+            });
         }
 
         public static async Task<ObservableCollection<SoundCloudTrack>> GetSoundcloud(string query)
-        {           
+        {
             var soundcloudlist = new ObservableCollection<SoundCloudTrack>();
             using (var web = new WebClient { Proxy = null })
             {
@@ -74,7 +90,7 @@ namespace Player.Service
                 foreach (var result in res)
                 {
                     result.Index = i++;
-                }                
+                }
                 return soundcloudlist = res;
             }
         }
@@ -121,7 +137,7 @@ namespace Player.Service
 
         private static List<Album> SetAlbum(string albums, ImageSource image)
         {
-            Album album = new Album(albums, image);            
+            Album album = new Album(albums, image);
             if (!Albums.Any(x => x.Title.Contains(albums)))
             {
                 Albums.Add(album);
@@ -134,11 +150,11 @@ namespace Player.Service
             if (!Genres.Contains(genres))
             {
                 Genres.Add(genres);
-            }            
+            }
             return Genres;
         }
 
-        public static IEnumerable<T> GetSongById<T>(ObservableCollection<T> tracks, int id, int index) where T: BaseTrack
+        public static IEnumerable<T> GetSongById<T>(ObservableCollection<T> tracks, int id, int index) where T : BaseTrack
         {
             IEnumerable<T> result = null;
             int currentSongIndex = id + index;
@@ -173,7 +189,7 @@ namespace Player.Service
             else if (sort == "Name")
             {
                 ordered = tracks.OrderBy(x => x.FriendlyName).ToList();
-            }                        
+            }
             foreach (var item in ordered)
             {
                 int id = i++;

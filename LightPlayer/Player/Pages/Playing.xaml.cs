@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Player.Pages
@@ -12,6 +13,7 @@ namespace Player.Pages
         public Playing()
         {
             InitializeComponent();
+            SizeChanged += OnSizeChanged;
         }
 
         protected override void OnSizeAllocated(double width, double height)
@@ -31,6 +33,11 @@ namespace Player.Pages
                     albumArt.HeightRequest = 210;
                 }
             }
+        }
+
+        public void OnSizeChanged(object sender, EventArgs e)
+        {
+            background.Source = ImageSource.FromFile(Height > Width ? "background3.png" : "bg.png");
         }
     }
 }
