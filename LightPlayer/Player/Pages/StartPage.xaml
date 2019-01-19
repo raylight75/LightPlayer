@@ -13,7 +13,7 @@
                 </AbsoluteLayout>
                 <StackLayout>
                     <Grid HeightRequest="120"></Grid>
-                    <Grid HeightRequest="140"></Grid>
+                    <Grid HeightRequest="150"></Grid>
                     <StackLayout Orientation="Vertical" Padding="10" BackgroundColor="Transparent" HorizontalOptions="Center">
                         <Button Command="{Binding OpenFolderCommand}" Text="Load Music Folder" TextColor="White" FontSize="12" 
                                 Image="icon_browse.png" HeightRequest="40" WidthRequest="180" BorderRadius="20" 
