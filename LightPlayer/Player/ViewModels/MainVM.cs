@@ -262,16 +262,16 @@ namespace Player.ViewModels
             {
                 _audioPlayer.GetMetadata(path);
                 string artist = _audioPlayer.Artist;
-                Label = (string.IsNullOrEmpty(artist)) ? "<Unknow Artist>" : Regex.Replace(artist, "(?<=^.{30}).*", "...");
-                Name = Regex.Replace(name, "(?<=^.{50}).*", "...");
+                Label = (string.IsNullOrEmpty(artist)) ? "<Unknow Artist>" : TrackService.SetNames(artist);
+                Name = TrackService.SetNames(name);
                 TotalTime = SelectedTrack.Duration;
                 Album = _audioPlayer.Album;
                 AlbumArt = TrackService.SetImage(path, _audioPlayer);
             }
             else if (playbackSource == PlaybackSource.Stream)
-            {
-                Label = Regex.Replace(SelectedStream.Tag_list, "(?<=^.{30}).*", "...");
-                Name = Regex.Replace(name, "(?<=^.{30}).*", "...");
+            {               
+                Label = TrackService.SetNames(SelectedStream.Tag_list);
+                Name = TrackService.SetNames(name);
                 TotalTime = SelectedStream.Duration;
                 if (string.IsNullOrEmpty(SelectedStream.Artwork_url))
                 {

@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -59,9 +60,10 @@ namespace Player.Service
                         ImageSource image = Image(_audioPlayer.GetImage(di.FullName));
                         string albums = _audioPlayer.Album;
                         string genres = _audioPlayer.Genre;
+                        string name = SetNames(di.Name);
                         albums = (string.IsNullOrEmpty(albums)) ? "<Unknow Album>" : albums;
                         genres = (string.IsNullOrEmpty(genres)) ? "<Unknow Genre>" : genres;
-                        Track track = new Track(id, di.Name, di.FullName, ts.ToString(@"mm\:ss"), creation, genres, albums, image);
+                        Track track = new Track(id, name, di.FullName, ts.ToString(@"mm\:ss"), creation, genres, albums, image);
                         SetAlbum(albums, image);
                         Songs.Add(track);
                         SetGenre(genres);
@@ -93,6 +95,12 @@ namespace Player.Service
                 }
                 return soundcloudlist = res;
             }
+        }
+
+        public static string SetNames(string word)
+        {
+            string name = Regex.Replace(word, "(?<=^.{50}).*", "...");
+            return name;
         }
 
         private static ImageSource Image(Bitmap image)

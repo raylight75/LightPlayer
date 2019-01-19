@@ -28,7 +28,7 @@
                     </ListView.Behaviors>
                     <ListView.RowHeight>
                         <OnPlatform x:TypeArguments="x:Int32">
-                            <On Platform="Android" Value="70" />
+                            <On Platform="Android" Value="65" />
                         </OnPlatform>
                     </ListView.RowHeight>
                     <ListView.ItemTemplate>
@@ -38,8 +38,8 @@
                                     <ContentView Padding="10" VerticalOptions="Center" WidthRequest="20">
                                         <Label Text="{Binding Id, Mode=TwoWay}" FontSize="12" TextColor="White"/>
                                     </ContentView>                                    
-                                    <Image VerticalOptions="Center" Source="bars" WidthRequest="50" Opacity="0.3"></Image>
-                                    <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" WidthRequest="250">
+                                    <Image VerticalOptions="Center" Source="bars" WidthRequest="30" Opacity="0.3" HorizontalOptions="Start"/>
+                                    <StackLayout Orientation="Vertical" Padding="10" VerticalOptions="CenterAndExpand" WidthRequest="250">
                                         <Label Text="{Binding FriendlyName}" FontSize="12" TextColor="White"/>
                                         <Label Text="{Binding Genre}" FontSize="10" TextColor="White" Opacity="0.5"/>
                                     </StackLayout>
