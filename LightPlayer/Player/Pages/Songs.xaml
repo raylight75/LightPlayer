@@ -35,7 +35,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Orientation="Horizontal">
-                                    <ContentView Padding="10" VerticalOptions="Center" WidthRequest="20">
+                                    <ContentView Padding="5" VerticalOptions="Center" WidthRequest="25">
                                         <Label Text="{Binding Id, Mode=TwoWay}" FontSize="12" TextColor="White"/>
                                     </ContentView>                                    
                                     <Image VerticalOptions="Center" Source="bars" WidthRequest="30" Opacity="0.3" HorizontalOptions="Start"/>
