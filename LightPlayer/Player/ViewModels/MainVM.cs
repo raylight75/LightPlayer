@@ -368,9 +368,11 @@ namespace Player.ViewModels
 
         private async Task FilterGenre()
         {
+            var result = TrackService.OrderByName(Song,"Name");
+            Search = new ObservableCollection<Track>(result);
             var action = await Application.Current.MainPage.DisplayActionSheet("Filter Genres", "Cancel", "Clear Filter", Genre.ToArray());
             var filter = Song.Where(x => x.Genre.ToLower().Contains(action.ToLower())).ToList();
-            Search = (action == "Clear Filter" || action == "Cancel") ? Song : new ObservableCollection<Track>(TrackService.ReOrder(filter));
+            Search = (action == "Clear Filter" || action == "Cancel") ? Search : new ObservableCollection<Track>(TrackService.ReOrder(filter));
         }
 
         private void SortTrack(object p)

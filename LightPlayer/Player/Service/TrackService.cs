@@ -198,13 +198,7 @@ namespace Player.Service
             {
                 ordered = tracks.OrderBy(x => x.FriendlyName).ToList();
             }
-            foreach (var item in ordered)
-            {
-                int id = i++;
-                item.Id = id;
-            }
-
-            return ordered;
+            return ReOrder(ordered);
         }
 
         public static List<T> ReOrder<T>(List<T> filtered) where T : BaseTrack

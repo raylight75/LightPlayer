@@ -39,11 +39,11 @@
                                         <Label Text="{Binding Id, Mode=TwoWay}" FontSize="12" TextColor="White"/>
                                     </ContentView>                                    
                                     <Image VerticalOptions="Center" Source="bars" WidthRequest="30" Opacity="0.3" HorizontalOptions="Start"/>
-                                    <StackLayout Orientation="Vertical" Padding="10" VerticalOptions="CenterAndExpand" WidthRequest="250">
+                                    <StackLayout Orientation="Vertical" Padding="10" VerticalOptions="CenterAndExpand" WidthRequest="450">
                                         <Label Text="{Binding FriendlyName}" FontSize="12" TextColor="White"/>
                                         <Label Text="{Binding Genre}" FontSize="10" TextColor="White" Opacity="0.5"/>
                                     </StackLayout>
-                                    <ContentView  VerticalOptions="Center" WidthRequest="50">
+                                    <ContentView Padding="5" VerticalOptions="Center" WidthRequest="50">
                                         <Label Text="{Binding Duration}" FontSize="10" TextColor="White"/>
                                     </ContentView>
                                 </StackLayout>
