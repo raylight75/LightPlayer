@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Player.Pages
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SunCloud : ContentPage
 	{
         private double width = 0;
@@ -29,20 +25,44 @@ namespace Player.Pages
                 this.height = height;
                 if (width > height)
                 {
-                    outerStack.Orientation = StackOrientation.Vertical;
-                    innerGrid.HeightRequest = 0;
-                    innerStack2.HorizontalOptions = LayoutOptions.Center;
+                    innerGrid.RowDefinitions.Clear();
+                    innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                    innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+                    innerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = 100 });
+                    innerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                    innerGrid.Children.Remove(header);
+                    innerGrid.Children.Add(header, 0, 0);
+                    innerGrid.Children.Remove(search);
+                    innerGrid.Children.Add(search, 0, 1);
+                    innerGrid.Children.Remove(listView);
+                    innerGrid.Children.Add(listView, 1, 0);
+                    innerGrid.Children.Remove(innerStack);
+                    innerGrid.Children.Add(innerStack, 1, 1);
                 }
                 else
                 {
-                    innerGrid.HeightRequest = 100;
+                    innerGrid.RowDefinitions.Clear();
+                    innerGrid.ColumnDefinitions.Clear();
+                    innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+                    innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+                    innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                    innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+                    innerGrid.Children.Remove(header);
+                    innerGrid.Children.Add(header, 0, 0);
+                    innerGrid.Children.Remove(search);
+                    innerGrid.Children.Add(search, 0, 1);
+                    innerGrid.Children.Remove(listView);
+                    innerGrid.Children.Add(listView, 0, 2);
+                    innerGrid.Children.Remove(innerStack);
+                    innerGrid.Children.Add(innerStack, 0, 3);
+
                 }
             }
         }
 
         public void OnSizeChanged(object sender, EventArgs e)
         {
-            background.Source = ImageSource.FromFile(Height > Width ? "background2.png" : "bg.png");
+            BackgroundImage = (Height > Width ? "backgroundbg.png" : "bg.png");
         }
     }
 }

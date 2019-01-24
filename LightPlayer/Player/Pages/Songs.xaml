@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
-             x:Class="Player.Pages.Songs" Icon="icon_playlist.png">
+             x:Class="Player.Pages.Songs" Icon="icon_playlist.png" BackgroundImage="backgroundbg.png">
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Secondary" Priority="1" Name="By Date" Command="{Binding SortByCommand}" CommandParameter="Created"/>
         <ToolbarItem Order="Secondary" Priority="1" Name="By Duration" Command="{Binding  SortByCommand}" CommandParameter="Duration" />
@@ -13,57 +13,70 @@
         <ToolbarItem Order="Primary" Priority="1" Name="Sort"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid>
-            <Image x:Name="background" Source="background1.png" Aspect="AspectFill"></Image>
-            <StackLayout x:Name="outerStack">
-                <StackLayout x:Name="innerStack1" Orientation="Horizontal" HeightRequest="160"></StackLayout>
-                <ListView x:Name="listView" CachingStrategy="RecycleElement" 
+        <Grid x:Name="innerGrid" ColumnSpacing="0" RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <!--  header background  -->
+            <StackLayout x:Name="header" Grid.Row="0" BackgroundColor="#4e4558">
+                <Image HorizontalOptions="Center" Source="{Binding AlbumArt}" TranslationY="50" VerticalOptions="End" HeightRequest="100" WidthRequest="100" Margin="5"/>
+            </StackLayout>           
+
+            <!--  Profile Name  -->
+            <StackLayout x:Name="playlist" Grid.Row="1" Padding="0,50,0,00" HorizontalOptions="Center">
+                <Label Text="Clementine" />
+            </StackLayout>
+
+            <ListView x:Name="listView" CachingStrategy="RecycleElement" Grid.Row="2"
                           ItemsSource="{Binding Search}" 
                           SelectedItem="{Binding SelectedTrack, Mode=TwoWay}" 
                           ItemSelected="ListView_ItemSelected">
-                    <ListView.Behaviors>
-                        <behaviorsPack:EventToCommandBehavior
+                <ListView.Behaviors>
+                    <behaviorsPack:EventToCommandBehavior
                                EventName="ItemTapped"
                                Command="{Binding ItemSelectedCommand}"/>
-                    </ListView.Behaviors>
-                    <ListView.RowHeight>
-                        <OnPlatform x:TypeArguments="x:Int32">
-                            <On Platform="Android" Value="65" />
-                        </OnPlatform>
-                    </ListView.RowHeight>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid BackgroundColor="Transparent">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="50" />
-                                    </Grid.ColumnDefinitions>
-                                    <ContentView Grid.Column="0" Padding="10">
-                                        <Label Text="{Binding Id, Mode=TwoWay}" FontSize="12" TextColor="White" VerticalTextAlignment="Center"/>
-                                    </ContentView>
-                                    <Image Source="bars" Opacity="0.3" Grid.Column="1"/>
-                                    <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" Grid.Column="2">
-                                        <Label Text="{Binding FriendlyName}" FontSize="12" TextColor="White"/>
-                                        <Label Text="{Binding Genre}" FontSize="10" TextColor="White" Opacity="0.5"/>
-                                    </StackLayout>
-                                    <ContentView Grid.Column="3" Margin="10">
-                                        <Label Text="{Binding Duration}" FontSize="10" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="End" HorizontalTextAlignment="End"/>
-                                    </ContentView>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <StackLayout x:Name="innerStack2" Orientation="Horizontal"  VerticalOptions="End" HorizontalOptions="Center" BackgroundColor="Transparent">
-                    <Image Source="icon_chevron_down" Margin="0,-5,0,0" WidthRequest="40" Opacity="0.7">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer  Command="{Binding PlayingSelectedCommand}"/>
-                        </Image.GestureRecognizers>
-                    </Image>
-                </StackLayout>
+                </ListView.Behaviors>
+                <ListView.RowHeight>
+                    <OnPlatform x:TypeArguments="x:Int32">
+                        <On Platform="Android" Value="65" />
+                    </OnPlatform>
+                </ListView.RowHeight>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid BackgroundColor="Transparent">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="50" />
+                                </Grid.ColumnDefinitions>
+                                <ContentView Grid.Column="0" Padding="10">
+                                    <Label Text="{Binding Id, Mode=TwoWay}" FontSize="12" TextColor="White" VerticalTextAlignment="Center"/>
+                                </ContentView>
+                                <Image Source="bars" Opacity="0.3" Grid.Column="1"/>
+                                <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" Grid.Column="2">
+                                    <Label Text="{Binding FriendlyName}" FontSize="12" TextColor="White"/>
+                                    <Label Text="{Binding Genre}" FontSize="10" TextColor="White" Opacity="0.5"/>
+                                </StackLayout>
+                                <ContentView Grid.Column="3" Margin="10">
+                                    <Label Text="{Binding Duration}" FontSize="10" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="End" HorizontalTextAlignment="End"/>
+                                </ContentView>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackLayout x:Name="innerStack" Grid.Row="3" Orientation="Horizontal"  VerticalOptions="End" HorizontalOptions="Center" BackgroundColor="Transparent">
+                <Image Source="icon_chevron_down" Margin="0,-5,0,0" WidthRequest="40" Opacity="0.7">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer  Command="{Binding PlayingSelectedCommand}"/>
+                    </Image.GestureRecognizers>
+                </Image>
             </StackLayout>
         </Grid>
     </ContentPage.Content>
