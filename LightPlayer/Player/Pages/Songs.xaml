@@ -28,7 +28,7 @@
 
             <!--  Playlist Name  -->
             <StackLayout x:Name="playlist" Grid.Row="1" Padding="0,50,0,00" HorizontalOptions="Center">
-                <Label Text="PLAYLIST" />
+                <Label Text="TRACKS" />
             </StackLayout>
 
             <ListView x:Name="listView" CachingStrategy="RecycleElement" Grid.Row="2"

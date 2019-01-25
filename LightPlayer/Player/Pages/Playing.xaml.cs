@@ -37,7 +37,7 @@ namespace Player.Pages
 
         public void OnSizeChanged(object sender, EventArgs e)
         {
-            background.Source = ImageSource.FromFile(Height > Width ? "background3.png" : "bg.png");
+            BackgroundImage = (Height > Width ? "backgroundbg.png" : "bg.png");
         }
     }
 }

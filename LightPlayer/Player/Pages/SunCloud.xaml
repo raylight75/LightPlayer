@@ -20,14 +20,8 @@
                 <SearchBar SearchCommand="{Binding SoundcloudToPlaylistCommand}" Text="{Binding Query, Mode=TwoWay}" 
                                Placeholder="Search in Soundcloud" TextColor="White" FontSize="12" WidthRequest="20"
                                Opacity="0.4" PlaceholderColor="White"/>
-                <Image x:Name="albumArt" HorizontalOptions="Center" Source="{Binding AlbumArt}" TranslationY="50" VerticalOptions="End" 
-                       HeightRequest="100" WidthRequest="100" Margin="5"/>
-            </StackLayout>
-
-            <!--  Playlist Name  -->
-            <StackLayout x:Name="playlist" Grid.Row="1" Padding="0,50,0,00" HorizontalOptions="Center">
-                <Label Text="PLAYLIST" />
-            </StackLayout>
+                <Label Text="TRACKS" HorizontalOptions="Center"/>
+            </StackLayout>           
 
             <ListView x:Name="listView" CachingStrategy="RecycleElement" Grid.Row="2" 
                       ItemsSource="{Binding Soundcloudlist}" 
