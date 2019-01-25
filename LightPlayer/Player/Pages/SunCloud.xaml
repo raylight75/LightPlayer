@@ -18,9 +18,9 @@
             <!--  header background  -->
             <StackLayout x:Name="header" Grid.Row="0" BackgroundColor="#4e4558">
                 <SearchBar SearchCommand="{Binding SoundcloudToPlaylistCommand}" Text="{Binding Query, Mode=TwoWay}" 
-                               Placeholder="Search in Soundcloud" TextColor="White" FontSize="12" WidthRequest="20"
-                               Opacity="0.4" PlaceholderColor="White"/>
-                <Label Text="TRACKS" HorizontalOptions="Center"/>
+                               Placeholder="Search stream" TextColor="White"
+                               Opacity="0.2" PlaceholderColor="White"/>
+                <Label Text="TRACKS" Margin="10" HorizontalOptions="Center" TextColor="White" Opacity="0.5"/>
             </StackLayout>           
 
             <ListView x:Name="listView" CachingStrategy="RecycleElement" Grid.Row="2" 
