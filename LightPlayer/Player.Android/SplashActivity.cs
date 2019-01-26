@@ -1,24 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Android.Animation;
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Support.V7.App;
-using Android.Views;
-using Android.Widget;
+using Com.Airbnb.Lottie;
 
 namespace Player.Droid
 {
     [Activity(Label = "LightPlayer", Icon = "@drawable/app", Theme = "@style/splashscreen", MainLauncher = true, NoHistory = true)]
-    public class SplashActivity : AppCompatActivity
+    public class SplashActivity : Activity, Animator.IAnimatorListener
     {
-        protected override void OnResume()
+        protected override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnResume();
-            StartActivity(typeof(MainActivity));
+            base.OnCreate(savedInstanceState);
+            SetContentView(Resource.Layout.Activity_Splash);
+
+            var animationView = FindViewById<LottieAnimationView>(Resource.Id.animation_view);
+            animationView.AddAnimatorListener(this);
+        }
+
+        public void OnAnimationCancel(Animator animation)
+        {
+        }
+
+        public void OnAnimationEnd(Animator animation)
+        {
+            StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+        }
+
+        public void OnAnimationRepeat(Animator animation)
+        {
+        }
+
+        public void OnAnimationStart(Animator animation)
+        {
         }
     }
 }

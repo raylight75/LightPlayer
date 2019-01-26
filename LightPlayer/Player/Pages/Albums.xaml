@@ -10,21 +10,7 @@
         <ToolbarItem Order="Primary" Priority="1" Name="Album Arts"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid>
-            <!--<controls:HorizontalScrollView HeightRequest="200" SelectedCommand="{Binding ScrollTapedCommand}" Orientation="Horizontal"  
-                                       ItemsSource="{Binding Search}">
-            <controls:HorizontalScrollView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Margin="10,0,5,0" WidthRequest="150" HeightRequest="150">
-                            <Image HorizontalOptions="Start" Source="{Binding Image}" WidthRequest="150" HeightRequest="150" />
-                            <Label HorizontalTextAlignment="Center" FontSize="13" LineBreakMode="TailTruncation" Text="{Binding Genre}" TextColor="#adaeb2"/>
-                            <Label HorizontalTextAlignment="Center" Margin="0,-5,0,0" LineBreakMode="TailTruncation" FontSize="12" Text="{Binding FriendlyName}" TextColor="#adaeb2"/>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </controls:HorizontalScrollView.ItemTemplate>
-        </controls:HorizontalScrollView>-->
+        <Grid>            
         <flv:FlowListView SeparatorVisibility="None" HasUnevenRows="true" FlowColumnMinWidth="180" FlowItemsSource="{Binding Albums}"  
                           FlowItemTappedCommand="{Binding AlbumSelectedCommand}" FlowLastTappedItem="{Binding SelectedAlbum, Mode=TwoWay}" SelectedItem="{Binding SelectedAlbum, Mode=TwoWay}">
             <flv:FlowListView.FlowColumnTemplate>
