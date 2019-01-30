@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Player.Controls"
+             xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
+             x:Class="Player.Pages.Equalizers">
+    <ContentPage.Content>
+        <Grid>
+            <Image x:Name="backgroundbg" Source="background3.png" Aspect="AspectFill"></Image>
+            <StackLayout x:Name="outerStack" HorizontalOptions="FillAndExpand">
+                <StackLayout.Padding>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="Android" Value="30,10,30,0"/>
+                    </OnPlatform>
+                </StackLayout.Padding>            
+                <StackLayout Margin="0,10,0,0" Orientation="Horizontal">
+                    <Label Text="-15dB" TextColor="White" FontSize="12" HorizontalOptions="StartAndExpand" />
+                    <Label Text="15dB" TextColor="White" FontSize="12" HorizontalOptions="End" />
+                </StackLayout>
+                <controls:AudioSlider Minimum="0" Maximum="100" Value="50" 
+                                      ThumbColor="#adaeb2" Opacity="0.7">
+                    <controls:AudioSlider.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="Android" Value="-5,0,-5,0" />
+                        </OnPlatform>
+                    </controls:AudioSlider.Margin>
+                    <controls:AudioSlider.Behaviors>
+                        <behaviorsPack:EventToCommandBehavior EventName="ValueChanged" Command="{Binding ValueChangedCommand}"/>
+                    </controls:AudioSlider.Behaviors>
+                </controls:AudioSlider>      
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

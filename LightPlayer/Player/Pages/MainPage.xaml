@@ -21,5 +21,6 @@
     <pages:Songs/>
     <!--<pages:Playing/>-->
     <pages:Albums/>
-    <pages:SunCloud/>    
+    <pages:SunCloud/>
+    <pages:Equalizers/>
 </TabbedPage>

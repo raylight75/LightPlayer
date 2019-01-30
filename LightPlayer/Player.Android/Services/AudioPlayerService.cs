@@ -4,6 +4,7 @@ using Android.Media;
 using Player.Droid.Services;
 using Xamarin.Forms;
 using Player.Interfaces;
+using Android.Media.Audiofx;
 
 [assembly: Dependency(typeof(AudioPlayerService))]
 namespace Player.Droid.Services
@@ -11,6 +12,7 @@ namespace Player.Droid.Services
     class AudioPlayerService : IAudioPlayerService
     {
         private MediaPlayer mediaPlayer;
+        private Equalizer equalizer;
         public string Album { get; set; }
         public string Artist { get; set; }
         public string Genre{ get; set; }
@@ -39,6 +41,8 @@ namespace Player.Droid.Services
                 mediaPlayer.SetDataSource(aux);
                 mediaPlayer.Prepare();                
                 mediaPlayer.Start();
+                equalizer = new Equalizer(0, mediaPlayer.AudioSessionId);
+                SetEqualizer();
                 mediaPlayer.Completion += MediaPlayer_Completion;
             }
             catch (Exception ex)
@@ -46,7 +50,26 @@ namespace Player.Droid.Services
                 //unable to start playback log error
                 Console.WriteLine("Unable to start playback: " + ex);
             }
-        }       
+        }
+        
+        public void SetEqualizer()
+        {
+            int numberFrequencyBands = equalizer.NumberOfBands;
+            int lowerEqualizerBandLevel = equalizer.GetBandLevelRange()[0];
+            int upperEqualizerBandLevel = equalizer.GetBandLevelRange()[1];
+
+            for (short i = 0; i < numberFrequencyBands; i++)
+            {
+                short equalizerBandIndex = i;
+                string setText = equalizer.GetCenterFreq(equalizerBandIndex) / 1000 + "Hz";   //// 60-14000Hz
+                Console.WriteLine(setText);
+            }
+
+            string lower = lowerEqualizerBandLevel / 100 + "Db"; /// db -15 to +15
+            Console.WriteLine(lower);
+            string upper = upperEqualizerBandLevel / 100 + "Db"; ///
+            Console.WriteLine(upper);
+        }
 
         public Bitmap GetImage(string filepath)
         {
