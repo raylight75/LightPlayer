@@ -158,6 +158,7 @@ namespace Player.ViewModels
             PlayCommand = new RelayCommand(Play, Permision.CanExecute);
             ChangeCommand = new RelayCommand(NextSong, Permision.CanExecute);
             ValueChangedCommand = new RelayCommand(ValueChanged, Permision.CanExecute);
+            BandChangedCommand = new RelayCommand(BandChanged, Permision.CanExecute);
             ExitAppCommand = new RelayCommand(async parameter => { await ExitApp(); }, Permision.CanExecute);
         }
 
@@ -267,6 +268,8 @@ namespace Player.ViewModels
                 TotalTime = SelectedTrack.Duration;
                 Album = _audioPlayer.Album;
                 AlbumArt = TrackService.SetImage(path, _audioPlayer);
+                Equalizers = _audioPlayer.SetEqualizer();
+                Bands = _audioPlayer.SetBands();
             }
             else if (playbackSource == PlaybackSource.Stream)
             {               
@@ -329,6 +332,11 @@ namespace Player.ViewModels
                 return;
             }
             _audioPlayer.Seek(SliderValue);
+        }
+
+        private void BandChanged(object p)
+        {
+            
         }
 
         private void Play(object p)

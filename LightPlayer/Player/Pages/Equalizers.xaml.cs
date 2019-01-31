@@ -11,7 +11,7 @@ namespace Player.Pages
 		public Equalizers ()
 		{
 			InitializeComponent ();
-            BindingContext = new EqualizerViewModel();
+            //BindingContext = new EqualizerViewModel();
         }
 	}
 }

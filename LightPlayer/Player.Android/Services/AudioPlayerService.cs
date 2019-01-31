@@ -4,7 +4,9 @@ using Android.Media;
 using Player.Droid.Services;
 using Xamarin.Forms;
 using Player.Interfaces;
+using Player.Models;
 using Android.Media.Audiofx;
+using System.Collections.Generic;
 
 [assembly: Dependency(typeof(AudioPlayerService))]
 namespace Player.Droid.Services
@@ -52,23 +54,53 @@ namespace Player.Droid.Services
             }
         }
         
-        public void SetEqualizer()
+        public List<Bands> SetEqualizer()
         {
-            int numberFrequencyBands = equalizer.NumberOfBands;
-            int lowerEqualizerBandLevel = equalizer.GetBandLevelRange()[0];
-            int upperEqualizerBandLevel = equalizer.GetBandLevelRange()[1];
+            var result = new List<Bands>();
+            if (mediaPlayer == null)
+            {
+                return result;
+            }
+            else
+            {
+                equalizer.UsePreset(1);
+                int numberFrequencyBands = equalizer.NumberOfBands;
+                string lowerEqualizerBandLevel = equalizer.GetBandLevelRange()[0] / 100 + "dB";
+                //short lowerEqualizer = equalizer.GetBandLevelRange()[0];
+                string upperEqualizerBandLevel = equalizer.GetBandLevelRange()[1] / 100 + "dB";
+                for (short i = 0; i < numberFrequencyBands; i++)
+                {
+                    short equalizerBandIndex = i;
+                    string setFrequency = equalizer.GetCenterFreq(equalizerBandIndex) / 1000 + "Hz";   //// 60-14000Hz
+                    int value = equalizer.GetBandLevel(equalizerBandIndex)- 15; // init value
+                    Bands bands = new Bands(lowerEqualizerBandLevel, upperEqualizerBandLevel, setFrequency, value);
+                    result.Add(bands);                    
+                }
+                return result;
+            }           
+        }
 
+        public List<string> SetBands()
+        {
+            List<string> equalizerPresetNames = new List<string>();
+
+            for (short i = 0; i < equalizer.NumberOfPresets; i++)
+            {
+                equalizerPresetNames.Add(equalizer.GetPresetName(i));
+            }
+            return equalizerPresetNames;
+        }
+
+        public void SelectBand()
+        {
+            //string preset = equalizer.UsePreset(2);
+            int numberFrequencyBands = equalizer.NumberOfBands;
+            short lowerEqualizerBandLevel = equalizer.GetBandLevelRange()[0];
             for (short i = 0; i < numberFrequencyBands; i++)
             {
                 short equalizerBandIndex = i;
-                string setText = equalizer.GetCenterFreq(equalizerBandIndex) / 1000 + "Hz";   //// 60-14000Hz
-                Console.WriteLine(setText);
+                int value = equalizer.GetBandLevel(equalizerBandIndex)- 15;
             }
-
-            string lower = lowerEqualizerBandLevel / 100 + "Db"; /// db -15 to +15
-            Console.WriteLine(lower);
-            string upper = upperEqualizerBandLevel / 100 + "Db"; ///
-            Console.WriteLine(upper);
         }
 
         public Bitmap GetImage(string filepath)

@@ -15,6 +15,7 @@ namespace Player.ViewModels
         public ICommand StopCommand { get; set; }        
         public ICommand ChangeCommand { get; set; }
         public ICommand ValueChangedCommand { get; set; }
+        public ICommand BandChangedCommand { get; set; }
         public ICommand OpenFolderCommand { get; set; }
         public ICommand OpenDirectoryCommand { get; set; }
         public ICommand SearchCommand { get; set; }
@@ -35,6 +36,9 @@ namespace Player.ViewModels
         private ObservableCollection<Track> _search;
         private ObservableCollection<SoundCloudTrack> _soundcloudlist;       
         private List<Album> _albums;
+        private List<Bands> _equalizer;
+        private List<string> _bands;
+        private int _bandValue;
         private string _query;
         private string _album;
         public string _filter;        
@@ -47,6 +51,17 @@ namespace Player.ViewModels
                 if (Equals(value, _album)) return;
                 _album = value;
                 OnPropertyChanged(nameof(Album));
+            }
+        }
+
+        public int BandValue
+        {
+            get { return _bandValue; }
+            set
+            {
+                if (Equals(value, _bandValue)) return;
+                _bandValue = value;
+                OnPropertyChanged(nameof(BandValue));
             }
         }
 
@@ -124,6 +139,28 @@ namespace Player.ViewModels
                 if (Equals(value, _soundcloudlist)) return;
                 _soundcloudlist = value;
                 OnPropertyChanged(nameof(Soundcloudlist));
+            }
+        }
+
+        public List<Bands> Equalizers
+        {
+            get { return _equalizer; }
+            set
+            {
+                if (Equals(value, _equalizer)) return;
+                _equalizer = value;
+                OnPropertyChanged(nameof(Equalizers));
+            }
+        }
+
+        public List<string> Bands
+        {
+            get { return _bands; }
+            set
+            {
+                if (Equals(value, _bands)) return;
+                _bands = value;
+                OnPropertyChanged(nameof(Bands));
             }
         }
 

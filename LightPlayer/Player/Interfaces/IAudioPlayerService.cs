@@ -1,5 +1,7 @@
 ﻿using Android.Graphics;
+using Player.Models;
 using System;
+using System.Collections.Generic;
 
 namespace Player.Interfaces
 {
@@ -16,10 +18,13 @@ namespace Player.Interfaces
         void Stop();
         void Reset();        
         void Seek(int value);
+        void SelectBand();
         Bitmap GetImage(string file);
         void GetMetadata(string file);
         int SliderMax();
         int Position();
         Action OnFinishedPlaying { get; set; }
+        List<Bands> SetEqualizer();
+        List<string> SetBands();
     }
 }

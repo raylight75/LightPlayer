@@ -3,31 +3,48 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Player.Controls"
              xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
-             x:Class="Player.Pages.Equalizers">
+             x:Class="Player.Pages.Equalizers" BackgroundImage="backgroundbg.png">
     <ContentPage.Content>
         <Grid>
-            <Image x:Name="backgroundbg" Source="background3.png" Aspect="AspectFill"></Image>
-            <StackLayout x:Name="outerStack" HorizontalOptions="FillAndExpand">
+            <StackLayout Orientation="Vertical">
                 <StackLayout.Padding>
                     <OnPlatform x:TypeArguments="Thickness">
                         <On Platform="Android" Value="30,10,30,0"/>
                     </OnPlatform>
-                </StackLayout.Padding>            
-                <StackLayout Margin="0,10,0,0" Orientation="Horizontal">
-                    <Label Text="-15dB" TextColor="White" FontSize="12" HorizontalOptions="StartAndExpand" />
-                    <Label Text="15dB" TextColor="White" FontSize="12" HorizontalOptions="End" />
+                </StackLayout.Padding>
+                <StackLayout Margin="20">
+                    <Label Text="BANDS" FontAttributes="Bold" HorizontalOptions="Center" />
+                    <Picker Title="Select band" ItemsSource="{Binding Bands}" SelectedItem="{Binding}">
+                        <Picker.Behaviors>
+                            <behaviorsPack:EventToCommandBehavior EventName="SelectedIndexChanged" Command="{Binding BandChangedCommand}" CommandParameter="{Binding}"/>
+                        </Picker.Behaviors>
+                    </Picker>
                 </StackLayout>
-                <controls:AudioSlider Minimum="0" Maximum="100" Value="50" 
+                <Label Text="EUQALIZERS" TextColor="White" FontSize="18" HorizontalOptions="CenterAndExpand" />
+                <controls:RepeaterView ItemsSource="{Binding Equalizers}">
+                    <controls:RepeaterView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout x:Name="outerStack" HorizontalOptions="FillAndExpand">
+                                <StackLayout Margin="0,10,0,0" Orientation="Horizontal">
+                                    <Label Text="{Binding LowBand}" TextColor="White" FontSize="12" HorizontalOptions="StartAndExpand" />
+                                    <Label Text="{Binding Frequency}" TextColor="White" FontSize="12" HorizontalOptions="CenterAndExpand" />
+                                    <Label Text="{Binding HighBand}" TextColor="White" FontSize="12" HorizontalOptions="End" />
+                                </StackLayout>
+                                <controls:AudioSlider Minimum="0" Maximum="100" Value="{Binding Value, Mode=TwoWay}" 
                                       ThumbColor="#adaeb2" Opacity="0.7">
-                    <controls:AudioSlider.Margin>
-                        <OnPlatform x:TypeArguments="Thickness">
-                            <On Platform="Android" Value="-5,0,-5,0" />
-                        </OnPlatform>
-                    </controls:AudioSlider.Margin>
-                    <controls:AudioSlider.Behaviors>
-                        <behaviorsPack:EventToCommandBehavior EventName="ValueChanged" Command="{Binding ValueChangedCommand}"/>
-                    </controls:AudioSlider.Behaviors>
-                </controls:AudioSlider>      
+                                    <controls:AudioSlider.Margin>
+                                        <OnPlatform x:TypeArguments="Thickness">
+                                            <On Platform="Android" Value="-5,0,-5,0" />
+                                        </OnPlatform>
+                                    </controls:AudioSlider.Margin>
+                                    <controls:AudioSlider.Behaviors>
+                                        <behaviorsPack:EventToCommandBehavior EventName="ValueChanged" Command="{Binding ValueChangedCommand}"/>
+                                    </controls:AudioSlider.Behaviors>
+                                </controls:AudioSlider>
+                            </StackLayout>
+                        </DataTemplate>
+                    </controls:RepeaterView.ItemTemplate>
+                </controls:RepeaterView>
             </StackLayout>
         </Grid>
     </ContentPage.Content>
