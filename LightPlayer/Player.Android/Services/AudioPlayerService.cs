@@ -44,6 +44,7 @@ namespace Player.Droid.Services
                 mediaPlayer.Prepare();                
                 mediaPlayer.Start();
                 equalizer = new Equalizer(0, mediaPlayer.AudioSessionId);
+                equalizer.SetEnabled(true);
                 SetEqualizer();
                 mediaPlayer.Completion += MediaPlayer_Completion;
             }
@@ -63,17 +64,19 @@ namespace Player.Droid.Services
             }
             else
             {
-                equalizer.UsePreset(1);
+                equalizer.UsePreset(5);
                 int numberFrequencyBands = equalizer.NumberOfBands;
-                string lowerEqualizerBandLevel = equalizer.GetBandLevelRange()[0] / 100 + "dB";
-                //short lowerEqualizer = equalizer.GetBandLevelRange()[0];
-                string upperEqualizerBandLevel = equalizer.GetBandLevelRange()[1] / 100 + "dB";
+                //string lowerEqualizerBandLevel = equalizer.GetBandLevelRange()[0] / 100 + "dB";
+                short lowerEqualizer = equalizer.GetBandLevelRange()[0];
+                short upperEqualizerBandLevel = equalizer.GetBandLevelRange()[1];
+                //string upperEqualizerBandLevel = equalizer.GetBandLevelRange()[1] / 100 + "dB";
+                int maxValue = (upperEqualizerBandLevel - lowerEqualizer);
                 for (short i = 0; i < numberFrequencyBands; i++)
                 {
                     short equalizerBandIndex = i;
                     string setFrequency = equalizer.GetCenterFreq(equalizerBandIndex) / 1000 + "Hz";   //// 60-14000Hz
-                    int value = equalizer.GetBandLevel(equalizerBandIndex)- 15; // init value
-                    Bands bands = new Bands(lowerEqualizerBandLevel, upperEqualizerBandLevel, setFrequency, value);
+                    int value = equalizer.GetBandLevel(equalizerBandIndex)- lowerEqualizer; // init value
+                    Bands bands = new Bands(setFrequency, value, maxValue);
                     result.Add(bands);                    
                 }
                 return result;
