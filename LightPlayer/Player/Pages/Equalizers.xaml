@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Player.Controls"
              xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
+             x:Name="Bands"
              x:Class="Player.Pages.Equalizers" BackgroundImage="backgroundbg.png">
     <ContentPage.Content>
         <Grid>
@@ -12,13 +13,13 @@
                         <On Platform="Android" Value="30,10,30,0"/>
                     </OnPlatform>
                 </StackLayout.Padding>
-                <StackLayout Margin="20">
-                    <Label Text="BANDS" FontAttributes="Bold" HorizontalOptions="Center" />
-                    <Picker Title="Select band" ItemsSource="{Binding Bands}" SelectedItem="{Binding}">
-                        <Picker.Behaviors>
-                            <behaviorsPack:EventToCommandBehavior EventName="SelectedIndexChanged" Command="{Binding BandChangedCommand}" CommandParameter="{Binding}"/>
-                        </Picker.Behaviors>
-                    </Picker>
+                <StackLayout Margin="20" Orientation="Horizontal">
+                    <Image VerticalOptions="Center" Source="controls.png" WidthRequest="40">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer  Command="{Binding BandChangedCommand}" CommandParameter="-1"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Label Text="Select Preset" VerticalOptions="Center" TextColor="White"/>                    
                 </StackLayout>
                 <Label Text="EUQALIZERS" TextColor="White" FontSize="18" HorizontalOptions="CenterAndExpand" />
                 <controls:RepeaterView ItemsSource="{Binding Equalizers}">
@@ -37,9 +38,10 @@
                                             <On Platform="Android" Value="-5,0,-5,0" />
                                         </OnPlatform>
                                     </Slider.Margin>
-                                    <!--<controls:AudioSlider.Behaviors>
-                                        <behaviorsPack:EventToCommandBehavior EventName="ValueChanged" Command="{Binding ValueChangedCommand}"/>
-                                    </controls:AudioSlider.Behaviors>-->
+                                    <Slider.Behaviors>
+                                        <behaviorsPack:EventToCommandBehavior EventName="ValueChanged" Command="{Binding Source={x:Reference Bands}, Path=BindingContext.EqualizerChangedCommand}" 
+                                                                              CommandParameter="{Binding BandId, Mode=TwoWay}"/>
+                                    </Slider.Behaviors>
                                 </Slider>
                             </StackLayout>
                         </DataTemplate>

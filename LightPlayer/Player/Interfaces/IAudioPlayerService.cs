@@ -17,14 +17,14 @@ namespace Player.Interfaces
         void Pause();
         void Stop();
         void Reset();        
-        void Seek(int value);
-        void SelectBand();
+        void Seek(int value);       
         Bitmap GetImage(string file);
         void GetMetadata(string file);
         int SliderMax();
         int Position();
         Action OnFinishedPlaying { get; set; }
-        List<Bands> SetEqualizer();
+        List<Bands> SetEqualizer(int preset);
         List<string> SetBands();
+        void SetBandLevel(int index, int progress);
     }
 }

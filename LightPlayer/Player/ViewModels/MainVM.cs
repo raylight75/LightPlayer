@@ -11,6 +11,7 @@ using Player.Service;
 using Plugin.Connectivity;
 using System.Text.RegularExpressions;
 using Player.Pages;
+using System.Collections.Generic;
 
 namespace Player.ViewModels
 {
@@ -158,7 +159,8 @@ namespace Player.ViewModels
             PlayCommand = new RelayCommand(Play, Permision.CanExecute);
             ChangeCommand = new RelayCommand(NextSong, Permision.CanExecute);
             ValueChangedCommand = new RelayCommand(ValueChanged, Permision.CanExecute);
-            BandChangedCommand = new RelayCommand(BandChanged, Permision.CanExecute);
+            EqualizerChangedCommand = new RelayCommand(EqualizerChanged, Permision.CanExecute);
+            BandChangedCommand = new RelayCommand(async parameter => { await BandChanged(); }, Permision.CanExecute);
             ExitAppCommand = new RelayCommand(async parameter => { await ExitApp(); }, Permision.CanExecute);
         }
 
@@ -268,7 +270,7 @@ namespace Player.ViewModels
                 TotalTime = SelectedTrack.Duration;
                 Album = _audioPlayer.Album;
                 AlbumArt = TrackService.SetImage(path, _audioPlayer);
-                Equalizers = _audioPlayer.SetEqualizer();
+                Equalizers = _audioPlayer.SetEqualizer(0);
                 Bands = _audioPlayer.SetBands();
             }
             else if (playbackSource == PlaybackSource.Stream)
@@ -334,9 +336,21 @@ namespace Player.ViewModels
             _audioPlayer.Seek(SliderValue);
         }
 
-        private void BandChanged(object p)
+        private void EqualizerChanged(object p)
         {
-            
+            int param = Convert.ToInt32(p);
+            var result = Equalizers.FirstOrDefault(x => x.BandId == param);
+            int value = result.Value;
+            _audioPlayer.SetBandLevel(param, value);
+            //Application.Current.MainPage.DisplayAlert("Command", "You have been alerted", "OK");
+        }
+
+        private async Task BandChanged()
+        {
+            var action = await Application.Current.MainPage.DisplayActionSheet("Select Preset", "Cancel", null, Bands.ToArray());
+            int idx = Bands.IndexOf(action.ToString());
+            Equalizers = _audioPlayer.SetEqualizer(idx);
+            //await Application.Current.MainPage.DisplayAlert(idx.ToString(), "You have been alerted", "OK");
         }
 
         private void Play(object p)

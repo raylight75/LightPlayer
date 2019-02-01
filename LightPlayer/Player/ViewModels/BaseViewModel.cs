@@ -16,6 +16,7 @@ namespace Player.ViewModels
         public ICommand ChangeCommand { get; set; }
         public ICommand ValueChangedCommand { get; set; }
         public ICommand BandChangedCommand { get; set; }
+        public ICommand EqualizerChangedCommand { get; set; }
         public ICommand OpenFolderCommand { get; set; }
         public ICommand OpenDirectoryCommand { get; set; }
         public ICommand SearchCommand { get; set; }

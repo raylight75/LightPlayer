@@ -44,8 +44,7 @@ namespace Player.Droid.Services
                 mediaPlayer.Prepare();                
                 mediaPlayer.Start();
                 equalizer = new Equalizer(0, mediaPlayer.AudioSessionId);
-                equalizer.SetEnabled(true);
-                SetEqualizer();
+                equalizer.SetEnabled(true);                
                 mediaPlayer.Completion += MediaPlayer_Completion;
             }
             catch (Exception ex)
@@ -55,7 +54,7 @@ namespace Player.Droid.Services
             }
         }
         
-        public List<Bands> SetEqualizer()
+        public List<Bands> SetEqualizer(int preset)
         {
             var result = new List<Bands>();
             if (mediaPlayer == null)
@@ -64,7 +63,7 @@ namespace Player.Droid.Services
             }
             else
             {
-                equalizer.UsePreset(5);
+                equalizer.UsePreset((short)preset);
                 int numberFrequencyBands = equalizer.NumberOfBands;
                 //string lowerEqualizerBandLevel = equalizer.GetBandLevelRange()[0] / 100 + "dB";
                 short lowerEqualizer = equalizer.GetBandLevelRange()[0];
@@ -75,12 +74,20 @@ namespace Player.Droid.Services
                 {
                     short equalizerBandIndex = i;
                     string setFrequency = equalizer.GetCenterFreq(equalizerBandIndex) / 1000 + "Hz";   //// 60-14000Hz
+                    Console.WriteLine(equalizerBandIndex);
                     int value = equalizer.GetBandLevel(equalizerBandIndex)- lowerEqualizer; // init value
-                    Bands bands = new Bands(setFrequency, value, maxValue);
+                    Bands bands = new Bands(setFrequency, equalizerBandIndex,value, maxValue);
                     result.Add(bands);                    
                 }
                 return result;
             }           
+        }
+
+        public void SetBandLevel(int index, int progress)
+        {
+            short lowerEqualizer = equalizer.GetBandLevelRange()[0];
+            int result = progress + lowerEqualizer;
+            equalizer.SetBandLevel((short)index,(short)result);
         }
 
         public List<string> SetBands()
@@ -92,19 +99,7 @@ namespace Player.Droid.Services
                 equalizerPresetNames.Add(equalizer.GetPresetName(i));
             }
             return equalizerPresetNames;
-        }
-
-        public void SelectBand()
-        {
-            //string preset = equalizer.UsePreset(2);
-            int numberFrequencyBands = equalizer.NumberOfBands;
-            short lowerEqualizerBandLevel = equalizer.GetBandLevelRange()[0];
-            for (short i = 0; i < numberFrequencyBands; i++)
-            {
-                short equalizerBandIndex = i;
-                int value = equalizer.GetBandLevel(equalizerBandIndex)- 15;
-            }
-        }
+        }        
 
         public Bitmap GetImage(string filepath)
         {
