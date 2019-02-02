@@ -4,24 +4,33 @@
              xmlns:controls="clr-namespace:Player.Controls"
              xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
              x:Name="Bands"
-             x:Class="Player.Pages.Equalizers" BackgroundImage="backgroundbg.png">
+             x:Class="Player.Pages.Equalizers" Icon="icon_equalizer.png" BackgroundImage="backgroundbg.png">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Secondary" Priority="1" Name="Select preset" Command="{Binding BandChangedCommand}"/>
+        <ToolbarItem Order="Primary" Priority="1" Name="Equalizers"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid>
-            <StackLayout Orientation="Vertical">
-                <StackLayout.Padding>
-                    <OnPlatform x:TypeArguments="Thickness">
-                        <On Platform="Android" Value="30,10,30,0"/>
-                    </OnPlatform>
-                </StackLayout.Padding>
-                <StackLayout Margin="20" Orientation="Horizontal">
-                    <Image VerticalOptions="Center" Source="controls.png" WidthRequest="40">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer  Command="{Binding BandChangedCommand}" CommandParameter="-1"/>
-                        </Image.GestureRecognizers>
-                    </Image>
-                    <Label Text="Select Preset" VerticalOptions="Center" TextColor="White"/>                    
-                </StackLayout>
-                <Label Text="EUQALIZERS" TextColor="White" FontSize="18" HorizontalOptions="CenterAndExpand" />
+        <Grid x:Name="innerGrid" ColumnSpacing="0" RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--  Equalizer Preset  -->
+            <StackLayout x:Name="header" Grid.Row="0" BackgroundColor="#4e4558">
+                <ContentView HorizontalOptions="Center" TranslationY="50" VerticalOptions="End" 
+                         HeightRequest="100" WidthRequest="100" Margin="5" BackgroundColor="White">
+                    <Label Text="{Binding BandSelected}" TextColor="#4e4558" Opacity="0.5" FontSize="18" 
+                           FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </ContentView>
+            </StackLayout>
+
+            <!--  Equalizer -->
+            <StackLayout x:Name="playlist" Grid.Row="1" Padding="0,40,0,00" HorizontalOptions="Center">                
+            </StackLayout>
+            <Grid x:Name="equalizers" Margin="10" Grid.Row="2">
                 <controls:RepeaterView ItemsSource="{Binding Equalizers}">
                     <controls:RepeaterView.ItemTemplate>
                         <DataTemplate>
@@ -47,6 +56,13 @@
                         </DataTemplate>
                     </controls:RepeaterView.ItemTemplate>
                 </controls:RepeaterView>
+            </Grid>
+            <StackLayout x:Name="innerStack" Grid.Row="3" Orientation="Horizontal"  VerticalOptions="End" HorizontalOptions="Center" BackgroundColor="Transparent">
+                <Image Source="icon_chevron_down" WidthRequest="40" Opacity="0.7">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer  Command="{Binding PlayingSelectedCommand}"/>
+                    </Image.GestureRecognizers>
+                </Image>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

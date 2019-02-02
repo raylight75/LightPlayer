@@ -17,6 +17,9 @@ namespace Player.Service
 {
     class TrackService
     {
+        private static IAudioPlayerService _audioPlayer;
+        private static IPathService _files;
+        private static IMediaService _media;
         private static ObservableCollection<Track> Songs { get; set; }
         public static List<Album> Albums { get; set; }
         public static List<string> Genres { get; set; }
@@ -24,6 +27,9 @@ namespace Player.Service
 
         static TrackService()
         {
+            _audioPlayer = DependencyService.Get<IAudioPlayerService>();
+            _files = DependencyService.Get<IPathService>();
+            _media = DependencyService.Get<IMediaService>();
             Songs = new ObservableCollection<Track>();
             Albums = new List<Album>();
             Genres = new List<string>();
@@ -31,17 +37,17 @@ namespace Player.Service
 
         public static string OpenPath()
         {
-            string path = DependencyService.Get<IPathService>().InternalFolder;
+            string path = _files.InternalFolder;
             return path;
         }
 
         public async static Task<string> GetPath()
         {
-            string path = await DependencyService.Get<IPathService>().OpenFolder();
+            string path = await _files.OpenFolder();
             return path;
         }
 
-        public async static Task<ObservableCollection<Track>> GetSongs(IAudioPlayerService _audioPlayer, string path)
+        public async static Task<ObservableCollection<Track>> GetSongs(string path)
         {
             return await Task.Run(() =>
             {
@@ -54,12 +60,12 @@ namespace Player.Service
                     try
                     {
                         int id = i++;
-                        _audioPlayer.GetMetadata(di.FullName);
+                        _media.GetMetadata(di.FullName);
                         DateTime creation = File.GetCreationTime(di.FullName);
-                        TimeSpan ts = TimeSpan.FromMilliseconds(Convert.ToInt32(_audioPlayer.Duration));
-                        ImageSource image = Image(_audioPlayer.GetImage(di.FullName));
-                        string albums = _audioPlayer.Album;
-                        string genres = _audioPlayer.Genre;
+                        TimeSpan ts = TimeSpan.FromMilliseconds(Convert.ToInt32(_media.Duration));
+                        ImageSource image = Image(_media.Image);
+                        string albums = _media.Album;
+                        string genres = _media.Genre;
                         string name = SetNames(di.Name);
                         albums = (string.IsNullOrEmpty(albums)) ? "<Unknow Album>" : albums;
                         genres = (string.IsNullOrEmpty(genres)) ? "<Unknow Genre>" : genres;
@@ -125,7 +131,7 @@ namespace Player.Service
 
         public static ImageSource SetImage(string path, IAudioPlayerService _audioPlayer)
         {
-            var bmp = _audioPlayer.GetImage(path);
+            var bmp = _media.Image;
             if (bmp == null)
             {
                 return AlbumArt = ImageSource.FromFile(FileImages.NoAlbum);

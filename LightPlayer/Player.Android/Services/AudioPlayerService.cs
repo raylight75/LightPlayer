@@ -1,5 +1,4 @@
 ﻿using System;
-using Android.Graphics;
 using Android.Media;
 using Player.Droid.Services;
 using Xamarin.Forms;
@@ -13,24 +12,30 @@ namespace Player.Droid.Services
 {
     class AudioPlayerService : IAudioPlayerService
     {
-        private MediaPlayer mediaPlayer;
-        private Equalizer equalizer;
-        public string Album { get; set; }
-        public string Artist { get; set; }
-        public string Genre{ get; set; }
-        public string Duration { get; set; }
+        private static readonly object padlock = new object();
+        private static MediaPlayer mediaPlayer = null;                      
         public Action OnFinishedPlaying { get; set; }
 
-        public void Initializer()
+        public static MediaPlayer Instance
         {
-            mediaPlayer = new MediaPlayer();           
+            get
+            {
+                lock (padlock)
+                {
+                    if (mediaPlayer == null)
+                    {
+                        mediaPlayer = new MediaPlayer();
+                    }
+                    return mediaPlayer;
+                }
+            }
         }
 
         public void Play(string aux)
         {
             if (mediaPlayer == null)
             {
-                Initializer();
+                mediaPlayer = Instance;
             }
             else if (mediaPlayer != null)
             {
@@ -42,9 +47,7 @@ namespace Player.Droid.Services
                 mediaPlayer.Reset();
                 mediaPlayer.SetDataSource(aux);
                 mediaPlayer.Prepare();                
-                mediaPlayer.Start();
-                equalizer = new Equalizer(0, mediaPlayer.AudioSessionId);
-                equalizer.SetEnabled(true);                
+                mediaPlayer.Start();                                
                 mediaPlayer.Completion += MediaPlayer_Completion;
             }
             catch (Exception ex)
@@ -52,80 +55,6 @@ namespace Player.Droid.Services
                 //unable to start playback log error
                 Console.WriteLine("Unable to start playback: " + ex);
             }
-        }
-        
-        public List<Bands> SetEqualizer(int preset)
-        {
-            var result = new List<Bands>();
-            if (mediaPlayer == null)
-            {
-                return result;
-            }
-            else
-            {
-                equalizer.UsePreset((short)preset);
-                int numberFrequencyBands = equalizer.NumberOfBands;
-                //string lowerEqualizerBandLevel = equalizer.GetBandLevelRange()[0] / 100 + "dB";
-                short lowerEqualizer = equalizer.GetBandLevelRange()[0];
-                short upperEqualizerBandLevel = equalizer.GetBandLevelRange()[1];
-                //string upperEqualizerBandLevel = equalizer.GetBandLevelRange()[1] / 100 + "dB";
-                int maxValue = (upperEqualizerBandLevel - lowerEqualizer);
-                for (short i = 0; i < numberFrequencyBands; i++)
-                {
-                    short equalizerBandIndex = i;
-                    string setFrequency = equalizer.GetCenterFreq(equalizerBandIndex) / 1000 + "Hz";   //// 60-14000Hz
-                    Console.WriteLine(equalizerBandIndex);
-                    int value = equalizer.GetBandLevel(equalizerBandIndex)- lowerEqualizer; // init value
-                    Bands bands = new Bands(setFrequency, equalizerBandIndex,value, maxValue);
-                    result.Add(bands);                    
-                }
-                return result;
-            }           
-        }
-
-        public void SetBandLevel(int index, int progress)
-        {
-            short lowerEqualizer = equalizer.GetBandLevelRange()[0];
-            int result = progress + lowerEqualizer;
-            equalizer.SetBandLevel((short)index,(short)result);
-        }
-
-        public List<string> SetBands()
-        {
-            List<string> equalizerPresetNames = new List<string>();
-
-            for (short i = 0; i < equalizer.NumberOfPresets; i++)
-            {
-                equalizerPresetNames.Add(equalizer.GetPresetName(i));
-            }
-            return equalizerPresetNames;
-        }        
-
-        public Bitmap GetImage(string filepath)
-        {
-            Bitmap image;
-            MediaMetadataRetriever albumArt = new MediaMetadataRetriever();
-            albumArt.SetDataSource(filepath);           
-            try
-            {
-                byte[] art = albumArt.GetEmbeddedPicture();
-                image = BitmapFactory.DecodeByteArray(art, 0, art.Length);
-            }
-            catch (Exception e)
-            {
-                image = null;
-            }
-            return image;
-        }
-
-        public void GetMetadata(string filepath)
-        {
-            MediaMetadataRetriever artistInfo = new MediaMetadataRetriever();
-            artistInfo.SetDataSource(filepath);
-            Album = artistInfo.ExtractMetadata(MetadataKey.Album);
-            Artist = artistInfo.ExtractMetadata(MetadataKey.Artist);
-            Genre = artistInfo.ExtractMetadata(MetadataKey.Genre);
-            Duration = artistInfo.ExtractMetadata(MetadataKey.Duration);
         }
 
         public void Seek(int value)
@@ -156,16 +85,6 @@ namespace Player.Droid.Services
         public void Play()
         {
             mediaPlayer?.Start();
-        }
-
-        public void Stop()
-        {
-            mediaPlayer?.Stop();
-        }
-
-        public void Reset()
-        {
-            mediaPlayer?.Reset();
-        }
+        }        
     }
 }

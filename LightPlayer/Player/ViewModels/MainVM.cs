@@ -9,9 +9,7 @@ using Xamarin.Forms;
 using Player.Helpers;
 using Player.Service;
 using Plugin.Connectivity;
-using System.Text.RegularExpressions;
 using Player.Pages;
-using System.Collections.Generic;
 
 namespace Player.ViewModels
 {
@@ -20,6 +18,8 @@ namespace Player.ViewModels
         public INavigation Navigation { get; set; }
         private INavigationService _navigationService;
         private IAudioPlayerService _audioPlayer;
+        private IEqualizerSevice _equalizers;
+        private IMediaService _media;
         public string _name;
         private ImageSource _songImage;
         private string _label;
@@ -133,13 +133,17 @@ namespace Player.ViewModels
         private void InitApp()
         {
             _audioPlayer = DependencyService.Get<IAudioPlayerService>();
+            _equalizers = DependencyService.Get<IEqualizerSevice>();
+            _media = DependencyService.Get<IMediaService>();
             _navigationService = DependencyService.Get<INavigationService>();
             Navigation = _navigationService.Navigation;
             playingPage = new Playing();
             songsPage = new Songs();
             _seekerUpdatesPlayer = true;
             AlbumArt = ImageSource.FromFile(FileImages.NoAlbum);
+            BandSelected = "Normal";
             SliderMax = 100;
+            Equalizers = new BandList();
             _audioPlayer.OnFinishedPlaying = () => { int i = 1; NextSong(i); };
             LoadCommands();
         }
@@ -169,7 +173,7 @@ namespace Player.ViewModels
             if (Search == null)
             {
                 string path = TrackService.OpenPath();
-                Song = await TrackService.GetSongs(_audioPlayer, path);
+                Song = await TrackService.GetSongs(path);
                 if (Song.Count == 0)
                 {
                     await Application.Current.MainPage.DisplayAlert("No files in music folder", "Use browse folder button", "ok");
@@ -191,7 +195,7 @@ namespace Player.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Caution", "Select folder with music files", "ok");
                 return;
             }
-            Song = await TrackService.GetSongs(_audioPlayer, path);
+            Song = await TrackService.GetSongs(path);
             if (Song.Count == 0)
             {
                 await Application.Current.MainPage.DisplayAlert("Alert", "No files in selected folder", "ok");
@@ -200,7 +204,7 @@ namespace Player.ViewModels
             else if (Search != null)
             {
                 Song.Clear();
-                Song = await TrackService.GetSongs(_audioPlayer, path);
+                Song = await TrackService.GetSongs(path);
             }
             await SetContent();
         }
@@ -263,15 +267,15 @@ namespace Player.ViewModels
             _audioPlayer.Play(path);
             if (playbackSource == PlaybackSource.Path)
             {
-                _audioPlayer.GetMetadata(path);
-                string artist = _audioPlayer.Artist;
+                _media.GetMetadata(path);
+                string artist = _media.Artist;
                 Label = (string.IsNullOrEmpty(artist)) ? "<Unknow Artist>" : TrackService.SetNames(artist);
                 Name = TrackService.SetNames(name);
                 TotalTime = SelectedTrack.Duration;
-                Album = _audioPlayer.Album;
+                Album = _media.Album;
                 AlbumArt = TrackService.SetImage(path, _audioPlayer);
-                Equalizers = _audioPlayer.SetEqualizer(0);
-                Bands = _audioPlayer.SetBands();
+                Equalizers = _equalizers.SetEqualizer(0);
+                Bands = _equalizers.SetBands();
             }
             else if (playbackSource == PlaybackSource.Stream)
             {               
@@ -341,16 +345,23 @@ namespace Player.ViewModels
             int param = Convert.ToInt32(p);
             var result = Equalizers.FirstOrDefault(x => x.BandId == param);
             int value = result.Value;
-            _audioPlayer.SetBandLevel(param, value);
+            _equalizers.SetBandLevel(param, value);
             //Application.Current.MainPage.DisplayAlert("Command", "You have been alerted", "OK");
         }
 
         private async Task BandChanged()
         {
-            var action = await Application.Current.MainPage.DisplayActionSheet("Select Preset", "Cancel", null, Bands.ToArray());
-            int idx = Bands.IndexOf(action.ToString());
-            Equalizers = _audioPlayer.SetEqualizer(idx);
-            //await Application.Current.MainPage.DisplayAlert(idx.ToString(), "You have been alerted", "OK");
+            if (Bands == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Alert", "Play track first", "OK");
+            }
+            else
+            {
+                var action = await Application.Current.MainPage.DisplayActionSheet("Select Preset", "Cancel", null, Bands.ToArray());
+                int idx = Bands.IndexOf(action.ToString());
+                Equalizers = (action == "Cancel") ? _equalizers.SetEqualizer(0) : _equalizers.SetEqualizer(idx);
+                BandSelected = (action == "Cancel") ? "Normal" : action.ToString();
+            }           
         }
 
         private void Play(object p)

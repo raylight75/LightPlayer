@@ -42,6 +42,7 @@ namespace Player.ViewModels
         private int _bandValue;
         private string _query;
         private string _album;
+        private string _bandSelected;
         public string _filter;        
 
         public string Album
@@ -63,6 +64,17 @@ namespace Player.ViewModels
                 if (Equals(value, _bandValue)) return;
                 _bandValue = value;
                 OnPropertyChanged(nameof(BandValue));
+            }
+        }
+
+        public string BandSelected
+        {
+            get { return _bandSelected; }
+            set
+            {
+                if (Equals(value, _bandSelected)) return;
+                _bandSelected = value;
+                OnPropertyChanged(nameof(BandSelected));
             }
         }
 
