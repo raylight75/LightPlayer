@@ -20,10 +20,10 @@
 
             <!--  Equalizer Preset  -->
             <StackLayout x:Name="header" Grid.Row="0" BackgroundColor="#4e4558">
-                <ContentView HorizontalOptions="Center" TranslationY="50" VerticalOptions="End" 
-                         HeightRequest="100" WidthRequest="100" Margin="5" BackgroundColor="White">
-                    <Label Text="{Binding BandSelected}" TextColor="#4e4558" Opacity="0.5" FontSize="18" 
-                           FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <ContentView HorizontalOptions="Center" TranslationY="25" VerticalOptions="End" 
+                         HeightRequest="50" WidthRequest="50" Margin="5" BackgroundColor="White">
+                    <Label Text="{Binding BandSelected}" TextColor="#4e4558" Opacity="0.5" FontSize="12" 
+                           FontAttributes="Bold" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"/>
                 </ContentView>
             </StackLayout>
 
@@ -37,11 +37,11 @@
                             <StackLayout x:Name="outerStack" HorizontalOptions="FillAndExpand">
                                 <StackLayout Margin="0,10,0,0" Orientation="Horizontal">
                                     <Label Text="-15dB" TextColor="White" FontSize="12" HorizontalOptions="StartAndExpand" />
-                                    <Label Text="{Binding Frequency}" TextColor="White" FontSize="12" HorizontalOptions="CenterAndExpand" />
+                                    <Label Text="{Binding Frequency}" TextColor="White" FontSize="12" HorizontalOptions="FillAndExpand" />
                                     <Label Text="15dB" TextColor="White" FontSize="12" HorizontalOptions="End" />
                                 </StackLayout>
                                 <Slider Minimum="0" Maximum="3000" Value="{Binding Value, Mode=TwoWay}" 
-                                      ThumbColor="#adaeb2" Opacity="0.7">
+                                        ThumbColor="#adaeb2" Opacity="0.7">
                                     <Slider.Margin>
                                         <OnPlatform x:TypeArguments="Thickness">
                                             <On Platform="Android" Value="-5,0,-5,0" />

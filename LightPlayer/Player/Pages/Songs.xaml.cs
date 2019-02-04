@@ -44,7 +44,7 @@ namespace Player.Pages
                     innerGrid.Children.Remove(header);
                     innerGrid.Children.Add(header, 0, 0);
                     header.BackgroundColor = Color.Transparent;
-                    innerGrid.Children.Remove(playlist);                    
+                    //innerGrid.Children.Remove(playlist);                    
                     innerGrid.Children.Remove(listView);
                     innerGrid.Children.Add(listView, 1, 0);
                     innerGrid.Children.Remove(innerStack);
@@ -61,8 +61,8 @@ namespace Player.Pages
                     innerGrid.Children.Remove(header);
                     innerGrid.Children.Add(header, 0, 0);
                     header.BackgroundColor = Color.FromRgb(78, 69, 88);
-                    innerGrid.Children.Remove(playlist);
-                    innerGrid.Children.Add(playlist, 0, 1);
+                    //innerGrid.Children.Remove(playlist);
+                    //innerGrid.Children.Add(playlist, 0, 1);
                     innerGrid.Children.Remove(listView);
                     innerGrid.Children.Add(listView, 0, 2);
                     innerGrid.Children.Remove(innerStack);

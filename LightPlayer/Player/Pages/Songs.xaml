@@ -9,7 +9,7 @@
         <ToolbarItem Order="Secondary" Priority="1" Name="By Name" Command="{Binding SortByCommand}" CommandParameter="Name"/>
         <ToolbarItem Order="Secondary" Priority="1" Name="By Genre" Command="{Binding FilterGenreCommand}"/>
         <ToolbarItem Order="Secondary" Priority="1" Name="Clear All" Command="{Binding SortByCommand}" CommandParameter="Name"/>
-        <ToolbarItem Order="Primary" Priority="1" Name="Music"/>
+        <ToolbarItem Order="Primary" Priority="1" Name="Tracks"/>
         <ToolbarItem Order="Primary" Priority="1" Name="Sort"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
@@ -20,15 +20,17 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            
+
             <!--  header background  -->
             <StackLayout x:Name="header" Grid.Row="0" BackgroundColor="#4e4558">
-                <Image HorizontalOptions="Center" Source="{Binding AlbumArt}" TranslationY="50" VerticalOptions="End" HeightRequest="100" WidthRequest="100" Margin="5"/>
-            </StackLayout>           
-
-            <!--  Playlist Name  -->
-            <StackLayout x:Name="playlist" Grid.Row="1" Padding="0,50,0,00" HorizontalOptions="Center">
-                <Label Text="TRACKS" TextColor="White" Opacity="0.5"/>
+                <SearchBar Text="{Binding Filter}" HeightRequest="45" Placeholder="Search tracks" TextColor="White" Opacity="0.2" PlaceholderColor="White">
+                    <SearchBar.Behaviors>
+                        <behaviorsPack:EventToCommandBehavior
+                               EventName="TextChanged"
+                               Command="{Binding SearchCommand}"/>
+                    </SearchBar.Behaviors>
+                </SearchBar>
+                <Label Text="" Margin="5" HorizontalOptions="Center" TextColor="White" Opacity="0.5"/>
             </StackLayout>
 
             <ListView x:Name="listView" CachingStrategy="RecycleElement" Grid.Row="2"

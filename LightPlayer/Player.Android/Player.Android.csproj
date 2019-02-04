@@ -250,5 +250,8 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\icon_equalizer.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\search.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
