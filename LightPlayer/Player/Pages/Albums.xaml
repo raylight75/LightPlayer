@@ -15,7 +15,7 @@
                           FlowItemTappedCommand="{Binding AlbumSelectedCommand}" FlowLastTappedItem="{Binding SelectedAlbum, Mode=TwoWay}" SelectedItem="{Binding SelectedAlbum, Mode=TwoWay}">
             <flv:FlowListView.FlowColumnTemplate>
                 <DataTemplate>
-                    <Grid Padding="2" BackgroundColor="Black">
+                        <Grid Padding="2" BackgroundColor="#4e4558">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="20" />
