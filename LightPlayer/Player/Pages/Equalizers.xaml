@@ -24,9 +24,7 @@
                        FontAttributes="Bold" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"/>
             </StackLayout>
 
-            <!--  Equalizer -->
-            <StackLayout x:Name="playlist" Grid.Row="1" Padding="0,40,0,00" HorizontalOptions="Center">                
-            </StackLayout>
+            <!--  Equalizer -->           
             <Grid x:Name="equalizers" Margin="20" Grid.Row="2">
                 <controls:RepeaterView ItemsSource="{Binding Equalizers}">
                     <controls:RepeaterView.ItemTemplate>
