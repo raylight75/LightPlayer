@@ -1,15 +1,23 @@
 ﻿using Player.Helpers;
+using Player.Interfaces;
 using Player.Models;
+using Player.Pages;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Player.ViewModels
 {
     class BaseViewModel : INotifyPropertyChanged
     {
-        public PlaybackSource playbackSource;        
+        public PlaybackSource playbackSource;
+        public INavigationService _navigationService;
+        public IAudioPlayerService _audioPlayer;
+        public IEqualizerSevice _equalizers;
+        public IMediaService _media;
+        public INavigation Navigation { get; set; }        
         public ICommand PageTwoCommand { get; set; }
         public ICommand PlayCommand { get; set; }
         public ICommand StopCommand { get; set; }        
@@ -27,8 +35,11 @@ namespace Player.ViewModels
         public ICommand ItemSelectedCommand { get; set; }       
         public ICommand StreamSelectedCommand { get; set; }
         public ICommand SoundcloudToPlaylistCommand { get; set; }
-        public ICommand ExitAppCommand { get; set; }
-
+        public ICommand ExitAppCommand { get; set; }        
+              
+        private ImageSource _songImage;       
+        public Playing playingPage { get; set; }
+        public Songs songsPage { get; set; }
         public List<string> Genre { get; set; }        
         private Album _selectedAlbum;
         private Track _currentlySelectedTrack;
@@ -39,22 +50,19 @@ namespace Player.ViewModels
         private List<Album> _albums;
         private List<Bands> _equalizer;
         private List<string> _bands;
+        public bool _seekerUpdatesPlayer = false;
+        private bool _isPlaying;
+        private int _sliderMax;
+        private int _sliderValue;
         private int _bandValue;
+        private string _name;
+        private string _label;
+        private string _songTime;
+        private string _totalTime;
         private string _query;
         private string _album;
         private string _bandSelected;
-        public string _filter;        
-
-        public string Album
-        {
-            get { return _album; }
-            set
-            {
-                if (Equals(value, _album)) return;
-                _album = value;
-                OnPropertyChanged(nameof(Album));
-            }
-        }
+        public string _filter;
 
         public int BandValue
         {
@@ -67,6 +75,39 @@ namespace Player.ViewModels
             }
         }
 
+        public int SliderValue
+        {
+            get { return _sliderValue; }
+            set
+            {
+                if (Equals(value, _sliderValue)) return;
+                _sliderValue = value;
+                OnPropertyChanged(nameof(SliderValue));
+            }
+        }
+
+        public int SliderMax
+        {
+            get { return _sliderMax; }
+            set
+            {
+                if (Equals(value, _sliderMax)) return;
+                _sliderMax = value;
+                OnPropertyChanged(nameof(SliderMax));
+            }
+        }
+
+        public string Album
+        {
+            get { return _album; }
+            set
+            {
+                if (Equals(value, _album)) return;
+                _album = value;
+                OnPropertyChanged(nameof(Album));
+            }
+        }       
+
         public string BandSelected
         {
             get { return _bandSelected; }
@@ -76,6 +117,67 @@ namespace Player.ViewModels
                 _bandSelected = value;
                 OnPropertyChanged(nameof(BandSelected));
             }
+        }
+
+        public string Filter
+        {
+            get { return _filter; }
+            set
+            {
+                _filter = value;
+                OnPropertyChanged(nameof(Filter));
+            }
+        }
+
+        public string Label
+        {
+            get { return _label; }
+            set
+            {
+                if (Equals(value, _label)) return;
+                _label = value;
+                OnPropertyChanged(nameof(Label));
+            }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (Equals(value, _name)) return;
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+
+        public string SongTime
+        {
+            get { return _songTime; }
+            set
+            {
+                if (Equals(value, _songTime)) return;
+                _songTime = value;
+                OnPropertyChanged(nameof(SongTime));
+            }
+        }
+
+        public string TotalTime
+        {
+            get { return _totalTime; }
+            set
+            {
+                if (Equals(value, _totalTime)) return;
+                _totalTime = value;
+                OnPropertyChanged(nameof(TotalTime));
+            }
+        }       
+
+        public string SetUri(int key)
+        {
+            var uri = string.Format("https://api.soundcloud.com/tracks/{0}/stream?client_id={1}", key,
+                           SensitiveInformation.SoundCloudKey);
+            return uri;
         }
 
         public string Query
@@ -88,6 +190,28 @@ namespace Player.ViewModels
                 OnPropertyChanged(nameof(Query));
             }
         }
+
+        public bool IsPlaying
+        {
+            get { return _isPlaying; }
+            set
+            {
+                if (Equals(value, _isPlaying)) return;
+                _isPlaying = value;
+                OnPropertyChanged(nameof(IsPlaying));
+            }
+        }
+
+        public ImageSource AlbumArt
+        {
+            get { return _songImage; }
+            set
+            {
+                if (Equals(value, _songImage)) return;
+                _songImage = value;
+                OnPropertyChanged(nameof(AlbumArt));
+            }
+        }        
 
         public Album SelectedAlbum
         {
@@ -186,24 +310,7 @@ namespace Player.ViewModels
                 _albums = value;
                 OnPropertyChanged(nameof(Albums));
             }
-        }               
-
-        public string Filter
-        {
-            get { return _filter; }
-            set
-            {
-                _filter = value;
-                OnPropertyChanged(nameof(Filter));
-            }
-        }       
-
-        public string SetUri(int key)
-        {
-            var uri = string.Format("https://api.soundcloud.com/tracks/{0}/stream?client_id={1}", key,
-                           SensitiveInformation.SoundCloudKey);
-            return uri;
-        }
+        }        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
