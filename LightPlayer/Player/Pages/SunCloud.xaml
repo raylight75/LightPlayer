@@ -16,10 +16,15 @@
             </Grid.RowDefinitions>
 
             <!--  header background  -->
-            <StackLayout x:Name="header" Grid.Row="0" BackgroundColor="#4e4558">
+            <StackLayout x:Name="header" Orientation="Horizontal" Grid.Row="0" BackgroundColor="#4e4558">
                 <SearchBar SearchCommand="{Binding SoundcloudToPlaylistCommand}" Text="{Binding Query, Mode=TwoWay}" 
-                           Placeholder="Search stream" TextColor="White" HeightRequest="45" Opacity="0.2" PlaceholderColor="White"/>
-                <Label Text="" Margin="5" HorizontalOptions="Center" TextColor="White" Opacity="0.5"/>
+                           HorizontalOptions="FillAndExpand" Placeholder="Search stream" TextColor="White" HeightRequest="45" 
+                           Opacity="0.2" PlaceholderColor="White"/>
+                <Image VerticalOptions="Center" Margin="2" Source="icon_equalizer.png" HorizontalOptions="End">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer  Command="{Binding ShowEqualizerCommand}" CommandParameter="-1"/>
+                    </Image.GestureRecognizers>
+                </Image>
             </StackLayout>
 
             <ListView x:Name="listView" CachingStrategy="RecycleElement" Grid.Row="2" 

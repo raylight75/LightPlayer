@@ -25,6 +25,7 @@ namespace Player.ViewModels
         public ICommand ValueChangedCommand { get; set; }
         public ICommand BandChangedCommand { get; set; }
         public ICommand EqualizerChangedCommand { get; set; }
+        public ICommand ShowEqualizerCommand { get; set; }
         public ICommand OpenFolderCommand { get; set; }
         public ICommand OpenDirectoryCommand { get; set; }
         public ICommand SearchCommand { get; set; }
@@ -40,6 +41,7 @@ namespace Player.ViewModels
         private ImageSource _songImage;       
         public Playing playingPage { get; set; }
         public Songs songsPage { get; set; }
+        public Equalizers equalizerPage { get; set; }
         public List<string> Genre { get; set; }        
         private Album _selectedAlbum;
         private Track _currentlySelectedTrack;

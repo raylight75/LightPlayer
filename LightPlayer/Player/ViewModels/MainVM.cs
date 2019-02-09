@@ -29,6 +29,7 @@ namespace Player.ViewModels
             Navigation = _navigationService.Navigation;
             playingPage = new Playing();
             songsPage = new Songs();
+            equalizerPage = new Equalizers();
             _seekerUpdatesPlayer = true;
             AlbumArt = ImageSource.FromFile(FileImages.NoAlbum);
             BandSelected = "Normal";
@@ -54,6 +55,7 @@ namespace Player.ViewModels
             ChangeCommand = new RelayCommand(NextSong, Permision.CanExecute);
             ValueChangedCommand = new RelayCommand(ValueChanged, Permision.CanExecute);
             EqualizerChangedCommand = new RelayCommand(EqualizerChanged, Permision.CanExecute);
+            ShowEqualizerCommand = new RelayCommand(async parameter => { await ShowEqualizer(); }, Permision.CanExecute);
             BandChangedCommand = new RelayCommand(async parameter => { await BandChanged(); }, Permision.CanExecute);
             ExitAppCommand = new RelayCommand(async parameter => { await ExitApp(); }, Permision.CanExecute);
         }
@@ -136,6 +138,12 @@ namespace Player.ViewModels
             Search = new ObservableCollection<Track>(TrackService.ReOrder(filter));
             songsPage.BindingContext = this;
             await Navigation.PushAsync(songsPage);
+        }
+
+        private async Task ShowEqualizer()
+        {
+            equalizerPage.BindingContext = this;
+            await Navigation.PushAsync(equalizerPage);
         }
 
         private void ItemSelected(object p)

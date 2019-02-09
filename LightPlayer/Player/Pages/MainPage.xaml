@@ -7,8 +7,8 @@
     <!--Pages can be added as references or inline-->
     <pages:StartPage/>
     <pages:Songs/>
-    <!--<pages:Playing/>-->
-    <pages:Albums/>
     <pages:SunCloud/>
-    <pages:Equalizers/>
+    <!--<pages:Playing/>-->
+    <pages:Albums/>    
+    <!--<pages:Equalizers/>-->
 </TabbedPage>

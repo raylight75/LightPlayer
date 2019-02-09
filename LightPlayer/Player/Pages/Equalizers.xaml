@@ -20,7 +20,7 @@
 
             <!--  Equalizer Preset  -->
             <StackLayout x:Name="header" Grid.Row="0" BackgroundColor="#4e4558">
-                <Label Text="{Binding BandSelected}" Margin="5" TextColor="White" Opacity="0.5" FontSize="16" 
+                <Label Text="{Binding BandSelected}" TextColor="White" Opacity="0.5" FontSize="16" 
                        FontAttributes="Bold" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"/>
             </StackLayout>
 
@@ -53,7 +53,7 @@
                 </controls:RepeaterView>
             </Grid>
             <StackLayout x:Name="innerStack" Grid.Row="3" Orientation="Horizontal"  VerticalOptions="End" HorizontalOptions="Center" BackgroundColor="Transparent">
-                <Image Source="icon_chevron_down" WidthRequest="40" Opacity="0.7">
+                <Image Source="icon_chevron_down" Margin="0,-5,0,0" WidthRequest="40" Opacity="0.7">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer  Command="{Binding PlayingSelectedCommand}"/>
                     </Image.GestureRecognizers>

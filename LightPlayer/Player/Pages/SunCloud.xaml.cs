@@ -26,17 +26,17 @@ namespace Player.Pages
                 if (width > height)
                 {
                     innerGrid.RowDefinitions.Clear();
-                    innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
                     innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-                    innerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = 200 });
+                    innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+                    innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
                     innerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
                     innerGrid.Children.Remove(header);
                     innerGrid.Children.Add(header, 0, 0);
-                    header.BackgroundColor = Color.Transparent;                   
+                    header.BackgroundColor = Color.Transparent;
                     innerGrid.Children.Remove(listView);
-                    innerGrid.Children.Add(listView, 1, 0);
+                    innerGrid.Children.Add(listView, 0, 1);
                     innerGrid.Children.Remove(innerStack);
-                    innerGrid.Children.Add(innerStack, 1, 1);
+                    innerGrid.Children.Add(innerStack, 0, 2);
                 }
                 else
                 {
