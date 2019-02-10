@@ -4,7 +4,8 @@
              xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
              x:Class="Player.Pages.SunCloud" Icon="sc_small.png" BackgroundImage="backgroundbg.png">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Order="Primary" Priority="1" Name="Stream"/>
+        <ToolbarItem Order="Primary" Priority="1" Name="Equalizers" Command="{Binding ShowEqualizerCommand}"/>
+        <ToolbarItem Order="Primary" Priority="1" Name="Streams"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid x:Name="innerGrid" ColumnSpacing="0" RowSpacing="0">
@@ -19,12 +20,7 @@
             <StackLayout x:Name="header" Orientation="Horizontal" Grid.Row="0" BackgroundColor="#4e4558">
                 <SearchBar SearchCommand="{Binding SoundcloudToPlaylistCommand}" Text="{Binding Query, Mode=TwoWay}" 
                            HorizontalOptions="FillAndExpand" Placeholder="Search stream" TextColor="White" HeightRequest="45" 
-                           Opacity="0.2" PlaceholderColor="White"/>
-                <Image VerticalOptions="Center" Margin="2" Source="icon_equalizer.png" HorizontalOptions="End">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer  Command="{Binding ShowEqualizerCommand}" CommandParameter="-1"/>
-                    </Image.GestureRecognizers>
-                </Image>
+                           Opacity="0.3" PlaceholderColor="White"/>                
             </StackLayout>
 
             <ListView x:Name="listView" CachingStrategy="RecycleElement" Grid.Row="2" 

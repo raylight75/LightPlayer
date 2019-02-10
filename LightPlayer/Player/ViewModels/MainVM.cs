@@ -287,7 +287,7 @@ namespace Player.ViewModels
                 else if (Filter != null)
                 {
                     var result = Song.Where(x => x.FriendlyName.ToLower().Contains(Filter.ToLower())).ToList();
-                    Search = new ObservableCollection<Track>(TrackService.ReOrder(result));
+                    Search = new ObservableCollection<Track>(result);
                 }
             }
             else

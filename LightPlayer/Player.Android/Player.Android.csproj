@@ -110,6 +110,7 @@
   <ItemGroup>
     <Compile Include="Renderers\CustomNavigationPage.cs" />
     <Compile Include="Renderers\CustomPickerRenderer.cs" />
+    <Compile Include="Renderers\CustomSearchBarRenderer.cs" />
     <Compile Include="Renderers\HorizontalScrollViewRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Services\AudioPlayerService.cs" />

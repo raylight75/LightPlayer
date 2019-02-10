@@ -9,8 +9,8 @@
         <ToolbarItem Order="Secondary" Priority="1" Name="By Name" Command="{Binding SortByCommand}" CommandParameter="Name"/>
         <ToolbarItem Order="Secondary" Priority="1" Name="By Genre" Command="{Binding FilterGenreCommand}"/>
         <ToolbarItem Order="Secondary" Priority="1" Name="Clear All" Command="{Binding SortByCommand}" CommandParameter="Name"/>
-        <ToolbarItem Order="Primary" Priority="1" Name="Tracks"/>
-        <ToolbarItem Order="Primary" Priority="1" Name="Sort"/>
+        <ToolbarItem Order="Primary" Priority="1" Name="Equalizers" Command="{Binding ShowEqualizerCommand}"/>
+        <ToolbarItem Order="Primary" Priority="1" Name="Sort Tracks"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid x:Name="innerGrid" ColumnSpacing="0" RowSpacing="0">
@@ -24,18 +24,13 @@
             <!--  header background  -->
             <StackLayout x:Name="header" Orientation="Horizontal" Grid.Row="0" BackgroundColor="#4e4558">
                 <SearchBar Text="{Binding Filter}" HeightRequest="45" Placeholder="Search tracks" TextColor="White" 
-                           Opacity="0.2" PlaceholderColor="White" HorizontalOptions="FillAndExpand">
+                           Opacity="0.3" PlaceholderColor="White" HorizontalOptions="FillAndExpand">
                     <SearchBar.Behaviors>
                         <behaviorsPack:EventToCommandBehavior
                                EventName="TextChanged"
                                Command="{Binding SearchCommand}"/>
                     </SearchBar.Behaviors>
-                </SearchBar>
-                <Image VerticalOptions="Center" Margin="2" Source="icon_equalizer.png" HorizontalOptions="End">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer  Command="{Binding ShowEqualizerCommand}" CommandParameter="-1"/>
-                    </Image.GestureRecognizers>
-                </Image>               
+                </SearchBar>                               
             </StackLayout>
 
             <ListView x:Name="listView" CachingStrategy="RecycleElement" Grid.Row="2"

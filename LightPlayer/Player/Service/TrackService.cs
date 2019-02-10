@@ -190,8 +190,7 @@ namespace Player.Service
 
         public static List<T> OrderByName<T>(ObservableCollection<T> tracks, string sort) where T : BaseTrack
         {
-            List<T> ordered = new List<T>();
-            int i = 1;
+            List<T> ordered = new List<T>();            
             if (sort == "Created")
             {
                 ordered = tracks.OrderBy(x => x.Created).ToList();
