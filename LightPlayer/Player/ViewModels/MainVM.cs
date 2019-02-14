@@ -15,6 +15,8 @@ namespace Player.ViewModels
 {
     class MainVM : BaseViewModel
     {
+        private Mediator mediator;
+
         public MainVM()
         {
             InitApp();
@@ -22,19 +24,20 @@ namespace Player.ViewModels
 
         private void InitApp()
         {
+            mediator = Mediator.Instance;
             _audioPlayer = DependencyService.Get<IAudioPlayerService>();
-            _equalizers = DependencyService.Get<IEqualizerSevice>();
             _media = DependencyService.Get<IMediaService>();
             _navigationService = DependencyService.Get<INavigationService>();
             Navigation = _navigationService.Navigation;
             playingPage = new Playing();
             songsPage = new Songs();
+            EqualizerViewModel evm = new EqualizerViewModel(mediator);
+            mediator.Equalizer = evm;
             equalizerPage = new Equalizers();
+            equalizerPage.BindingContext = evm;
             _seekerUpdatesPlayer = true;
             AlbumArt = ImageSource.FromFile(FileImages.NoAlbum);
-            BandSelected = "Normal";
             SliderMax = 100;
-            Equalizers = new BandList();
             _audioPlayer.OnFinishedPlaying = () => { int i = 1; NextSong(i); };
             LoadCommands();
         }
@@ -54,10 +57,7 @@ namespace Player.ViewModels
             PlayCommand = new RelayCommand(Play, Permision.CanExecute);
             ChangeCommand = new RelayCommand(NextSong, Permision.CanExecute);
             ValueChangedCommand = new RelayCommand(ValueChanged, Permision.CanExecute);
-            EqualizerChangedCommand = new RelayCommand(EqualizerChanged, Permision.CanExecute);
             ShowEqualizerCommand = new RelayCommand(async parameter => { await ShowEqualizer(); }, Permision.CanExecute);
-            BandChangedCommand = new RelayCommand(async parameter => { await BandChanged(); }, Permision.CanExecute);
-            ExitAppCommand = new RelayCommand(async parameter => { await ExitApp(); }, Permision.CanExecute);
         }
 
         private async Task OpenFolder()
@@ -71,7 +71,9 @@ namespace Player.ViewModels
                     await Application.Current.MainPage.DisplayAlert("No files in music folder", "Use browse folder button", "ok");
                     return;
                 }
-                await SetContent();
+                Search = Song;
+                Albums = TrackService.Albums;
+                Genre = TrackService.Genres;
             }
             else if (Search != null)
             {
@@ -98,22 +100,10 @@ namespace Player.ViewModels
                 Song.Clear();
                 Song = await TrackService.GetSongs(path);
             }
-            await SetContent();
-        }
-
-        private async Task SetContent()
-        {
             Search = Song;
             Albums = TrackService.Albums;
             Genre = TrackService.Genres;
-            if (await Application.Current.MainPage.DisplayAlert("Songs Loaded", "Would you like to open playlist", "Yes", "No"))
-            {
-                var currentPage = Navigation.NavigationStack.LastOrDefault() as MainPage;
-                currentPage.CurrentPage = currentPage.Children[1];
-                currentPage.isLoaded = true;
-            }
         }
-
 
         private async Task SoundcloudToPlaylist()
         {
@@ -129,7 +119,8 @@ namespace Player.ViewModels
         private async Task PlayingSelected()
         {
             playingPage.BindingContext = this;
-            await Navigation.PushModalAsync(playingPage);
+            mediator.Page = playingPage;
+            await mediator.Playing();
         }
 
         private async Task AlbumSelected()
@@ -137,13 +128,12 @@ namespace Player.ViewModels
             var filter = Song.Where(x => x.Album.ToLower().Contains(SelectedAlbum.Title.ToLower())).ToList();
             Search = new ObservableCollection<Track>(TrackService.ReOrder(filter));
             songsPage.BindingContext = this;
-            await Navigation.PushAsync(songsPage);
+            await mediator.Push(songsPage);
         }
 
         private async Task ShowEqualizer()
         {
-            equalizerPage.BindingContext = this;
-            await Navigation.PushAsync(equalizerPage);
+            await mediator.Push(equalizerPage);
         }
 
         private void ItemSelected(object p)
@@ -172,11 +162,10 @@ namespace Player.ViewModels
                 TotalTime = SelectedTrack.Duration;
                 Album = _media.Album;
                 AlbumArt = TrackService.SetImage(path, _audioPlayer);
-                Equalizers = _equalizers.SetEqualizer(0);
-                Bands = _equalizers.SetBands();
+                mediator.SetEqualizer();
             }
             else if (playbackSource == PlaybackSource.Stream)
-            {               
+            {
                 Label = TrackService.SetNames(SelectedStream.Tag_list);
                 Name = TrackService.SetNames(name);
                 TotalTime = SelectedStream.Duration;
@@ -190,13 +179,6 @@ namespace Player.ViewModels
                 }
             };
             SliderMax = _audioPlayer.SliderMax();
-            StartTimer();
-            IsPlaying = true;
-
-        }
-
-        private void StartTimer()
-        {
             Device.StartTimer(TimeSpan.FromSeconds(1), () =>
             {
                 TimeSpan runTime = TimeSpan.FromMilliseconds(_audioPlayer.Position());
@@ -208,6 +190,8 @@ namespace Player.ViewModels
                 });
                 return true;
             });
+            IsPlaying = true;
+
         }
 
         private void NextSong(object p)
@@ -236,30 +220,6 @@ namespace Player.ViewModels
                 return;
             }
             _audioPlayer.Seek(SliderValue);
-        }
-
-        private void EqualizerChanged(object p)
-        {
-            int param = Convert.ToInt32(p);
-            var result = Equalizers.FirstOrDefault(x => x.BandId == param);
-            int value = result.Value;
-            _equalizers.SetBandLevel(param, value);
-            //Application.Current.MainPage.DisplayAlert("Command", "You have been alerted", "OK");
-        }
-
-        private async Task BandChanged()
-        {
-            if (Bands == null)
-            {
-                await Application.Current.MainPage.DisplayAlert("Alert", "Play track first", "OK");
-            }
-            else
-            {
-                var action = await Application.Current.MainPage.DisplayActionSheet("Select Preset", "Cancel", null, Bands.ToArray());
-                int idx = Bands.IndexOf(action.ToString());
-                Equalizers = (action == "Cancel") ? _equalizers.SetEqualizer(0) : _equalizers.SetEqualizer(idx);
-                BandSelected = (action == "Cancel") ? "Normal" : action.ToString();
-            }           
         }
 
         private void Play(object p)
@@ -299,7 +259,7 @@ namespace Player.ViewModels
 
         private async Task FilterGenre()
         {
-            var result = TrackService.OrderByName(Song,"Name");
+            var result = TrackService.OrderByName(Song, "Name");
             Search = new ObservableCollection<Track>(result);
             var action = await Application.Current.MainPage.DisplayActionSheet("Filter Genres", "Cancel", "Clear Filter", Genre.ToArray());
             var filter = Song.Where(x => x.Genre.ToLower().Contains(action.ToLower())).ToList();
@@ -314,15 +274,6 @@ namespace Player.ViewModels
             }
             var result = TrackService.OrderByName(Song, p.ToString());
             Search = new ObservableCollection<Track>(result);
-        }
-
-        private async Task ExitApp()
-        {
-            if (await Application.Current.MainPage.DisplayAlert("Would you like to close player", "You will need to load playlist again", "Yes", "No"))
-            {
-                var closer = DependencyService.Get<ICloseApplication>();
-                closer?.CloseApp();
-            }
         }
     }
 }

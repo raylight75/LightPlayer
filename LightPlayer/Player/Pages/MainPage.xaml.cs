@@ -1,6 +1,7 @@
 ﻿using Xamarin.Forms;
 using Player.ViewModels;
 using Player.Interfaces;
+using System;
 
 namespace Player.Pages
 {
@@ -18,8 +19,17 @@ namespace Player.Pages
         protected override bool OnBackButtonPressed()
         {
             if (Device.RuntimePlatform == Device.Android)
-                DependencyService.Get<ICloseApplication>().CloseApp();
-            return base.OnBackButtonPressed();
-        }
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    if (await DisplayAlert("Would you like to close player", "You will need to load playlist again", "Yes", "No"))
+                    {
+                        base.OnBackButtonPressed();
+                        DependencyService.Get<ICloseApplication>().CloseApp();
+                    }
+                });                
+            }
+            return true;
+        }        
     }
 }

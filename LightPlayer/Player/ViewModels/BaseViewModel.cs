@@ -22,9 +22,7 @@ namespace Player.ViewModels
         public ICommand PlayCommand { get; set; }
         public ICommand StopCommand { get; set; }        
         public ICommand ChangeCommand { get; set; }
-        public ICommand ValueChangedCommand { get; set; }
-        public ICommand BandChangedCommand { get; set; }
-        public ICommand EqualizerChangedCommand { get; set; }
+        public ICommand ValueChangedCommand { get; set; }        
         public ICommand ShowEqualizerCommand { get; set; }
         public ICommand OpenFolderCommand { get; set; }
         public ICommand OpenDirectoryCommand { get; set; }
@@ -36,8 +34,8 @@ namespace Player.ViewModels
         public ICommand ItemSelectedCommand { get; set; }       
         public ICommand StreamSelectedCommand { get; set; }
         public ICommand SoundcloudToPlaylistCommand { get; set; }
-        public ICommand ExitAppCommand { get; set; }        
-              
+        public ICommand ExitAppCommand { get; set; }
+       
         private ImageSource _songImage;       
         public Playing playingPage { get; set; }
         public Songs songsPage { get; set; }
@@ -49,9 +47,7 @@ namespace Player.ViewModels
         private ObservableCollection<Track> _songs;
         private ObservableCollection<Track> _search;
         private ObservableCollection<SoundCloudTrack> _soundcloudlist;       
-        private List<Album> _albums;
-        private List<Bands> _equalizer;
-        private List<string> _bands;
+        private List<Album> _albums;      
         public bool _seekerUpdatesPlayer = false;
         private bool _isPlaying;
         private int _sliderMax;
@@ -279,29 +275,7 @@ namespace Player.ViewModels
                 _soundcloudlist = value;
                 OnPropertyChanged(nameof(Soundcloudlist));
             }
-        }
-
-        public List<Bands> Equalizers
-        {
-            get { return _equalizer; }
-            set
-            {
-                if (Equals(value, _equalizer)) return;
-                _equalizer = value;
-                OnPropertyChanged(nameof(Equalizers));
-            }
-        }
-
-        public List<string> Bands
-        {
-            get { return _bands; }
-            set
-            {
-                if (Equals(value, _bands)) return;
-                _bands = value;
-                OnPropertyChanged(nameof(Bands));
-            }
-        }
+        }        
 
         public List<Album> Albums
         {

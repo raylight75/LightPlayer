@@ -5,7 +5,7 @@
              xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
              x:Class="Player.Pages.MainPage" NavigationPage.HasNavigationBar="True" BackgroundColor="#4e4558">    
     <!--Pages can be added as references or inline-->
-    <pages:StartPage/>
+    <!--<pages:StartPage/>-->
     <pages:Songs/>
     <pages:SunCloud/>
     <!--<pages:Playing/>-->
