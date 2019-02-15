@@ -5,7 +5,12 @@
              xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
              xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
              xmlns:controls="clr-namespace:Player.Controls"
-             x:Class="Player.Pages.Albums" Icon="Album.png">   
+             x:Class="Player.Pages.Albums" Icon="Album.png">
+    <ContentPage.Behaviors>
+        <behaviorsPack:EventToCommandBehavior
+                               EventName="Appearing"
+                               Command="{Binding SortByCommand}" CommandParameter="Name"/>
+    </ContentPage.Behaviors>
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Primary" Priority="1" Name="Album Arts"/>
     </ContentPage.ToolbarItems>
