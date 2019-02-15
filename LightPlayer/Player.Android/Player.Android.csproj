@@ -247,9 +247,6 @@
     <AndroidResource Include="Resources\layout\Activity_Splash.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\controls.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\icon_equalizer.png" />
   </ItemGroup>
   <ItemGroup>

@@ -26,9 +26,7 @@ namespace Player.ViewModels
         {
             mediator = Mediator.Instance;
             _audioPlayer = DependencyService.Get<IAudioPlayerService>();
-            _media = DependencyService.Get<IMediaService>();
-            _navigationService = DependencyService.Get<INavigationService>();
-            Navigation = _navigationService.Navigation;
+            _media = DependencyService.Get<IMediaService>();           
             playingPage = new Playing();
             songsPage = new Songs();
             EqualizerViewModel evm = new EqualizerViewModel(mediator);

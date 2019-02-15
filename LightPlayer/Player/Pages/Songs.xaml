@@ -11,7 +11,7 @@
         <ToolbarItem Order="Secondary" Priority="1" Name="Clear All" Command="{Binding SortByCommand}" CommandParameter="Name"/>
         <ToolbarItem Order="Primary" Priority="1" Icon="icon_browse.png" Command="{Binding OpenFolderCommand}"/>
         <ToolbarItem Order="Primary" Priority="1" Icon="folder_music.png" Command="{Binding OpenDirectoryCommand}"/>
-        <ToolbarItem Order="Primary" Priority="1" Name="Equalizers" Command="{Binding ShowEqualizerCommand}"/>
+        <ToolbarItem Order="Primary" Priority="1" Icon="icon_equalizer.png" Command="{Binding ShowEqualizerCommand}"/>
         <ToolbarItem Order="Primary" Priority="1" Name="Filter"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>

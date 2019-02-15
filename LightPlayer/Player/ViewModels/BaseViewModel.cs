@@ -12,12 +12,10 @@ namespace Player.ViewModels
 {
     class BaseViewModel : INotifyPropertyChanged
     {
-        public PlaybackSource playbackSource;
-        public INavigationService _navigationService;
+        public PlaybackSource playbackSource;        
         public IAudioPlayerService _audioPlayer;
         public IEqualizerSevice _equalizers;
-        public IMediaService _media;
-        public INavigation Navigation { get; set; }        
+        public IMediaService _media;               
         public ICommand PageTwoCommand { get; set; }
         public ICommand PlayCommand { get; set; }
         public ICommand StopCommand { get; set; }        
