@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Player.Helpers;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -21,10 +22,11 @@ namespace Player.Pages
             listView.ScrollTo(listView.SelectedItem, ScrollToPosition.Center, true);
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
             listView.ScrollTo(listView.SelectedItem, ScrollToPosition.Center, true);
+            await Permision.CheckPermission();
         }
 
         protected override void OnSizeAllocated(double width, double height)
