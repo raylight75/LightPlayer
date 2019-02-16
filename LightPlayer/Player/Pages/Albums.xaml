@@ -30,8 +30,8 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Frame Grid.Row="0" Grid.Column="0" HeightRequest="30" WidthRequest="180" CornerRadius="10" 
-                               HorizontalOptions="Center" VerticalOptions="Center" Margin="0" Padding="0" 
+                            <Frame Grid.Row="0" Grid.Column="0" Margin="0" Padding="0" WidthRequest="170" 
+                               HorizontalOptions="Center" VerticalOptions="Center" 
                                BackgroundColor="Transparent">
                                 <Label VerticalOptions="Center" HorizontalOptions="Center" 
                                        Text="{Binding Title}" TextColor="White" BackgroundColor="Transparent" Opacity="0.7"/>
