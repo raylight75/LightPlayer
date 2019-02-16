@@ -4,15 +4,15 @@
              xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
              x:Class="Player.Pages.Songs" Icon="icon_playlist.png" BackgroundImage="backgroundbg.png">    
     <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Secondary" Priority="1" Name="FILTER"/>
         <ToolbarItem Order="Secondary" Priority="1" Name="By Date" Command="{Binding SortByCommand}" CommandParameter="Created"/>
         <ToolbarItem Order="Secondary" Priority="1" Name="By Duration" Command="{Binding  SortByCommand}" CommandParameter="Duration" />
         <ToolbarItem Order="Secondary" Priority="1" Name="By Name" Command="{Binding SortByCommand}" CommandParameter="Name"/>
         <ToolbarItem Order="Secondary" Priority="1" Name="By Genre" Command="{Binding FilterGenreCommand}"/>
-        <ToolbarItem Order="Secondary" Priority="1" Name="Clear All" Command="{Binding SortByCommand}" CommandParameter="Name"/>
+        <ToolbarItem Order="Secondary" Priority="1" Name="Clear All" Command="{Binding SortByCommand}" CommandParameter="Name"/>        
+        <ToolbarItem Order="Primary" Priority="1" Name="Load Music" Command="{Binding OpenFolderCommand}"/>
+        <ToolbarItem Order="Primary" Priority="1" Name="Browse" Command="{Binding OpenDirectoryCommand}"/>
         <ToolbarItem Order="Primary" Priority="1" Icon="icon_equalizer.png" Command="{Binding ShowEqualizerCommand}"/>
-        <ToolbarItem Order="Primary" Priority="1" Name="Music" Command="{Binding OpenFolderCommand}"/>
-        <ToolbarItem Order="Primary" Priority="1" Name="Browse" Command="{Binding OpenDirectoryCommand}"/>        
-        <ToolbarItem Order="Primary" Priority="1" Name="Filter"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid x:Name="innerGrid" ColumnSpacing="0" RowSpacing="0">

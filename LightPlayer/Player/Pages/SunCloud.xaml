@@ -4,8 +4,8 @@
              xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
              x:Class="Player.Pages.SunCloud" Icon="sc_small.png" BackgroundImage="backgroundbg.png">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Order="Primary" Priority="1" Name="Equalizers" Command="{Binding ShowEqualizerCommand}"/>
         <ToolbarItem Order="Primary" Priority="1" Name="Streams"/>
+        <ToolbarItem Order="Primary" Priority="1" Icon="icon_equalizer.png" Command="{Binding ShowEqualizerCommand}"/>       
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid x:Name="innerGrid" ColumnSpacing="0" RowSpacing="0">
