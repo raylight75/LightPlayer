@@ -29,9 +29,9 @@ namespace Player.ViewModels
             _media = DependencyService.Get<IMediaService>();           
             playingPage = new Playing();
             songsPage = new Songs();
-            EqualizerViewModel evm = new EqualizerViewModel(mediator);
-            mediator.Equalizer = evm;
             equalizerPage = new Equalizers();
+            EqualizerViewModel evm = new EqualizerViewModel(mediator);
+            mediator.Equalizer = evm;            
             equalizerPage.BindingContext = evm;
             _seekerUpdatesPlayer = true;
             AlbumArt = ImageSource.FromFile(FileImages.NoAlbum);

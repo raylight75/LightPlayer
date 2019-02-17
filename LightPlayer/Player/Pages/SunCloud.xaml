@@ -15,7 +15,6 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-
             <!--  header background  -->
             <StackLayout x:Name="header" Orientation="Horizontal" Grid.Row="0" BackgroundColor="#4e4558">
                 <SearchBar SearchCommand="{Binding SoundcloudToPlaylistCommand}" Text="{Binding Query, Mode=TwoWay}" 
@@ -41,15 +40,16 @@
                         <ViewCell>
                             <Grid BackgroundColor="Transparent">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition Width="30" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="50" />
                                 </Grid.ColumnDefinitions>
-                                <ContentView Grid.Column="0" Padding="10">
-                                    <Label Text="{Binding Index, Mode=TwoWay}" FontSize="12" TextColor="White" VerticalTextAlignment="Center"/>
+                                <ContentView Grid.Column="0" Margin ="5">
+                                    <Label Text="{Binding Index, Mode=TwoWay}" FontSize="12" TextColor="White" 
+                                           VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
                                 </ContentView>
-                                <Image Source="bars" Opacity="0.3" Grid.Column="1"/>
+                                <Image Source="bars" Opacity="0.3" Grid.Column="1" HorizontalOptions="Center"/>
                                 <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" Grid.Column="2">
                                     <Label Text="{Binding Title}" FontSize="12" TextColor="White"/>
                                 </StackLayout>
