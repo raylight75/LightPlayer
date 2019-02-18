@@ -184,9 +184,6 @@
     <AndroidResource Include="Resources\drawable-xhdpi\button_play_small.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\background.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\button_stop.png" />
   </ItemGroup>
   <ItemGroup>

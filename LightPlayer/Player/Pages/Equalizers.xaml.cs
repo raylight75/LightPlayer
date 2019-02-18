@@ -48,7 +48,7 @@ namespace Player.Pages
                     innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
                     innerGrid.Children.Remove(header);
                     innerGrid.Children.Add(header, 0, 0);
-                    header.BackgroundColor = Color.FromRgb(78, 69, 88);                   
+                    header.BackgroundColor = Color.FromRgb(100, 41, 102);                   
                     innerGrid.Children.Remove(equalizers);
                     innerGrid.Children.Add(equalizers, 0, 2);
                     innerGrid.Children.Remove(innerStack);
