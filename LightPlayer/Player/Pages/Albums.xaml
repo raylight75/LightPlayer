@@ -22,15 +22,15 @@
                               SelectedItem="{Binding SelectedAlbum, Mode=TwoWay}">
                 <flv:FlowListView.FlowColumnTemplate>
                     <DataTemplate>
-                        <Grid Padding="2" BackgroundColor="#642966">
+                        <Grid Padding="2" BackgroundColor="Transparent">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="20" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>                            
-                            <Frame Grid.Row="0" Grid.Column="0" HasShadow="False" CornerRadius="10" 
+                            <Frame Grid.Row="0" Grid.Column="0" HasShadow="True" CornerRadius="10" 
                                    Margin="0" Padding="0" IsClippedToBounds="True">
                                 <Image Source="{Binding Image}" VerticalOptions="Center" Aspect="AspectFill">
                                     <Image.HeightRequest>
@@ -40,9 +40,8 @@
                                     </Image.HeightRequest>
                                 </Image>
                             </Frame>
-                            <Frame Grid.Row="1" Grid.Column="0" Margin="5" Padding="0" WidthRequest="170" BackgroundColor="Transparent">
-                                <Label VerticalOptions="Center" Text="{Binding Title}" TextColor="White" BackgroundColor="Transparent" Opacity="0.7"/>
-                            </Frame>
+                            <Label Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" VerticalOptions="Center" Text="{Binding Title}" TextColor="White"  
+                                   BackgroundColor="Transparent" Opacity="0.7"/>
                         </Grid>
                     </DataTemplate>
                 </flv:FlowListView.FlowColumnTemplate>
