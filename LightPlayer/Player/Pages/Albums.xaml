@@ -40,7 +40,7 @@
                                     </Image.HeightRequest>
                                 </Image>
                             </Frame>
-                            <Frame Grid.Row="1" Grid.Column="0"  Margin="0" Padding="0" TranslationY="-6" IsClippedToBounds="True" BackgroundColor="#462e73">
+                            <Frame Grid.Row="1" Grid.Column="0"  Margin="0" Padding="0" TranslationY="-6" IsClippedToBounds="True" BackgroundColor="#6441a6">
                                 <Label Margin="10,0,0,0" VerticalOptions="Center" Text="{Binding Title}" TextColor="White"  
                                    BackgroundColor="Transparent" Opacity="0.7"/>
                             </Frame>                            
