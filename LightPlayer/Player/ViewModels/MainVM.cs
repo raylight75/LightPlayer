@@ -247,12 +247,7 @@ namespace Player.ViewModels
                     var result = Song.Where(x => x.FriendlyName.ToLower().Contains(Filter.ToLower())).ToList();
                     Search = new ObservableCollection<Track>(result);
                 }
-            }
-            else
-            {
-                Application.Current.MainPage.DisplayAlert("Caution", "Load track first to search", "OK");
-                return;
-            }
+            }           
         }
 
         private async Task FilterGenre()

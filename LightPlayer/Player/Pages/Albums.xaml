@@ -22,15 +22,15 @@
                               SelectedItem="{Binding SelectedAlbum, Mode=TwoWay}">
                 <flv:FlowListView.FlowColumnTemplate>
                     <DataTemplate>
-                        <Grid Padding="2" BackgroundColor="Transparent">
+                        <Grid Padding="1" BackgroundColor="Transparent">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="20" />
+                                <RowDefinition Height="40" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>                            
-                            <Frame Grid.Row="0" Grid.Column="0" HasShadow="True" CornerRadius="10" 
+                            <Frame Grid.Row="0" Grid.Column="0" HasShadow="True"
                                    Margin="0" Padding="0" IsClippedToBounds="True">
                                 <Image Source="{Binding Image}" VerticalOptions="Center" Aspect="AspectFill">
                                     <Image.HeightRequest>
@@ -40,8 +40,10 @@
                                     </Image.HeightRequest>
                                 </Image>
                             </Frame>
-                            <Label Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" VerticalOptions="Center" Text="{Binding Title}" TextColor="White"  
+                            <Frame Grid.Row="1" Grid.Column="0"  Margin="0" Padding="0" TranslationY="-6" IsClippedToBounds="True" BackgroundColor="#462e73">
+                                <Label Margin="10,0,0,0" VerticalOptions="Center" Text="{Binding Title}" TextColor="White"  
                                    BackgroundColor="Transparent" Opacity="0.7"/>
+                            </Frame>                            
                         </Grid>
                     </DataTemplate>
                 </flv:FlowListView.FlowColumnTemplate>
