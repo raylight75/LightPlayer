@@ -24,10 +24,40 @@
                        FontAttributes="Bold" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"/>
             </StackLayout>
 
-            <!--  Equalizer -->           
-            <Grid x:Name="equalizers" Margin="20" Grid.Row="2">
-                <controls:RepeaterView ItemsSource="{Binding Equalizers}">
-                    <controls:RepeaterView.ItemTemplate>
+            <!--  Equalizer -->
+            <StackLayout x:Name="equalizers" Margin="20" Grid.Row="2" Orientation="Vertical" BindableLayout.ItemsSource="{Binding Equalizers}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <StackLayout Grid.Row="0" Orientation="Horizontal">
+                                <Label Text="-15dB" TextColor="White" FontSize="12" HorizontalOptions="StartAndExpand" />
+                                <Label Text="{Binding Frequency}" TextColor="White" FontSize="12" HorizontalOptions="FillAndExpand" />
+                                <Label Text="15dB" TextColor="White" FontSize="12" HorizontalOptions="End" />
+                            </StackLayout>
+                            <Slider Grid.Row="1" Minimum="0" Maximum="3000" Value="{Binding Value, Mode=TwoWay}" 
+                                        ThumbColor="#adaeb2" Opacity="0.7">
+                                <Slider.Margin>
+                                    <OnPlatform x:TypeArguments="Thickness">
+                                        <On Platform="Android" Value="-5,0,-5,0" />
+                                    </OnPlatform>
+                                </Slider.Margin>
+                                <Slider.Behaviors>
+                                    <behaviorsPack:EventToCommandBehavior EventName="ValueChanged" Command="{Binding Source={x:Reference Bands}, Path=BindingContext.EqualizerChangedCommand}" 
+                                                                              CommandParameter="{Binding BandId, Mode=TwoWay}"/>
+                                </Slider.Behaviors>
+                            </Slider>
+                        </Grid>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+            
+            <!-- Before Update to Xamarin Forms 3.5 -->            
+            <!--<Grid x:Name="equalizers" BindableLayout.ItemsSource="{Binding Equalizers}" Margin="20" Grid.Row="2">                
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate>
                             <StackLayout x:Name="outerStack" HorizontalOptions="FillAndExpand">
                                 <StackLayout Orientation="Horizontal">
@@ -49,9 +79,9 @@
                                 </Slider>
                             </StackLayout>
                         </DataTemplate>
-                    </controls:RepeaterView.ItemTemplate>
-                </controls:RepeaterView>
-            </Grid>
+                    </BindableLayout.ItemTemplate>               
+            </Grid>-->
+            
             <StackLayout x:Name="innerStack" Grid.Row="3" Orientation="Horizontal"  VerticalOptions="End" HorizontalOptions="Center" BackgroundColor="Transparent">
                 <Image Source="icon_chevron_down" Margin="0,-5,0,0" WidthRequest="40" Opacity="0.7">
                     <Image.GestureRecognizers>
