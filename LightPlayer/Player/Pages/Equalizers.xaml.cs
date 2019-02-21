@@ -26,7 +26,7 @@ namespace Player.Pages
                 if (width > height)
                 {
                     innerGrid.RowDefinitions.Clear();                    
-                    innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+                    innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
                     innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
                     innerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });                    
                     innerGrid.Children.Remove(equalizers);
@@ -38,8 +38,8 @@ namespace Player.Pages
                 {
                     innerGrid.RowDefinitions.Clear();
                     innerGrid.ColumnDefinitions.Clear();
-                    innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
                     innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                    innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });                    
                     innerGrid.Children.Remove(equalizers);
                     innerGrid.Children.Add(equalizers, 0, 0);
                     innerGrid.Children.Remove(innerStack);
