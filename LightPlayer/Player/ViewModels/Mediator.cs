@@ -1,7 +1,5 @@
 ﻿using Player.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Player.Pages;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -14,14 +12,14 @@ namespace Player.ViewModels
         private static Mediator instance = null;
         private static readonly object padlock = new object();
         private EqualizerViewModel _eqm;
-        private Page _playing;
+        private Playing _playing;
 
         public EqualizerViewModel Equalizer
         {
             set { _eqm = value; }
         }
 
-        public Page Page
+        public Playing PlayingPage
         {
             set { _playing = value; }
         }

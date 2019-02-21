@@ -31,7 +31,8 @@ namespace Player.ViewModels
             songsPage = new Songs();
             equalizerPage = new Equalizers();
             EqualizerViewModel evm = new EqualizerViewModel(mediator);
-            mediator.Equalizer = evm;            
+            mediator.Equalizer = evm;
+            mediator.PlayingPage = playingPage;
             equalizerPage.BindingContext = evm;
             _seekerUpdatesPlayer = true;
             AlbumArt = ImageSource.FromFile(FileImages.NoAlbum);
@@ -116,8 +117,7 @@ namespace Player.ViewModels
 
         private async Task PlayingSelected()
         {
-            playingPage.BindingContext = this;
-            mediator.Page = playingPage;
+            //playingPage.BindingContext = this; Not sure
             await mediator.Playing();
         }
 
@@ -138,7 +138,7 @@ namespace Player.ViewModels
         {
             playbackSource = PlaybackSource.Path;
             PlaySource(SelectedTrack.Filepath, SelectedTrack.FriendlyName, playbackSource);
-            //Application.Current.MainPage.DisplayAlert("Command", "You have been alerted", "OK");                       
+            playingPage.BindingContext = this;                                   
         }
 
         private void StreamSelected(object p)
@@ -267,6 +267,7 @@ namespace Player.ViewModels
             }
             var result = TrackService.OrderByName(Song, p.ToString());
             Search = new ObservableCollection<Track>(result);
+            //Application.Current.MainPage.DisplayAlert("Command", "You have been alerted", "OK");
         }
     }
 }
