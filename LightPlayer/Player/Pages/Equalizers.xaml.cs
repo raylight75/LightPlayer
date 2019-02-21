@@ -25,34 +25,25 @@ namespace Player.Pages
                 this.height = height;
                 if (width > height)
                 {
-                    innerGrid.RowDefinitions.Clear();
-                    innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(15) });
+                    innerGrid.RowDefinitions.Clear();                    
                     innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
                     innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-                    innerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                    innerGrid.Children.Remove(header);
-                    innerGrid.Children.Add(header, 0, 0);
-                    header.BackgroundColor = Color.Transparent;
+                    innerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });                    
                     innerGrid.Children.Remove(equalizers);
-                    innerGrid.Children.Add(equalizers, 0, 1);
+                    innerGrid.Children.Add(equalizers, 0, 0);
                     innerGrid.Children.Remove(innerStack);
-                    innerGrid.Children.Add(innerStack, 0, 2);
+                    innerGrid.Children.Add(innerStack, 0, 1);
                 }
                 else
                 {
                     innerGrid.RowDefinitions.Clear();
                     innerGrid.ColumnDefinitions.Clear();
                     innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-                    innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
                     innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-                    innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-                    innerGrid.Children.Remove(header);
-                    innerGrid.Children.Add(header, 0, 0);
-                    header.BackgroundColor = Color.FromRgb(100, 41, 102);                   
                     innerGrid.Children.Remove(equalizers);
-                    innerGrid.Children.Add(equalizers, 0, 2);
+                    innerGrid.Children.Add(equalizers, 0, 0);
                     innerGrid.Children.Remove(innerStack);
-                    innerGrid.Children.Add(innerStack, 0, 3);
+                    innerGrid.Children.Add(innerStack, 0, 1);
 
                 }
             }
