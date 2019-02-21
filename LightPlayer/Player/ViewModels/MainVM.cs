@@ -146,6 +146,7 @@ namespace Player.ViewModels
             playbackSource = PlaybackSource.Stream;
             var uri = SetUri(SelectedStream.Id);
             PlaySource(uri, SelectedStream.Title, playbackSource);
+            playingPage.BindingContext = this;
         }
 
         private void PlaySource(string path, string name, PlaybackSource playbackSource)
