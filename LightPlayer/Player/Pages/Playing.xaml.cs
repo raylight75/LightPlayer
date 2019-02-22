@@ -26,10 +26,14 @@ namespace Player.Pages
                 if (width > height)
                 {
                     outerStack.Orientation = StackOrientation.Vertical;
-                    albumArt.HeightRequest = 0;
+                    dummyStack.HeightRequest = 0;
+                    albumArt.Margin = 0;
+                    albumArt.HeightRequest = 70;
                 }
                 else
                 {
+                    dummyStack.HeightRequest = 35;
+                    albumArt.Margin = 10;
                     albumArt.HeightRequest = 210;
                 }
             }

@@ -3,14 +3,94 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Player.Controls"
              xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
-             x:Class="Player.Pages.Playing" Icon="button_play_small.png">
+             x:Class="Player.Pages.Playing" Icon="button_play_small.png" BackgroundImage="backgroundbg.png">
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Primary" Priority="1" Name="Now Playing"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid>
-            <Image x:Name="backgroundbg" Source="background3.png" Aspect="AspectFill"></Image>
+        <Grid x:Name="innerGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>               
+            </Grid.RowDefinitions>
+
             <StackLayout x:Name="outerStack" HorizontalOptions="FillAndExpand">
+                <StackLayout.Padding>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="Android" Value="30,10,30,0"/>
+                    </OnPlatform>
+                </StackLayout.Padding>
+                <StackLayout x:Name="dummyStack" Orientation="Horizontal" HorizontalOptions="FillAndExpand" HeightRequest="35">
+                    <StackLayout.IsVisible>
+                        <OnPlatform x:TypeArguments="x:Boolean">
+                            <On Platform="Android" Value="true" />
+                        </OnPlatform>
+                    </StackLayout.IsVisible>
+                </StackLayout>
+                <StackLayout Orientation="Vertical">
+                    <Label Text="NOW PLAYING FROM PLAYLIST" TextColor="#FFF" FontSize="14" HorizontalTextAlignment="Center" 
+                       HorizontalOptions="Fill" Opacity="0.5"/>
+                    <Label Text="{Binding Album}" TextColor="#FFF" FontSize="14" HorizontalTextAlignment="Center" 
+                       HorizontalOptions="Fill" Opacity="0.5"/>
+                </StackLayout>               
+                <StackLayout x:Name="infoStack" Orientation="Vertical" HorizontalOptions="Center">
+                    <Image x:Name="albumArt" Source="{Binding AlbumArt}" Margin="0,10,0,0" VerticalOptions="Center">
+                        <Image.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="Android" Value="220" />
+                            </OnPlatform>
+                        </Image.HeightRequest>
+                    </Image>
+                    <Label Text="{Binding Name}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" Font="Bold,16" TextColor="White"/>
+                    <Label Text="{Binding Label}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" FontSize="14" TextColor="White" Opacity="0.5"/>                    
+                </StackLayout>
+                <StackLayout Margin="0,10,0,0" Orientation="Horizontal">
+                    <Label Text="{Binding SongTime}" TextColor="White" FontSize="12" HorizontalOptions="StartAndExpand" />
+                    <Label Text="{Binding TotalTime}" TextColor="White" FontSize="12" HorizontalOptions="End" />
+                </StackLayout>
+                <controls:AudioSlider Minimum="0" Maximum="{Binding SliderMax, Mode=TwoWay}" Value="{Binding SliderValue, Mode=TwoWay}" 
+                                      ThumbColor="#adaeb2" Opacity="0.7">
+                    <controls:AudioSlider.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="Android" Value="-5,0,-5,0" />
+                        </OnPlatform>
+                    </controls:AudioSlider.Margin>
+                    <controls:AudioSlider.Behaviors>
+                        <behaviorsPack:EventToCommandBehavior EventName="ValueChanged" Command="{Binding ValueChangedCommand}"/>
+                    </controls:AudioSlider.Behaviors>
+                </controls:AudioSlider>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Image VerticalOptions="Center" Margin="0,0,30,0" Source="button_shuffle" WidthRequest="25" />
+                    <Image VerticalOptions="Center" Source="button_back" WidthRequest="40">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer  Command="{Binding ChangeCommand}" CommandParameter="-1"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Image VerticalOptions="Center" Source="button_playcolor" WidthRequest="80">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer  Command="{Binding PlayCommand}"/>
+                        </Image.GestureRecognizers>
+                        <Image.Triggers>
+                            <DataTrigger TargetType="Image" Binding="{Binding IsPlaying}" Value="false">
+                                <Setter Property="Source" Value="button_pausecolor" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Image" Binding="{Binding IsPlaying}" Value="true">
+                                <Setter Property="Source" Value="button_playcolor" />
+                            </DataTrigger>
+                        </Image.Triggers>
+                    </Image>
+                    <Image VerticalOptions="Center" Source="button_forward" WidthRequest="40">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer  Command="{Binding ChangeCommand}" CommandParameter="1"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Image VerticalOptions="Center" Margin="30,0,0,0" Source="button_repeat" WidthRequest="25">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer  Command="{Binding ChangeCommand}" CommandParameter="0"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                </StackLayout>
+            </StackLayout>
+            <!--<StackLayout x:Name="outerStack" HorizontalOptions="FillAndExpand">
                 <StackLayout.Padding>
                     <OnPlatform x:TypeArguments="Thickness">
                         <On Platform="Android" Value="30,10,30,0"/>
@@ -104,7 +184,7 @@
                     </StackLayout.Margin>
                     <Image Source="icon_devices" WidthRequest="20" />
                 </StackLayout>
-            </StackLayout>
+            </StackLayout>-->
         </Grid>
     </ContentPage.Content>
 </ContentPage>
