@@ -4,7 +4,7 @@
              xmlns:controls="clr-namespace:Player.Controls"
              xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
              x:Name="Bands"
-             x:Class="Player.Pages.Equalizers" Icon="icon_equalizer.png" BackgroundImage="backgroundbg.png" Title="{Binding BandSelected}">
+             x:Class="Player.Pages.Equalizers" Icon="icon_equalizer.png" Title="{Binding BandSelected}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Secondary" Priority="1" Name="Select preset" Command="{Binding BandChangedCommand}"/>
         <ToolbarItem Order="Primary" Priority="1" Name="Equalizers"/>       

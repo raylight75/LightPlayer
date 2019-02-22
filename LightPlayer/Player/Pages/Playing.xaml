@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Player.Controls"
              xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
-             x:Class="Player.Pages.Playing" Icon="button_play_small.png" BackgroundImage="backgroundbg.png">
+             x:Class="Player.Pages.Playing" Icon="button_play_small.png">
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Primary" Priority="1" Name="Now Playing"/>
     </ContentPage.ToolbarItems>
@@ -27,9 +27,9 @@
                     </StackLayout.IsVisible>
                 </StackLayout>
                 <StackLayout Orientation="Vertical">
-                    <Label Text="NOW PLAYING FROM PLAYLIST" TextColor="#FFF" FontSize="14" HorizontalTextAlignment="Center" 
-                       HorizontalOptions="Fill" Opacity="0.5"/>
-                    <Label Text="{Binding Album}" TextColor="#FFF" FontSize="14" HorizontalTextAlignment="Center" 
+                    <Label Text="NOW PLAYING FROM PLAYLIST" TextColor="White" FontSize="14" HorizontalTextAlignment="Center" 
+                       HorizontalOptions="Fill" Opacity="0.8"/>
+                    <Label Text="{Binding Album, StringFormat='ALBUM: {0:F0}'}" TextColor="White" FontSize="14" HorizontalTextAlignment="Center" 
                        HorizontalOptions="Fill" Opacity="0.5"/>
                 </StackLayout>               
                 <StackLayout x:Name="infoStack" Orientation="Vertical" HorizontalOptions="Center">
