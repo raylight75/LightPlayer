@@ -12,7 +12,7 @@
                                Command="{Binding SortByCommand}" CommandParameter="Name"/>
     </ContentPage.Behaviors>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Order="Primary" Priority="1" Name="Album Arts"/>
+        <ToolbarItem Order="Primary" Priority="1" Name="Albums"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid>

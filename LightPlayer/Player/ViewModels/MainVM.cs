@@ -29,6 +29,7 @@ namespace Player.ViewModels
             _media = DependencyService.Get<IMediaService>();           
             playingPage = new Playing();
             songsPage = new Songs();
+            albumPage = new AlbumPage();
             equalizerPage = new Equalizers();
             EqualizerViewModel evm = new EqualizerViewModel(mediator);
             mediator.Equalizer = evm;
@@ -125,8 +126,10 @@ namespace Player.ViewModels
         {
             var filter = Song.Where(x => x.Album.ToLower().Contains(SelectedAlbum.Title.ToLower())).ToList();
             Search = new ObservableCollection<Track>(TrackService.ReOrder(filter));
-            songsPage.BindingContext = this;
-            await mediator.Push(songsPage);
+            AlbumTitle = SelectedAlbum.Title;
+            AlbumImage = SelectedAlbum.Image;
+            albumPage.BindingContext = this;            
+            await mediator.Push(albumPage);
         }
 
         private async Task ShowEqualizer()

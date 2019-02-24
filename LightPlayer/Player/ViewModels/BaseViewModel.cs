@@ -34,9 +34,11 @@ namespace Player.ViewModels
         public ICommand SoundcloudToPlaylistCommand { get; set; }
         public ICommand ExitAppCommand { get; set; }
        
-        private ImageSource _songImage;       
+        private ImageSource _songImage;
+        private ImageSource _albumImage;
         public Playing playingPage { get; set; }
         public Songs songsPage { get; set; }
+        public AlbumPage albumPage { get; set; }
         public Equalizers equalizerPage { get; set; }
         public List<string> Genre { get; set; }        
         private Album _selectedAlbum;
@@ -57,6 +59,7 @@ namespace Player.ViewModels
         private string _totalTime;
         private string _query;
         private string _album;
+        private string _albumTitle;
         private string _bandSelected;
         public string _filter;
 
@@ -102,7 +105,18 @@ namespace Player.ViewModels
                 _album = value;
                 OnPropertyChanged(nameof(Album));
             }
-        }       
+        }
+
+        public string AlbumTitle
+        {
+            get { return _albumTitle; }
+            set
+            {
+                if (Equals(value, _albumTitle)) return;
+                _albumTitle = value;
+                OnPropertyChanged(nameof(AlbumTitle));
+            }
+        }
 
         public string BandSelected
         {
@@ -195,6 +209,17 @@ namespace Player.ViewModels
                 if (Equals(value, _isPlaying)) return;
                 _isPlaying = value;
                 OnPropertyChanged(nameof(IsPlaying));
+            }
+        }
+
+        public ImageSource AlbumImage
+        {
+            get { return _albumImage; }
+            set
+            {
+                if (Equals(value, _albumImage)) return;
+                _albumImage = value;
+                OnPropertyChanged(nameof(AlbumImage));
             }
         }
 
