@@ -3,10 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
              x:Class="Player.Pages.AlbumPage" BackgroundImage="backgroundbg.png">
-    <!--<ContentPage.ToolbarItems>        
-        <ToolbarItem Order="Primary" Priority="1" Name="Album:"/>
-        <ToolbarItem Order="Primary" Priority="1" Text="{Binding AlbumTitle}"/>
-    </ContentPage.ToolbarItems>-->
+    <ContentPage.ToolbarItems>       
+        <ToolbarItem Order="Primary" Priority="1" Icon="icon_equalizer.png" Command="{Binding ShowEqualizerCommand}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid x:Name="innerGrid" ColumnSpacing="0" RowSpacing="0">
             <Grid.RowDefinitions>
@@ -17,9 +16,19 @@
             </Grid.RowDefinitions>
 
             <!--  header background  -->
-            <StackLayout x:Name="header" Orientation="Vertical" Grid.Row="0">
+            <StackLayout x:Name="header" Orientation="Vertical" Grid.Row="0" BackgroundColor="Transparent">
                 <Label Text="ALBUM" HorizontalTextAlignment="Center" 
                        TextColor="White" Font="Bold,20" Opacity="0.5"/>
+                <Frame x:Name="albumImage" HasShadow="True" Margin="0" Padding="0" CornerRadius="80" 
+                       HeightRequest="120" WidthRequest="120" HorizontalOptions="Center">
+                    <Image Source="{Binding AlbumImage}" VerticalOptions="Center" Aspect="AspectFill">
+                        <Image.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="Android" Value="120" />
+                            </OnPlatform>
+                        </Image.HeightRequest>
+                    </Image>
+                </Frame>
                 <Label Text="{Binding AlbumTitle}" HorizontalTextAlignment="Center" 
                        TextColor="White" Font="Bold,18"/>
             </StackLayout>

@@ -24,7 +24,7 @@
             </Grid.RowDefinitions>
 
             <!--  header background  -->
-            <StackLayout x:Name="header" Orientation="Horizontal" Grid.Row="0" BackgroundColor="#4e4558">
+            <StackLayout x:Name="header" Orientation="Horizontal" Grid.Row="0">
                 <SearchBar Text="{Binding Filter}" HeightRequest="45" Placeholder="Search tracks" TextColor="White" 
                            Opacity="0.3" PlaceholderColor="White" HorizontalOptions="FillAndExpand">
                     <SearchBar.Behaviors>

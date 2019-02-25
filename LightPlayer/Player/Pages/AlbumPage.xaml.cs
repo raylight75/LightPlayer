@@ -36,6 +36,8 @@ namespace Player.Pages
                 innerGrid.Children.Remove(header);
                 innerGrid.Children.Add(header, 0, 0);
                 header.BackgroundColor = Color.Transparent;
+                albumImage.HeightRequest = 0;
+                albumImage.WidthRequest = 0;
                 innerGrid.Children.Remove(listView);
                 innerGrid.Children.Add(listView, 0, 2);
                 innerGrid.Children.Remove(innerStack);
@@ -52,7 +54,9 @@ namespace Player.Pages
                 innerGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
                 innerGrid.Children.Remove(header);
                 innerGrid.Children.Add(header, 0, 0);
-                header.BackgroundColor = Color.FromRgb(100, 41, 102);
+                header.BackgroundColor = Color.Transparent;
+                albumImage.HeightRequest = 120;
+                albumImage.WidthRequest = 120;
                 innerGrid.Children.Remove(listView);
                 innerGrid.Children.Add(listView, 0, 2);
                 innerGrid.Children.Remove(innerStack);
