@@ -22,7 +22,14 @@ namespace Player.Pages
                 innerGrid.Children.Remove(dummyStack);
                 innerGrid.Children.Remove(albumArt);
                 dummyStack.HeightRequest = 20;
-                albumArt.HeightRequest = 0;
+                if(Device.Idiom == TargetIdiom.Tablet)
+                {
+                    albumArt.HeightRequest = 200;
+                }
+                else
+                {
+                    albumArt.HeightRequest = 0;
+                }               
                 BackgroundImage = "bg.png";
             }
             else

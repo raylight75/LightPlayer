@@ -36,8 +36,16 @@ namespace Player.Pages
                 innerGrid.Children.Remove(header);
                 innerGrid.Children.Add(header, 0, 0);
                 header.BackgroundColor = Color.Transparent;
-                albumImage.HeightRequest = 0;
-                albumImage.WidthRequest = 0;
+                if (Device.Idiom == TargetIdiom.Tablet)
+                {
+                    albumImage.HeightRequest = 120;
+                    albumImage.WidthRequest = 120;
+                }
+                else
+                {
+                    albumImage.HeightRequest = 0;
+                    albumImage.WidthRequest = 0;
+                }               
                 innerGrid.Children.Remove(listView);
                 innerGrid.Children.Add(listView, 0, 2);
                 innerGrid.Children.Remove(innerStack);
