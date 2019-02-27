@@ -198,12 +198,14 @@ namespace Player.ViewModels
 
         private void NextSong(object p)
         {
-            int i = Convert.ToInt32(p);
+            int i;
+            Random random = new Random();
+            i = (p.ToString() == "shuffle") ? random.Next(1, Search.Count()) : Convert.ToInt32(p);           
             if (playbackSource == PlaybackSource.Path)
             {
                 var song = TrackService.GetSongById(Search, SelectedTrack.Id, i);
-                PlaySource(song.First().Filepath, song.First().FriendlyName, playbackSource);
                 SelectedTrack = song.First();
+                PlaySource(song.First().Filepath, song.First().FriendlyName, playbackSource);                
             }
             else if (playbackSource == PlaybackSource.Stream)
             {
