@@ -61,7 +61,7 @@
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                     <Image VerticalOptions="Center" Margin="0,0,30,0" Source="button_shuffle" WidthRequest="25">
                         <Image.GestureRecognizers>
-                            <TapGestureRecognizer  Command="{Binding ChangeCommand}" CommandParameter="shuffle"/>
+                            <TapGestureRecognizer  Command="{Binding ChangeCommand}" CommandParameter="2"/>
                         </Image.GestureRecognizers>
                     </Image>
                     <Image VerticalOptions="Center" Source="button_back" WidthRequest="40">

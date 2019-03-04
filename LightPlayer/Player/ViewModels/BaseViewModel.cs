@@ -50,6 +50,7 @@ namespace Player.ViewModels
         private List<Album> _albums;      
         public bool _seekerUpdatesPlayer = false;
         private bool _isPlaying;
+        public int RandomValue { get; set; }
         private int _sliderMax;
         private int _sliderValue;
         private int _bandValue;

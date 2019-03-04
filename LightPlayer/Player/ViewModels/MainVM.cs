@@ -38,7 +38,7 @@ namespace Player.ViewModels
             _seekerUpdatesPlayer = true;
             AlbumArt = ImageSource.FromFile(FileImages.NoAlbum);
             SliderMax = 100;
-            _audioPlayer.OnFinishedPlaying = () => { int i = 1; NextSong(i); };
+            _audioPlayer.OnFinishedPlaying = () => { Shuffle(1); };
             LoadCommands();
         }
 
@@ -181,6 +181,13 @@ namespace Player.ViewModels
                 }
             };
             SliderMax = _audioPlayer.SliderMax();
+            StartTimer();
+            IsPlaying = true;
+
+        }
+
+        private void StartTimer()
+        {
             Device.StartTimer(TimeSpan.FromSeconds(1), () =>
             {
                 TimeSpan runTime = TimeSpan.FromMilliseconds(_audioPlayer.Position());
@@ -192,15 +199,13 @@ namespace Player.ViewModels
                 });
                 return true;
             });
-            IsPlaying = true;
-
-        }
+        }        
 
         private void NextSong(object p)
         {
-            int i;
-            Random random = new Random();
-            i = (p.ToString() == "shuffle") ? random.Next(1, Search.Count()) : Convert.ToInt32(p);           
+            int i = Convert.ToInt32(p);
+            RandomValue = i;
+            //Application.Current.MainPage.DisplayAlert("Command", i.ToString(), "OK");
             if (playbackSource == PlaybackSource.Path)
             {
                 var song = TrackService.GetSongById(Search, SelectedTrack.Id, i);
@@ -214,6 +219,14 @@ namespace Player.ViewModels
                 PlaySource(uri, stream.First().Title, playbackSource);
                 SelectedStream = stream.First();
             };
+        }
+
+        private void Shuffle(int i)
+        {
+            Random random = new Random();
+            int index = i;
+            index = (RandomValue > 1) ? random.Next(2, 4) : index;
+            NextSong(index);
         }
 
         private void ValueChanged(object p)
