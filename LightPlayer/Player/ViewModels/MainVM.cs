@@ -207,7 +207,7 @@ namespace Player.ViewModels
             RandomValue = i;            
             if (playbackSource == PlaybackSource.Path)
             {
-                var song = TrackService.GetSongById(Song, SelectedTrack.Id, i);
+                var song = TrackService.GetSongById(Search, SelectedTrack.Id, i);
                 SelectedTrack = song.First();
                 PlaySource(SelectedTrack.Filepath, SelectedTrack.FriendlyName, playbackSource);                
             }
