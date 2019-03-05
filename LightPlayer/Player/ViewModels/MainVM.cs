@@ -204,13 +204,12 @@ namespace Player.ViewModels
         private void NextSong(object p)
         {
             int i = Convert.ToInt32(p);
-            RandomValue = i;
-            //Application.Current.MainPage.DisplayAlert("Command", i.ToString(), "OK");
+            RandomValue = i;            
             if (playbackSource == PlaybackSource.Path)
             {
-                var song = TrackService.GetSongById(Search, SelectedTrack.Id, i);
+                var song = TrackService.GetSongById(Song, SelectedTrack.Id, i);
                 SelectedTrack = song.First();
-                PlaySource(song.First().Filepath, song.First().FriendlyName, playbackSource);                
+                PlaySource(SelectedTrack.Filepath, SelectedTrack.FriendlyName, playbackSource);                
             }
             else if (playbackSource == PlaybackSource.Stream)
             {
@@ -254,18 +253,11 @@ namespace Player.ViewModels
         }
 
         private void FilterSongs(object p)
-        {
+        {            
             if (Search != null)
             {
-                if (string.IsNullOrEmpty(Filter))
-                {
-                    Search = Song;
-                }
-                else if (Filter != null)
-                {
-                    var result = Song.Where(x => x.FriendlyName.ToLower().Contains(Filter.ToLower())).ToList();
-                    Search = new ObservableCollection<Track>(result);
-                }
+                var result = Song.Where(x => x.FriendlyName.ToLower().Contains(Filter.ToLower())).ToList();
+                Search = (string.IsNullOrEmpty(Filter)) ? Song : Search = new ObservableCollection<Track>(result);                
             }           
         }
 
